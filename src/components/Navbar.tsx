@@ -54,7 +54,7 @@ function Wordmark() {
 
 /* ─── Nav links ─── */
 const NAV_LINKS = ["Home","About", "Coaching", "Visa", "Contact"] as const;
-const HAS_DROPDOWN = new Set(["Coaching", "Visa", "Features"]);
+const HAS_DROPDOWN = new Set(["Features"]);
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
