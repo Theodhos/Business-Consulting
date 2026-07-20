@@ -160,7 +160,13 @@ export default function Footer() {
               Important Links
             </h3>
             <ul className="space-y-4">
-              {nav.map((link) => (
+              {[
+                { label: "Home", href: "/" },
+                { label: "About", href: "/about" },
+                { label: "Coaching", href: "/coaching" },
+                { label: "Visa", href: "/visa" },
+                { label: "Contact", href: "/contact" },
+              ].map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
