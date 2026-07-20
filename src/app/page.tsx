@@ -482,7 +482,7 @@ export default function HomePage() {
         <div
           className="pointer-events-none absolute inset-0 bg-[center_60%] bg-no-repeat mix-blend-multiply"
           style={{
-            backgroundImage: `url("/world-map.svg")`,
+            backgroundImage: `url("/maps-overlay-scaled.webp")`,
             backgroundSize: "92%",
             opacity: 0.32,
           }}
