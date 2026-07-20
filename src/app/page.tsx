@@ -12,6 +12,7 @@ import {
 
 import HeroSlider from "@/components/HeroSlider";
 import TestimonialSlider from "@/components/TestimonialSlider";
+import WhyChooseUs from "@/components/WhyChooseUs";
 
 export default function HomePage() {
   return (
@@ -464,6 +465,9 @@ export default function HomePage() {
 
       {/* ── Testimonial Slider ─────────────────────────────────────── */}
       <TestimonialSlider />
+
+      {/* ── Why choose us + booking ────────────────────────────────── */}
+      <WhyChooseUs />
 
       {/* ── Global reach — destination cards ───────────────────────── */}
       <section className="relative w-full overflow-hidden border-t border-silver bg-paper py-20 md:py-28">

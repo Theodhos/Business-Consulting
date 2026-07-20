@@ -19,6 +19,7 @@ type Payload = Record<string, string | undefined> & { kind?: string };
 const LABELS: Record<string, string> = {
   name: "Name",
   email: "Email",
+  date: "Preferred date",
   phone: "Telephone",
   country: "Country of residence",
   subject: "Subject",

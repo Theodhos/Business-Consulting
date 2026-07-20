@@ -90,7 +90,7 @@ export default function Footer() {
       <Container className="relative z-10">
         <div className="relative -mt-20 overflow-hidden border border-white/10 bg-[#1f3550]">
           <div
-            className="pointer-events-none absolute inset-0 bg-center bg-no-repeat opacity-[0.09]"
+            className="pointer-events-none absolute inset-0 bg-center bg-no-repeat opacity-[0.16]"
             style={{
               backgroundImage: 'url("/world-map.svg")',
               backgroundSize: "cover",
