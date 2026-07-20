@@ -126,16 +126,8 @@ export default function Footer() {
 
       <Container>
         <div className="flex flex-col items-center border-b border-white/10 py-20 text-center">
-          <div className="mb-6 flex items-center gap-3 text-white">
-            <GlobeLogo className="shrink-0 text-gold" />
-            <div className="flex flex-col text-left leading-[1.1]">
-              <span className="font-display text-[32px] font-bold tracking-tight text-paper">
-                Tide Global
-              </span>
-              <span className="mt-1 font-sans text-[9px] font-bold uppercase tracking-[0.35em] text-paper/70">
-                Immigration Solutions
-              </span>
-            </div>
+          <div className="mb-6 flex items-center justify-center">
+            <img src="/logo final.png" alt={site.name} className="h-16 w-auto object-contain" />
           </div>
 
           <p className="mb-8 max-w-xl font-sans text-[14px] font-medium leading-[1.8] text-paper/65">
@@ -265,24 +257,10 @@ export default function Footer() {
 
       <div className="border-t border-white/10 bg-[#152f49] py-6">
         <Container>
-          <div className="flex flex-col gap-4 text-center md:flex-row md:items-center md:justify-between md:text-left">
+          <div className="text-center md:text-left">
             <p className="font-sans text-[12.5px] font-medium text-paper/55">
               Copyright © {new Date().getFullYear()} {site.name}. Powered by PCS Design Systems.
             </p>
-            <div className="flex items-center justify-center gap-2">
-              <div className="flex h-6 w-9 items-center justify-center border border-white/15 bg-paper/10">
-                <span className="text-[7px] font-bold uppercase tracking-wider text-navy">MC</span>
-              </div>
-              <div className="flex h-6 w-9 items-center justify-center border border-white/15 bg-paper/10">
-                <span className="text-[7px] font-bold uppercase tracking-wider text-navy">PAY</span>
-              </div>
-              <div className="flex h-6 w-9 items-center justify-center border border-white/15 bg-paper/10">
-                <span className="text-[7px] font-bold uppercase tracking-wider text-navy">VISA</span>
-              </div>
-              <div className="flex h-6 w-9 items-center justify-center border border-white/15 bg-paper/10">
-                <span className="text-[7px] font-bold uppercase tracking-wider text-navy">AMEX</span>
-              </div>
-            </div>
           </div>
         </Container>
       </div>

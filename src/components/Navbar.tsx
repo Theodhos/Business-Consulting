@@ -41,35 +41,19 @@ const InstagramIcon = ({ size = 14, ...p }: IconProps) => (
   </svg>
 );
 
-/* ─── Logo Wordmark ─── */
+/* ─── Logo ─── */
 function Wordmark() {
   return (
-    <div className="flex items-center gap-3">
-      {/* Globe icon ring */}
-      <div className="flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-full border-2 border-white/90 text-white">
-        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
-          fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-          <circle cx="12" cy="12" r="10" />
-          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
-          <path d="M2 12h20" />
-        </svg>
-      </div>
-      <span className="block leading-none">
-        {/* Cormorant Garamond Bold 700 — brand wordmark */}
-        <span className="block font-display text-[26px] font-bold tracking-[0.04em] text-white">
-          Travisa
-        </span>
-        {/* Inter SemiBold 600 — sub-label */}
-        <span className="mt-0.5 block font-sans text-[9px] font-semibold uppercase tracking-[0.22em] text-white/70">
-          Immigration Solutions
-        </span>
-      </span>
-    </div>
+    <img
+      src="/logo final.png"
+      alt="Tide Global — Private Client Immigration Advisory"
+      className="block h-12 w-auto object-contain md:h-14"
+    />
   );
 }
 
 /* ─── Nav links ─── */
-const NAV_LINKS = ["Home", "Coaching", "Visa", "Features", "Blog", "Contact"] as const;
+const NAV_LINKS = ["Home","About", "Coaching", "Visa", "Contact"] as const;
 const HAS_DROPDOWN = new Set(["Coaching", "Visa", "Features"]);
 
 export default function Navbar() {
@@ -160,7 +144,7 @@ export default function Navbar() {
           <div className="flex h-[88px] items-center justify-between">
 
             {/* Logo */}
-            <Link href="/" aria-label="Travisa — home" className="shrink-0 transition-opacity hover:opacity-85">
+            <Link href="/" aria-label="Tide Global — home" className="shrink-0 transition-opacity hover:opacity-85">
               <Wordmark />
             </Link>
 
