@@ -53,7 +53,7 @@ function Wordmark() {
 }
 
 /* ─── Nav links ─── */
-const NAV_LINKS = ["Home","About", "Coaching", "Visa", "Contact"] as const;
+const NAV_LINKS = ["Home","About", "Services", "Visa", "Contact"] as const;
 const HAS_DROPDOWN = new Set(["Features"]);
 
 export default function Navbar() {

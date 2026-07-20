@@ -10,17 +10,46 @@ export default function PageHero({
   eyebrow,
   title,
   lead,
+  image,
 }: {
   eyebrow: string;
   title: string;
   lead?: string;
+  /** Optional background photo. When set, a navy scrim keeps the type crisp. */
+  image?: string;
 }) {
   return (
-    <section className="w-full bg-ink pb-20 pt-40 md:pb-24 md:pt-48">
-      <Container>
+    <section className="relative w-full overflow-hidden bg-ink pb-20 pt-40 md:pb-24 md:pt-48">
+      {image && (
+        <>
+          <img
+            src={image}
+            alt=""
+            aria-hidden
+            className="absolute inset-0 h-full w-full object-cover object-center"
+          />
+          {/* Left-weighted navy scrim so the heading and lead stay highly legible */}
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                "linear-gradient(90deg, rgba(18,30,48,0.95) 0%, rgba(18,30,48,0.86) 48%, rgba(18,30,48,0.62) 100%)",
+            }}
+            aria-hidden
+          />
+        </>
+      )}
+      <Container className="relative z-10">
         <p className="eyebrow mb-6">{eyebrow}</p>
         <h1 className="display-lg max-w-3xl text-paper">{title}</h1>
-        {lead && <p className="lead mt-7 max-w-2xl text-paper/60">{lead}</p>}
+        {lead &&
+          (image ? (
+            <p className="mt-7 max-w-2xl font-sans text-[15.5px] leading-[1.85] text-paper/90">
+              {lead}
+            </p>
+          ) : (
+            <p className="lead mt-7 max-w-2xl text-paper/60">{lead}</p>
+          ))}
         <span className="mt-10 block h-px w-14 bg-gold" aria-hidden />
       </Container>
     </section>

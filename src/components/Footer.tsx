@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, ChevronRight, MapPin, Phone, Mail, Clock } from "lucide-react";
 
-import { site, nav } from "@/lib/content";
+import { site } from "@/lib/content";
 import { Container } from "./ui/Section";
 
 const Linkedin = (props: React.SVGProps<SVGSVGElement>) => (
@@ -90,9 +90,9 @@ export default function Footer() {
       <Container className="relative z-10">
         <div className="relative -mt-20 overflow-hidden border border-white/10 bg-[#1f3550]">
           <div
-            className="pointer-events-none absolute inset-0 bg-center bg-no-repeat opacity-[0.16]"
+            className="pointer-events-none absolute inset-0 bg-center bg-no-repeat opacity-[0.18]"
             style={{
-              backgroundImage: 'url("/world-map.svg")',
+              backgroundImage: 'url("/maps-overlay-scaled.webp")',
               backgroundSize: "cover",
             }}
             aria-hidden
@@ -163,7 +163,7 @@ export default function Footer() {
               {[
                 { label: "Home", href: "/" },
                 { label: "About", href: "/about" },
-                { label: "Coaching", href: "/coaching" },
+                { label: "Services", href: "/services" },
                 { label: "Visa", href: "/visa" },
                 { label: "Contact", href: "/contact" },
               ].map((link) => (

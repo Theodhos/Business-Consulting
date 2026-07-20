@@ -12,34 +12,6 @@ export const metadata: Metadata = {
     "Contact Tide Global Private Client Services in Johannesburg — direct lines, private client email and confidential enquiries.",
 };
 
-const directLines = [
-  {
-    label: "Private clients",
-    email: site.emails.privateClients,
-    note: "Confidential enquiries and existing matters. Answered within one business day.",
-  },
-  {
-    label: "General enquiries",
-    email: site.emails.general,
-    note: "Anything that is not a client matter.",
-  },
-  {
-    label: "Office of the CEO",
-    email: site.emails.ceo,
-    note: "Escalations, partnerships and press.",
-  },
-  {
-    label: "Client support",
-    email: site.emails.support,
-    note: "Portal access and document questions.",
-  },
-  {
-    label: "Accounts",
-    email: site.emails.accounts,
-    note: "Invoicing, disbursements and payment.",
-  },
-];
-
 export default function ContactPage() {
   return (
     <>
@@ -47,6 +19,7 @@ export default function ContactPage() {
         eyebrow="Contact"
         title="Reach the firm directly."
         lead="Every enquiry is confidential from the moment it arrives, whether or not you go on to instruct us. You will hear back within one business day."
+        image="/asian-call-operator-working-at-desk-e1617160474474.webp"
       />
 
       {/* ── Enquiry ───────────────────────────────────────────────────── */}
@@ -98,28 +71,27 @@ export default function ContactPage() {
         </div>
       </Section>
 
-      {/* ── Direct lines ──────────────────────────────────────────────── */}
+      {/* ── Find us — map ─────────────────────────────────────────────── */}
       <Section tone="mist">
         <SectionHeading
-          eyebrow="Direct lines"
-          title="Reach the right desk first time"
-          lead="Each of these is monitored by the people it belongs to, so a message sent to the right one is a message that moves faster."
+          eyebrow="Find us"
+          title="Where the firm is based"
+          lead="Our offices are in Johannesburg. Most clients instruct us remotely, but you are welcome by appointment."
         />
 
-        <div className="mt-14 grid grid-cols-1 gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
-          {directLines.map((d) => (
-            <div key={d.email} className="bg-mist p-8">
-              <p className="eyebrow mb-4">{d.label}</p>
-              <a
-                href={`mailto:${d.email}`}
-                className="block break-all font-sans text-sm font-medium text-navy transition-colors hover:text-gold"
-              >
-                {d.email}
-              </a>
-              <p className="mt-3 text-xs leading-relaxed text-navy/55">{d.note}</p>
-            </div>
-          ))}
+        <div className="mt-14 overflow-hidden border border-line">
+          <iframe
+            title={`${site.name} — office location`}
+            src="https://maps.google.com/maps?q=173%20Oxford%20Road%2C%20Johannesburg%2C%20South%20Africa&t=&z=14&ie=UTF8&iwloc=&output=embed"
+            className="block h-[420px] w-full md:h-[520px]"
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+          />
         </div>
+
+        <p className="mt-6 font-sans text-[13.5px] leading-relaxed text-navy/60">
+          {site.address.line1}, {site.address.city} {site.address.postal}, {site.address.country}
+        </p>
       </Section>
     </>
   );
