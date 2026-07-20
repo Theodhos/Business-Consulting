@@ -1,0 +1,249 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { Container } from "./ui/Section";
+
+/* ─── Slide data ──────────────────────────────────────────────── */
+const slides = [
+  {
+    image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2400&auto=format&fit=crop",
+    eyebrow: "TRAVISA TRAVELS IMMIGRATION & VISA",
+    heading1: "Immigration & Visa",
+    heading2: "Agency Worldwide",
+    desc: "Lorem ipsum dolor sit amet consectetur adipiscing elit. Uelit tellus luctus necullam corper mattis pulvinar dapibus leo magna in elit hendrerit condimentum.",
+  },
+  {
+    image: "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?q=80&w=2400&auto=format&fit=crop",
+    eyebrow: "EXPERT CONSULTATION",
+    heading1: "Your Gateway To",
+    heading2: "A Better Future",
+    desc: "We provide comprehensive assistance with visa applications, residency programs, and citizenship by investment across the globe.",
+  },
+];
+
+/* ─── Card data — PCS brand palette ──────────────────────────── */
+const heroCards = [
+  {
+    num: "01.",
+    title: "Financial Independence",
+    body: "Permanent residence for individuals who meet the prescribed net-worth threshold.",
+    href: "/services#financial-independence",
+    /* White card */
+    cardBg:   "bg-white",
+    cardBorder: "border-t-[3px] border-white",
+    titleColor: "text-navy",
+    bodyColor:  "text-slate",
+    numBg:    "bg-navy text-white",        /* PCS Navy badge */
+    linkColor:"text-navy hover:text-gold",
+  },
+  {
+    num: "02.",
+    title: "Business & Investment",
+    body: "Residence tied to establishing or investing in a South African business.",
+    href: "/services#business-visas",
+    /* Navy card */
+    cardBg:   "bg-navy",
+    cardBorder: "border-t-[3px] border-gold",
+    titleColor: "text-white",
+    bodyColor:  "text-white/70",
+    numBg:    "bg-gold text-navy",         /* PCS Gold badge */
+    linkColor:"text-gold hover:text-white",
+  },
+  {
+    num: "03.",
+    title: "Complex & Refused Matters",
+    body: "Specialist intervention where a matter has stalled, been refused or gone wrong.",
+    href: "/services#remediation",
+    /* Charcoal card */
+    cardBg:   "bg-charcoal",
+    cardBorder: "border-t-[3px] border-navy",
+    titleColor: "text-white",
+    bodyColor:  "text-white/60",
+    numBg:    "bg-navy text-white",        /* PCS Navy badge */
+    linkColor:"text-silver hover:text-white",
+  },
+];
+
+export default function HeroSlider() {
+  const [current, setCurrent] = useState(0);
+  const [animating, setAnimating] = useState(false);
+
+  const total = slides.length;
+
+  const goTo = (idx: number) => {
+    if (animating) return;
+    setAnimating(true);
+    setCurrent((idx + total) % total);
+    setTimeout(() => setAnimating(false), 800);
+  };
+
+  /* Auto-advance */
+  useEffect(() => {
+    const t = setInterval(() => goTo(current + 1), 7000);
+    return () => clearInterval(t);
+  }, [current]);   // eslint-disable-line react-hooks/exhaustive-deps
+
+  return (
+    <>
+      {/* ── Hero Section ─────────────────────────────────────────── */}
+      <section
+        className="relative flex min-h-[95vh] w-full items-center overflow-hidden bg-charcoal"
+        aria-label="Hero slider"
+      >
+        {/* Slides */}
+        {slides.map((slide, idx) => (
+          <div
+            key={idx}
+            className={[
+              "absolute inset-0 transition-opacity duration-1000",
+              idx === current ? "opacity-100 z-10" : "opacity-0 z-0",
+            ].join(" ")}
+            aria-hidden={idx !== current}
+          >
+            {/* Background photo */}
+            <div
+              className={[
+                "absolute inset-0 bg-cover bg-center",
+                "transition-transform duration-[12000ms] ease-out",
+                idx === current ? "scale-100" : "scale-110",
+              ].join(" ")}
+              style={{ backgroundImage: `url('${slide.image}')` }}
+            />
+            {/* Gradient scrim — left heavy so text stays legible */}
+            <div
+              className="absolute inset-0"
+              style={{
+                background:
+                  "linear-gradient(105deg, rgba(26,58,92,0.93) 0%, rgba(26,58,92,0.80) 45%, rgba(26,58,92,0.45) 75%, rgba(26,58,92,0.20) 100%)",
+              }}
+            />
+          </div>
+        ))}
+
+        {/* Slide content */}
+        <Container className="relative z-20 pb-48 pt-44 md:pb-60">
+          <div className="max-w-3xl">
+            {/* Eyebrow — Inter SemiBold */}
+            <p className="mb-5 font-sans text-[11px] font-semibold uppercase tracking-[0.28em] text-gold">
+              {slides[current].eyebrow}
+            </p>
+
+            {/* Heading — Cormorant Garamond Bold, gold left border */}
+            <div className="border-l-[3px] border-gold pl-7 md:pl-10">
+              <h1 className="font-display leading-[1.08]">
+                {/* Light line */}
+                <span className="block text-[clamp(2.8rem,5.5vw,4.5rem)] font-light text-white/75">
+                  {slides[current].heading1}
+                </span>
+                {/* Bold line — the "agency" visual weight */}
+                <span className="block text-[clamp(2.8rem,5.5vw,4.5rem)] font-bold text-white">
+                  {slides[current].heading2}
+                </span>
+              </h1>
+            </div>
+
+            {/* Body — Inter Regular */}
+            <p className="mt-8 max-w-xl font-sans text-[16px] font-normal leading-relaxed text-white/75">
+              {slides[current].desc}
+            </p>
+
+            {/* CTA */}
+            <div className="mt-12">
+              <Link
+                href="/discover"
+                className="group inline-flex items-center gap-4 border border-white/80 px-8 py-4 font-sans text-[12px] font-semibold uppercase tracking-[0.22em] text-white transition-all duration-300 hover:border-gold hover:bg-gold hover:text-navy"
+              >
+                Discover More
+                <ArrowRight size={15} className="transition-transform duration-300 group-hover:translate-x-1.5" />
+              </Link>
+            </div>
+          </div>
+        </Container>
+
+        {/* Slide indicators (dots) */}
+        <div className="absolute bottom-10 left-1/2 z-30 flex -translate-x-1/2 items-center gap-2">
+          {slides.map((_, idx) => (
+            <button
+              key={idx}
+              onClick={() => goTo(idx)}
+              aria-label={`Slide ${idx + 1}`}
+              className={[
+                "h-1.5 rounded-full transition-all duration-300",
+                idx === current ? "w-8 bg-gold" : "w-2 bg-white/40 hover:bg-white/70",
+              ].join(" ")}
+            />
+          ))}
+        </div>
+
+        {/* Prev / Next arrows */}
+        <button
+          onClick={() => goTo(current - 1)}
+          aria-label="Previous slide"
+          className="absolute left-5 top-1/2 z-30 -translate-y-1/2 flex h-11 w-11 items-center justify-center border border-white/25 text-white backdrop-blur-sm transition-all hover:border-gold hover:bg-gold hover:text-navy"
+        >
+          <ChevronLeft size={22} strokeWidth={1.5} />
+        </button>
+        <button
+          onClick={() => goTo(current + 1)}
+          aria-label="Next slide"
+          className="absolute right-5 top-1/2 z-30 -translate-y-1/2 flex h-11 w-11 items-center justify-center border border-white/25 text-white backdrop-blur-sm transition-all hover:border-gold hover:bg-gold hover:text-navy"
+        >
+          <ChevronRight size={22} strokeWidth={1.5} />
+        </button>
+      </section>
+
+      {/* ── Hero Cards — overlap hero bottom edge ────────────────── */}
+      <div className="relative z-30 -mt-28 lg:-mt-36">
+        <Container className="px-4 lg:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 shadow-2xl">
+          {heroCards.map((card) => (
+            <Link
+              key={card.num}
+              href={card.href}
+              className={[
+                "group flex flex-col px-10 py-10 lg:px-12 lg:py-12",
+                "transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl",
+                card.cardBg, card.cardBorder,
+              ].join(" ")}
+            >
+              {/* Header row: title + number badge */}
+              <div className="flex items-start justify-between gap-4">
+                {/* Cormorant Garamond SemiBold — card title */}
+                <h3 className={`font-display text-[1.55rem] font-semibold leading-snug ${card.titleColor}`}>
+                  {card.title}
+                </h3>
+                <span
+                  className={[
+                    "mt-1 shrink-0 flex h-9 w-9 items-center justify-center",
+                    "font-sans text-[13px] font-bold",
+                    card.numBg,
+                  ].join(" ")}
+                >
+                  {card.num}
+                </span>
+              </div>
+
+              {/* Body — Inter Regular */}
+              <p className={`mt-5 font-sans text-[14.5px] leading-relaxed ${card.bodyColor}`}>
+                {card.body}
+              </p>
+
+              {/* Read more link — Inter SemiBold */}
+              <span className={`mt-8 inline-flex items-center gap-2.5 font-sans text-[11px] font-semibold uppercase tracking-[0.2em] transition-colors ${card.linkColor}`}>
+                Read More
+                <ArrowRight
+                  size={14}
+                  strokeWidth={2}
+                  className="transition-transform duration-300 group-hover:translate-x-1.5"
+                />
+              </span>
+            </Link>
+          ))}
+        </div>
+        </Container>
+      </div>
+    </>
+  );
+}

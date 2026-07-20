@@ -1,0 +1,150 @@
+@import "tailwindcss";
+
+/* ───────────────────────────────────────────────────────────────
+   PCS Brand Design System
+   Private Client Services — Tide Global
+
+   Primary Palette:
+   · Navy    #1A3A5C — authority, trust (headings, logo, key elements)
+   · Gold    #C5A059 — luxury, excellence (accents, highlights)
+   · White   #FFFFFF — clarity, space (primary background)
+
+   Secondary Palette:
+   · Slate     #4A5568 — sophistication, readability (body text)
+   · Silver    #B8BCC4 — refinement (borders, dividers)
+   · Charcoal  #2D3748 — depth (dark surfaces, footer, navbar)
+
+   Typography:
+   · Display  → Cormorant Garamond (heritage, trust, permanence)
+   · Sans     → Inter (efficiency, clarity, digital)
+
+   Design Rules:
+   · Corners are square — no border-radius.
+   · Surfaces divided by hairlines (Silver), never shadows.
+   · Gold is accent only — never a primary fill.
+   · Display type runs light (300). Weight comes from size.
+   ─────────────────────────────────────────────────────────────── */
+
+@theme {
+  /* Primary */
+  --color-navy:    #1A3A5C;
+  --color-gold:    #C5A059;
+  --color-paper:   #FFFFFF;
+
+  /* Secondary */
+  --color-slate:   #4A5568;
+  --color-silver:  #B8BCC4;
+  --color-charcoal:#2D3748;
+
+  /* Legacy aliases kept for compatibility */
+  --color-ink:     #2D3748;  /* → charcoal */
+  --color-mist:    #F5F6F8;  /* near-white section bg */
+
+  /* Lines & hairlines */
+  --color-line:         rgba(26, 58, 92, 0.12);   /* navy tint */
+  --color-line-strong:  rgba(26, 58, 92, 0.28);
+  --color-line-invert:  rgba(255, 255, 255, 0.18);
+  --color-line-silver:  #B8BCC4;
+
+  /* Typefaces */
+  --font-sans:    var(--font-inter);
+  --font-display: var(--font-cormorant);
+}
+
+/* ── Base ──────────────────────────────────────────────────────── */
+@layer base {
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-slate);
+    font-family: var(--font-sans);
+    font-size: 15px;
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Cormorant Garamond for all headings */
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    color: var(--color-navy);
+    letter-spacing: -0.01em;
+    line-height: 1.15;
+  }
+
+  /* Weight scale by heading level */
+  h1 { font-weight: 700; }   /* Bold — primary headings */
+  h2 { font-weight: 600; }   /* SemiBold — section titles */
+  h3 { font-weight: 500; }   /* Medium — card titles */
+  h4 { font-weight: 400; }   /* Regular — subheadings */
+
+  a { color: inherit; }
+
+  ::selection {
+    background: rgba(197, 160, 89, 0.22);
+    color: var(--color-navy);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 3px;
+  }
+}
+
+/* ── Utilities ─────────────────────────────────────────────────── */
+@layer utilities {
+
+  /* ── Eyebrow label — used on every section ── */
+  .eyebrow {
+    font-family: var(--font-sans);
+    font-size: 10px;
+    font-weight: 600;             /* Inter SemiBold */
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--color-gold);
+  }
+
+  /* ── Display / heading scale ── */
+  /* Cormorant Garamond — size gives weight, not bold */
+  .display-xl  { font-size: clamp(2.6rem,  5.5vw, 4.5rem);  font-weight: 700; }
+  .display-lg  { font-size: clamp(2rem,    4vw,   3.25rem); font-weight: 600; }
+  .display-md  { font-size: clamp(1.5rem,  2.5vw, 2.25rem); font-weight: 500; }
+  .display-sm  { font-size: 1.25rem;                         font-weight: 500; }
+
+  /* ── Body copy ── */
+  .lead {
+    font-family: var(--font-sans);
+    font-size: 1rem;             /* Inter Regular 400 */
+    font-weight: 400;
+    line-height: 1.85;
+    color: var(--color-slate);   /* #4A5568 — full readability */
+  }
+
+  /* ── Utility: thin gold divider ── */
+  .gold-rule {
+    display: block;
+    height: 1px;
+    width: 3.5rem;
+    background: var(--color-gold);
+  }
+
+  /* ── Nav link active underline ── */
+  .nav-active {
+    position: relative;
+  }
+  .nav-active::after {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--color-gold);
+  }
+}
+
+/* ── Reduced motion ────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
