@@ -12,6 +12,7 @@ import {
 
 import HeroSlider from "@/components/HeroSlider";
 import TestimonialSlider from "@/components/TestimonialSlider";
+import StatsSection from "@/components/StatsSection";
 import WhyChooseUs from "@/components/WhyChooseUs";
 
 export default function HomePage() {
@@ -34,16 +35,16 @@ export default function HomePage() {
               {/* Photo 4 — Passports on wooden surface */}
               <div className="aspect-square overflow-hidden">
                 <img
-                  src="https://images.unsplash.com/photo-1530521954074-e64f6810b32d?q=80&w=700&auto=format&fit=crop"
-                  alt="Travel passports"
+                  src="/ph1.png"
+                  alt="Corporate passport and documents"
                   className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
                 />
               </div>
               {/* Photo 5 — Travel accessories: hat, notebook, sunglasses */}
               <div className="aspect-square overflow-hidden">
                 <img
-                  src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?q=80&w=700&auto=format&fit=crop"
-                  alt="Travel accessories"
+                  src="/ph2.png"
+                  alt="Executive travel accessories"
                   className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
                 />
               </div>
@@ -53,8 +54,8 @@ export default function HomePage() {
             <div className="w-[54%] overflow-hidden">
               {/* Photo 3 — Couple with backpacks and luggage */}
               <img
-                src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?q=80&w=800&auto=format&fit=crop"
-                alt="Couple travelling with luggage"
+                src="/ph9.png"
+                alt="Sandton, Johannesburg at sunrise, South Africa"
                 className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
                 style={{ minHeight: "100%", objectPosition: "center top" }}
               />
@@ -273,8 +274,8 @@ export default function HomePage() {
             {/* Right — full-height photo */}
             <div className="relative min-h-[280px] overflow-hidden lg:min-h-full">
               <img
-                src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=1200&auto=format&fit=crop"
-                alt="Passport and world map — South African immigration advisory"
+                src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1600&auto=format&fit=crop"
+                alt="Corporate building and skyline"
                 className="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-700 hover:scale-105"
               />
               {/* Subtle left-to-right gradient to blend with the white content side */}
@@ -356,25 +357,25 @@ export default function HomePage() {
             {
               title: "High-Net-Worth Individuals",
               body: "Residence solutions for the globally mobile, structured around existing affairs.",
-              img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=700&auto=format&fit=crop",
+              img: "/businessman-cupped-his-hands-blue-tone.jpg",
               href: "/services#financial-independence",
             },
             {
               title: "Investors & Entrepreneurs",
               body: "Immigration that supports the commercial opportunity and its timetable.",
-              img: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=700&auto=format&fit=crop",
+              img: "https://images.unsplash.com/photo-1556761175-4b46a572b786?q=80&w=700&auto=format&fit=crop",
               href: "/services#business-visas",
             },
             {
               title: "Corporate Executives",
               body: "Executive relocation and the full family transition that comes with it.",
-              img: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=700&auto=format&fit=crop",
+              img: "/ph6.png",
               href: "/services#executive-relocation",
             },
             {
               title: "Families & Affluent Retirees",
               body: "Long-horizon planning across generations and jurisdictions.",
-              img: "https://images.unsplash.com/photo-1543342384-1f1350e27861?q=80&w=700&auto=format&fit=crop",
+              img: "https://images.unsplash.com/photo-1532619675605-1ede6c2ed2b0?q=80&w=700&auto=format&fit=crop",
               href: "/services#family-immigration",
             },
           ].map((card) => (
@@ -465,6 +466,9 @@ export default function HomePage() {
 
       {/* ── Testimonial Slider ─────────────────────────────────────── */}
       <TestimonialSlider />
+
+      {/* ── Stats Section ──────────────────────────────────────────── */}
+      <StatsSection />
 
       {/* ── Why choose us + booking ────────────────────────────────── */}
       <WhyChooseUs />
@@ -603,8 +607,8 @@ export default function HomePage() {
       <section className="relative w-full overflow-hidden">
         {/* Background — US passport on charcoal, passport kept to the right */}
         <img
-          src="https://images.unsplash.com/photo-1487637419635-a2a471ff5c7b?q=80&w=2000&auto=format&fit=crop"
-          alt="United States passport"
+          src="/ph8.png"
+          alt="South African passport"
           className="absolute inset-0 h-full w-full object-cover object-[70%_50%]"
         />
         {/* Left-weighted dark wash for text legibility */}
@@ -670,7 +674,7 @@ export default function HomePage() {
               {
                 title: "Great Value For Your Visa Job Seeker Immigration",
                 body: "Practical guidance for applicants balancing timing, evidence and route selection.",
-                img: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=900&auto=format&fit=crop",
+                img: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=900&auto=format&fit=crop",
               },
               {
                 title: "Make Student Visa Over Years With Other Country",

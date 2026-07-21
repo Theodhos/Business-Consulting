@@ -8,19 +8,33 @@ import { Container } from "./ui/Section";
 /* ─── Slide data ──────────────────────────────────────────────── */
 const slides = [
   {
-    image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2400&auto=format&fit=crop",
-    eyebrow: "TRAVISA TRAVELS IMMIGRATION & VISA",
+    image: "/ph5.png",
+    eyebrow: "JOHANNESBURG • EXPERT ADVISORY",
     heading1: "Immigration & Visa",
     heading2: "Agency Worldwide",
-    desc: "Lorem ipsum dolor sit amet consectetur adipiscing elit. Uelit tellus luctus necullam corper mattis pulvinar dapibus leo magna in elit hendrerit condimentum.",
-  },
-  {
-    image: "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?q=80&w=2400&auto=format&fit=crop",
-    eyebrow: "EXPERT CONSULTATION",
-    heading1: "Your Gateway To",
-    heading2: "A Better Future",
     desc: "We provide comprehensive assistance with visa applications, residency programs, and citizenship by investment across the globe.",
   },
+  {
+    image: "/ph3.png",
+    eyebrow: "CAPE TOWN • PRIVATE CLIENTS",
+    heading1: "Your Gateway To",
+    heading2: "A Better Future",
+    desc: "Specialized in High-Net-Worth Individuals seeking seamless residence solutions structured around their existing affairs.",
+  },
+  {
+    image: "/ph4.png",
+    eyebrow: "PRETORIA • SECURE FUTURE",
+    heading1: "Strategic & Discreet",
+    heading2: "Residence Planning",
+    desc: "Confidentiality from first contact onward. Your matter, your capital and your identity are protected at every stage.",
+  },
+  {
+    image: "/ph7.png",
+    eyebrow: "DURBAN • LONG-TERM VISION",
+    heading1: "Advising Investors",
+    heading2: "And Entrepreneurs",
+    desc: "Residence tied to establishing or investing in a South African business, supporting your commercial opportunity and its timetable.",
+  }
 ];
 
 /* ─── Card data — PCS brand palette ──────────────────────────── */

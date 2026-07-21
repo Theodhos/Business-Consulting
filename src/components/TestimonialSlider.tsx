@@ -1,6 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+
 import { Container } from "./ui/Section";
 
 const testimonials = [
@@ -110,37 +112,44 @@ export default function TestimonialSlider() {
                 ))}
               </div>
 
-              {/* Dots Controls */}
-              <div className="mt-8 flex gap-2 border-t border-silver/50 pt-8">
-                {testimonials.map((_, idx) => (
+              {/* Controls (Dots + Arrows) */}
+              <div className="mt-8 flex items-center justify-between border-t border-silver/50 pt-8">
+                {/* Dots */}
+                <div className="flex gap-2">
+                  {testimonials.map((_, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => goTo(idx)}
+                      aria-label={`Slide ${idx + 1}`}
+                      className={[
+                        "h-1.5 rounded-full transition-all duration-300",
+                        idx === current ? "w-6 bg-gold" : "w-2 bg-silver hover:bg-navy/40",
+                      ].join(" ")}
+                    />
+                  ))}
+                </div>
+
+                {/* Arrows */}
+                <div className="flex items-center gap-2">
                   <button
-                    key={idx}
-                    onClick={() => goTo(idx)}
-                    aria-label={`Slide ${idx + 1}`}
-                    className={[
-                      "h-1.5 rounded-full transition-all duration-300",
-                      idx === current ? "w-6 bg-gold" : "w-2 bg-silver hover:bg-navy/40",
-                    ].join(" ")}
-                  />
-                ))}
+                    onClick={() => goTo(current - 1)}
+                    aria-label="Previous slide"
+                    className="flex h-10 w-10 items-center justify-center border border-silver/60 text-navy transition-all duration-300 hover:border-gold hover:bg-gold hover:text-white"
+                  >
+                    <ChevronLeft size={18} strokeWidth={1.5} />
+                  </button>
+                  <button
+                    onClick={() => goTo(current + 1)}
+                    aria-label="Next slide"
+                    className="flex h-10 w-10 items-center justify-center border border-silver/60 text-navy transition-all duration-300 hover:border-gold hover:bg-gold hover:text-white"
+                  >
+                    <ChevronRight size={18} strokeWidth={1.5} />
+                  </button>
+                </div>
               </div>
             </div>
 
-            {/* Stats below the box, aligned like the photo */}
-            <div className="flex flex-col sm:flex-row gap-12 sm:gap-20 mt-12 lg:mt-16 pl-4 lg:pl-16">
-              <div className="text-left md:text-center">
-                <p className="font-display text-[3.5rem] font-bold text-navy leading-none">
-                  53<span className="text-gold font-sans font-medium text-[2.5rem] align-top relative top-1 ml-0.5">+</span>
-                </p>
-                <p className="font-sans text-[13px] text-slate/70 mt-2 font-medium">Years of Experience</p>
-              </div>
-              <div className="text-left md:text-center">
-                <p className="font-display text-[3.5rem] font-bold text-navy leading-none">
-                  975<span className="text-gold font-sans font-medium text-[2.5rem] align-top relative top-1 ml-0.5">+</span>
-                </p>
-                <p className="font-sans text-[13px] text-slate/70 mt-2 font-medium">Project Completed</p>
-              </div>
-            </div>
+
 
           </div>
 

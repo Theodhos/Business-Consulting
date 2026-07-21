@@ -8,12 +8,12 @@ import { Container } from "./ui/Section";
 
 /* One background image per journey step */
 const STEP_IMAGES = [
-  "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=1400&auto=format&fit=crop", // confidential enquiry
-  "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=1400&auto=format&fit=crop", // strategic assessment
-  "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1400&auto=format&fit=crop", // tailored strategy
-  "https://images.unsplash.com/photo-1568992687947-868a62a9f521?q=80&w=1400&auto=format&fit=crop", // preparation & documentation
-  "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?q=80&w=1400&auto=format&fit=crop", // submission & case management
-  "https://images.unsplash.com/photo-1521791055366-0d553872952f?q=80&w=1400&auto=format&fit=crop", // outcome & beyond
+  "https://images.unsplash.com/photo-1573164713988-8665fc963095?q=80&w=1400&auto=format&fit=crop", // Step 1: Initial Consultation
+  "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1400&auto=format&fit=crop", // Step 2: Strategic Assessment
+  "https://images.unsplash.com/photo-1531403009284-440f080d1e12?q=80&w=1400&auto=format&fit=crop", // Step 3: Tailored Strategy
+  "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=1400&auto=format&fit=crop", // Step 4: Preparation & Documentation
+  "https://images.unsplash.com/photo-1507537297725-24a1c029d3ca?q=80&w=1400&auto=format&fit=crop", // Step 5: Submission & Case Management
+  "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=1400&auto=format&fit=crop", // Step 6: Outcome & Beyond
 ];
 
 const STEP_H = 158; // px — height of a single step row
@@ -39,8 +39,20 @@ export default function JourneySection() {
      card stays fixed, only the photo and the step window change. */
   useEffect(() => {
     if (!isDesktop) {
-      setActive(0);
-      return;
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const index = Number(entry.target.getAttribute("data-index"));
+              setActive(index);
+            }
+          });
+        },
+        { rootMargin: "-30% 0px -60% 0px" }
+      );
+      const elements = document.querySelectorAll(".journey-step");
+      elements.forEach((el) => observer.observe(el));
+      return () => observer.disconnect();
     }
     const onScroll = () => {
       const el = wrapRef.current;
@@ -70,14 +82,14 @@ export default function JourneySection() {
       className="relative w-full border-t border-line bg-mist"
       style={isDesktop ? { height: `${journey.length * 55}vh` } : undefined}
     >
-      <div className={isDesktop ? "sticky top-0 flex h-screen items-center" : "py-20 md:py-28"}>
+      <div className={isDesktop ? "sticky top-0 flex h-screen items-center" : "py-10 md:py-20"}>
         <Container className="w-full">
-          <div className="grid grid-cols-1 overflow-hidden border border-line bg-paper lg:grid-cols-[42%_1fr]">
+          <div className="grid grid-cols-1 overflow-visible border border-line bg-paper lg:grid-cols-[42%_1fr] lg:overflow-hidden">
 
             {/* ── Left image — crossfades to the active step ─────────── */}
             <div
-              className="relative min-h-[420px] overflow-hidden"
-              style={isDesktop ? { height: CARD_H } : undefined}
+              className={isDesktop ? "relative overflow-hidden" : "relative overflow-hidden sticky top-[60px] z-20 shadow-md"}
+              style={isDesktop ? { height: CARD_H } : { height: "300px" }}
             >
               {STEP_IMAGES.map((src, idx) => (
                 <div
@@ -96,23 +108,35 @@ export default function JourneySection() {
                 </div>
               ))}
 
-              <div className="relative z-10 flex h-full flex-col justify-end p-10 lg:p-12">
-                <p className="eyebrow mb-5 text-gold/90">The private client experience</p>
-                <h2 className="font-display text-[clamp(1.9rem,3vw,2.7rem)] font-bold leading-[1.1] text-white">
-                  How an engagement runs
-                </h2>
-                <p className="mt-5 max-w-xs font-sans text-[14.5px] leading-relaxed text-white/75">
-                  Six stages from first conversation to long after approval. You always know which one
-                  you are in.
-                </p>
-                <span className="mt-8 block h-[2px] w-10 bg-gold" />
-                <Link
-                  href="/experience"
-                  className="group mt-8 inline-flex items-center gap-3 font-sans text-[11px] font-semibold uppercase tracking-[0.22em] text-white transition-colors hover:text-gold"
-                >
-                  The full journey
-                  <ArrowRight size={14} strokeWidth={2} className="transition-transform duration-300 group-hover:translate-x-1.5" />
-                </Link>
+              <div className="relative z-10 flex h-full flex-col justify-end p-8 lg:p-12">
+                {isDesktop && (
+                  <>
+                    <p className="eyebrow mb-5 text-gold/90">The private client experience</p>
+                    <h2 className="font-display text-[clamp(1.9rem,3vw,2.7rem)] font-bold leading-[1.1] text-white">
+                      How an engagement runs
+                    </h2>
+                    <p className="mt-5 max-w-xs font-sans text-[14.5px] leading-relaxed text-white/75">
+                      Six stages from first conversation to long after approval. You always know which one
+                      you are in.
+                    </p>
+                    <span className="mt-8 block h-[2px] w-10 bg-gold" />
+                    <Link
+                      href="/experience"
+                      className="group mt-8 inline-flex items-center gap-3 font-sans text-[11px] font-semibold uppercase tracking-[0.22em] text-white transition-colors hover:text-gold"
+                    >
+                      The full journey
+                      <ArrowRight size={14} strokeWidth={2} className="transition-transform duration-300 group-hover:translate-x-1.5" />
+                    </Link>
+                  </>
+                )}
+                {!isDesktop && (
+                  <div>
+                    <p className="eyebrow mb-2 text-gold/90">The private client experience</p>
+                    <h2 className="font-display text-[1.8rem] font-bold leading-[1.1] text-white">
+                      How an engagement runs
+                    </h2>
+                  </div>
+                )}
               </div>
             </div>
 
@@ -131,8 +155,9 @@ export default function JourneySection() {
                   return (
                     <li
                       key={step.title}
+                      data-index={i}
                       className={[
-                        "flex flex-col justify-center border-l-2 px-8 transition-all duration-500 lg:px-12",
+                        "journey-step flex flex-col justify-center border-l-2 px-8 transition-all duration-500 lg:px-12",
                         i < journey.length - 1 ? "border-b border-b-silver" : "",
                         activeStep ? "border-l-gold bg-paper" : "border-l-transparent bg-mist",
                       ].join(" ")}
