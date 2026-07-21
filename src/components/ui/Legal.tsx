@@ -20,11 +20,11 @@ export function LegalArticle({
 
   return (
     <Section tone="paper" divide={false}>
-      <div className="grid grid-cols-1 gap-16 lg:grid-cols-12">
-        {/* Contents */}
+      <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-16">
+        {/* Contents — sticky sidebar on desktop, scrollable on mobile */}
         <nav aria-label="Contents" className="lg:col-span-4">
           <div className="lg:sticky lg:top-32">
-            <p className="eyebrow mb-5">Contents</p>
+            <p className="eyebrow mb-4">Contents</p>
             <ol className="space-y-2.5">
               {clauses.map((c, i) => (
                 <li key={c.heading} className="flex gap-3 text-sm">
@@ -40,7 +40,7 @@ export function LegalArticle({
                 </li>
               ))}
             </ol>
-            <p className="mt-8 border-t border-line pt-6 text-xs text-navy/45">
+            <p className="mt-6 border-t border-line pt-5 text-xs text-navy/45">
               Last updated {updated}
             </p>
           </div>
@@ -48,21 +48,21 @@ export function LegalArticle({
 
         {/* Document */}
         <div className="lg:col-span-8">
-          <p className="mb-14 text-lg leading-relaxed text-navy/75">{intro}</p>
+          <p className="mb-10 text-[15px] sm:text-lg leading-relaxed text-navy/75">{intro}</p>
 
           {clauses.map((c, i) => (
             <section
               key={c.heading}
               id={slug(c.heading)}
-              className="scroll-mt-32 border-t border-line py-10 first:border-t-0 first:pt-0"
+              className="scroll-mt-32 border-t border-line py-8 sm:py-10 first:border-t-0 first:pt-0"
             >
-              <div className="mb-4 flex items-baseline gap-4">
+              <div className="mb-4 flex items-baseline gap-3 sm:gap-4">
                 <span className="eyebrow shrink-0">{String(i + 1).padStart(2, "0")}</span>
-                <h2 className="display-md text-navy">{c.heading}</h2>
+                <h2 className="font-display text-[clamp(1.25rem,2.5vw,1.75rem)] font-medium text-navy">{c.heading}</h2>
               </div>
-              <div className="space-y-4">
+              <div className="space-y-3">
                 {c.body.map((p, j) => (
-                  <p key={j} className="text-sm leading-relaxed text-navy/65">
+                  <p key={j} className="text-[13px] sm:text-sm leading-relaxed text-navy/65">
                     {p}
                   </p>
                 ))}

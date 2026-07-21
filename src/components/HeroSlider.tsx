@@ -103,7 +103,7 @@ export default function HeroSlider() {
     <>
       {/* ── Hero Section ─────────────────────────────────────────── */}
       <section
-        className="relative flex min-h-[95vh] w-full items-center overflow-hidden bg-charcoal"
+        className="relative flex min-h-[88vh] w-full items-center overflow-hidden bg-charcoal"
         aria-label="Hero slider"
       >
         {/* Slides */}
@@ -125,65 +125,70 @@ export default function HeroSlider() {
               ].join(" ")}
               style={{ backgroundImage: `url('${slide.image}')` }}
             />
-            {/* Gradient scrim — left heavy so text stays legible */}
+            {/* Gradient scrim */}
             <div
               className="absolute inset-0"
               style={{
                 background:
-                  "linear-gradient(105deg, rgba(26,58,92,0.93) 0%, rgba(26,58,92,0.80) 45%, rgba(26,58,92,0.45) 75%, rgba(26,58,92,0.20) 100%)",
+                  "linear-gradient(105deg, rgba(26,58,92,0.95) 0%, rgba(26,58,92,0.82) 45%, rgba(26,58,92,0.50) 75%, rgba(26,58,92,0.25) 100%)",
               }}
             />
           </div>
         ))}
 
         {/* Slide content */}
-        <Container className="relative z-20 pb-48 pt-44 md:pb-60">
-          <div className="max-w-3xl backdrop-blur-md bg-navy/30 p-10 md:p-14 border border-white/10 shadow-[0_30px_60px_rgba(26,58,92,0.4)]">
-            {/* Eyebrow — Inter SemiBold */}
-            <p className="mb-5 font-sans text-[11px] font-semibold uppercase tracking-[0.28em] text-gold">
+        <Container className="relative z-20 pb-32 pt-32 sm:pb-48 sm:pt-44 md:pb-60">
+          <div className="max-w-3xl w-full backdrop-blur-md bg-navy/30 p-6 sm:p-10 md:p-14 border border-white/10 shadow-[0_30px_60px_rgba(26,58,92,0.4)]">
+            {/* Eyebrow */}
+            <p className="mb-4 font-sans text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.22em] sm:tracking-[0.28em] text-gold">
               {slides[current].eyebrow}
             </p>
 
-            {/* Heading — Cormorant Garamond Bold, gold left border */}
-            <div className="border-l-[3px] border-gold pl-7 md:pl-10">
+            {/* Heading */}
+            <div className="border-l-[3px] border-gold pl-5 sm:pl-7 md:pl-10">
               <h1 className="font-display leading-[1.08]">
-                {/* Light line */}
-                <span className="block text-[clamp(2.8rem,5.5vw,4.5rem)] font-light text-white/75">
+                <span className="block text-[clamp(2rem,7vw,4.5rem)] font-light text-white/75">
                   {slides[current].heading1}
                 </span>
-                {/* Bold line — the "agency" visual weight */}
-                <span className="block text-[clamp(2.8rem,5.5vw,4.5rem)] font-bold text-white">
+                <span className="block text-[clamp(2rem,7vw,4.5rem)] font-bold text-white">
                   {slides[current].heading2}
                 </span>
               </h1>
             </div>
 
-            {/* Body — Inter Regular */}
-            <p className="mt-8 max-w-xl font-sans text-[16px] font-normal leading-relaxed text-white/75">
+            {/* Body */}
+            <p className="mt-5 sm:mt-8 max-w-xl font-sans text-[14px] sm:text-[16px] font-normal leading-relaxed text-white/75">
               {slides[current].desc}
             </p>
 
             {/* CTA */}
-            <div className="mt-12">
+            <div className="mt-8 sm:mt-12 flex flex-wrap gap-3">
               <Link
-                href="/discover"
-                className="group inline-flex items-center gap-4 border border-white/80 px-8 py-4 font-sans text-[12px] font-semibold uppercase tracking-[0.22em] text-white transition-all duration-300 hover:border-gold hover:bg-gold hover:text-navy"
+                href="/about"
+                className="group inline-flex items-center gap-3 border border-white/80 px-6 sm:px-8 py-3.5 sm:py-4 font-sans text-[11px] sm:text-[12px] font-semibold uppercase tracking-[0.22em] text-white transition-all duration-300 hover:border-gold hover:bg-gold hover:text-navy"
               >
                 Discover More
-                <ArrowRight size={15} className="transition-transform duration-300 group-hover:translate-x-1.5" />
+                <ArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-1.5" />
+              </Link>
+              <Link
+                href="/contact"
+                className="group inline-flex items-center gap-3 bg-gold px-6 sm:px-8 py-3.5 sm:py-4 font-sans text-[11px] sm:text-[12px] font-semibold uppercase tracking-[0.22em] text-navy transition-all duration-300 hover:bg-white"
+              >
+                Contact Us
+                <ArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-1.5" />
               </Link>
             </div>
           </div>
         </Container>
 
         {/* Slide indicators (progress bars) */}
-        <div className="absolute bottom-10 left-1/2 z-30 flex -translate-x-1/2 items-center gap-3">
+        <div className="absolute bottom-8 sm:bottom-10 left-1/2 z-30 flex -translate-x-1/2 items-center gap-2 sm:gap-3">
           {slides.map((_, idx) => (
             <button
               key={idx}
               onClick={() => goTo(idx)}
               aria-label={`Slide ${idx + 1}`}
-              className="relative h-1.5 w-12 overflow-hidden bg-white/20 transition-all hover:bg-white/40"
+              className="relative h-1 sm:h-1.5 w-8 sm:w-12 overflow-hidden bg-white/20 transition-all hover:bg-white/40"
             >
               <div
                 className={[
@@ -201,21 +206,21 @@ export default function HeroSlider() {
         <button
           onClick={() => goTo(current - 1)}
           aria-label="Previous slide"
-          className="absolute left-5 top-1/2 z-30 -translate-y-1/2 flex h-11 w-11 items-center justify-center border border-white/25 text-white backdrop-blur-sm transition-all hover:border-gold hover:bg-gold hover:text-navy"
+          className="absolute left-3 sm:left-5 top-1/2 z-30 -translate-y-1/2 flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center border border-white/25 text-white backdrop-blur-sm transition-all hover:border-gold hover:bg-gold hover:text-navy"
         >
-          <ChevronLeft size={22} strokeWidth={1.5} />
+          <ChevronLeft size={20} strokeWidth={1.5} />
         </button>
         <button
           onClick={() => goTo(current + 1)}
           aria-label="Next slide"
-          className="absolute right-5 top-1/2 z-30 -translate-y-1/2 flex h-11 w-11 items-center justify-center border border-white/25 text-white backdrop-blur-sm transition-all hover:border-gold hover:bg-gold hover:text-navy"
+          className="absolute right-3 sm:right-5 top-1/2 z-30 -translate-y-1/2 flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center border border-white/25 text-white backdrop-blur-sm transition-all hover:border-gold hover:bg-gold hover:text-navy"
         >
-          <ChevronRight size={22} strokeWidth={1.5} />
+          <ChevronRight size={20} strokeWidth={1.5} />
         </button>
       </section>
 
       {/* ── Hero Cards — overlap hero bottom edge ────────────────── */}
-      <div className="relative z-30 -mt-28 lg:-mt-36">
+      <div className="relative z-30 -mt-10 sm:-mt-28 lg:-mt-36">
         <Container className="px-4 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-3 shadow-2xl">
           {heroCards.map((card) => (

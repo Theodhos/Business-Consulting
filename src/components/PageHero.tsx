@@ -19,7 +19,7 @@ export default function PageHero({
   image?: string;
 }) {
   return (
-    <section className="relative w-full overflow-hidden bg-ink pb-20 pt-40 md:pb-24 md:pt-48">
+    <section className="relative w-full overflow-hidden bg-ink pb-14 pt-32 md:pb-24 md:pt-48">
       {image && (
         <>
           <img
@@ -33,25 +33,26 @@ export default function PageHero({
             className="absolute inset-0 backdrop-blur-[2px]"
             style={{
               background:
-                "linear-gradient(90deg, rgba(26,58,92,0.98) 0%, rgba(26,58,92,0.85) 48%, rgba(26,58,92,0.50) 100%)",
+                "linear-gradient(90deg, rgba(26,58,92,0.98) 0%, rgba(26,58,92,0.92) 60%, rgba(26,58,92,0.70) 100%)",
             }}
             aria-hidden
           />
         </>
       )}
       <Container className="relative z-10">
-        <p className="eyebrow mb-6">{eyebrow}</p>
-        <h1 className="display-lg max-w-3xl text-paper">{title}</h1>
+        <p className="eyebrow mb-4 md:mb-6">{eyebrow}</p>
+        <h1 className="font-display font-bold text-paper leading-[1.1] text-[clamp(1.8rem,5vw,3.25rem)] max-w-3xl">{title}</h1>
         {lead &&
           (image ? (
-            <p className="mt-7 max-w-2xl font-sans text-[15.5px] leading-[1.85] text-paper/90">
+            <p className="mt-5 md:mt-7 max-w-2xl font-sans text-[14px] md:text-[15.5px] leading-[1.85] text-paper/90">
               {lead}
             </p>
           ) : (
-            <p className="lead mt-7 max-w-2xl text-paper/60">{lead}</p>
+            <p className="lead mt-5 md:mt-7 max-w-2xl text-paper/60">{lead}</p>
           ))}
-        <span className="mt-10 block h-px w-14 bg-gold" aria-hidden />
+        <span className="mt-8 md:mt-10 block h-px w-14 bg-gold" aria-hidden />
       </Container>
     </section>
   );
 }
+

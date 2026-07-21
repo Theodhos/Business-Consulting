@@ -104,6 +104,7 @@ export default function PrivacyPage() {
         eyebrow="Privacy Policy"
         title="What we hold, why we hold it, and who can see it."
         lead="Our clients come to us precisely because their affairs are private. This policy sets out how that principle is applied to your personal information."
+        image="https://images.unsplash.com/photo-1556761175-4b46a572b786?q=80&w=1600&auto=format&fit=crop"
       />
 
       <LegalArticle

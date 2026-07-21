@@ -39,11 +39,11 @@ function WhoWeAre() {
           {/* LEFT — image collage */}
           <div
             className={[
-              "flex items-stretch gap-4 transition-all duration-1000 ease-out",
+              "grid grid-cols-2 gap-3 transition-all duration-1000 ease-out",
               inView ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-12",
             ].join(" ")}
           >
-            <div className="flex w-[46%] flex-col gap-4">
+            <div className="flex flex-col gap-3">
               <div className="aspect-square overflow-hidden shadow-[0_20px_50px_rgba(26,58,92,0.15)]">
                 <img src="/ph1.png" alt="Private client documents" className="h-full w-full object-cover transition-transform duration-700 hover:scale-105" />
               </div>
@@ -51,7 +51,7 @@ function WhoWeAre() {
                 <img src="/ph2.png" alt="Corporate advisory" className="h-full w-full object-cover transition-transform duration-700 hover:scale-105" />
               </div>
             </div>
-            <div className="relative w-[54%] overflow-hidden shadow-[0_20px_50px_rgba(26,58,92,0.15)]">
+            <div className="relative overflow-hidden shadow-[0_20px_50px_rgba(26,58,92,0.15)]">
               <img
                 src="/ph9.png"
                 alt="Sandton Johannesburg skyline"
@@ -59,8 +59,8 @@ function WhoWeAre() {
                 style={{ minHeight: "100%", objectPosition: "center top" }}
               />
               {/* Gold badge overlay */}
-              <div className="absolute bottom-5 right-5 bg-gold px-4 py-2 shadow-lg">
-                <p className="font-sans text-[10px] font-bold uppercase tracking-[0.22em] text-navy">Est. 2009</p>
+              <div className="absolute bottom-3 right-3 sm:bottom-5 sm:right-5 bg-gold px-3 py-1.5 sm:px-4 sm:py-2 shadow-lg">
+                <p className="font-sans text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.22em] text-navy">Est. 2009</p>
               </div>
             </div>
           </div>
@@ -160,7 +160,7 @@ function WhatWeDo() {
               </h2>
             </div>
           </div>
-          <div className="flex items-end justify-between gap-6">
+          <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4">
             <p className="max-w-lg font-sans text-[14.5px] leading-[1.85] text-slate">
               Boutique South African immigration advisory for high-net-worth individuals, investors and executives — where every matter is led by a named specialist.
             </p>

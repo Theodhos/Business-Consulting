@@ -86,7 +86,7 @@ const socials = [
 
 export default function Footer() {
   return (
-    <footer className="relative mt-24 w-full bg-navy text-paper">
+    <footer className="relative mt-16 sm:mt-24 w-full bg-navy text-paper">
       <Container className="relative z-10">
         <div className="relative -mt-20 overflow-hidden border border-white/10 bg-[#1f3550]">
           <div
@@ -98,13 +98,13 @@ export default function Footer() {
             aria-hidden
           />
 
-          <div className="relative z-10 flex flex-col items-center justify-between gap-8 px-8 py-16 md:flex-row md:px-14 lg:px-20">
+          <div className="relative z-10 flex flex-col items-center justify-between gap-6 px-6 py-12 sm:px-8 sm:py-16 md:flex-row md:px-14 lg:px-20">
             <div className="max-w-2xl text-center md:text-left">
-              <h2 className="font-display text-[clamp(1.8rem,2.8vw,2.6rem)] font-light leading-snug text-paper">
+              <h2 className="font-display text-[clamp(1.5rem,2.8vw,2.6rem)] font-light leading-snug text-paper">
                 Are You Looking For{" "}
                 <span className="font-bold text-white">Private Client Advisory</span> Just Call Us
               </h2>
-              <p className="mt-3 max-w-xl font-sans text-[14px] font-medium leading-[1.8] tracking-wide text-paper/70">
+              <p className="mt-3 max-w-xl font-sans text-[13px] sm:text-[14px] font-medium leading-[1.8] tracking-wide text-paper/70">
                 Need A Consultation? Call us today {site.phone} or email us : {site.emails.general}
               </p>
             </div>
@@ -125,12 +125,12 @@ export default function Footer() {
       </Container>
 
       <Container>
-        <div className="flex flex-col items-center border-b border-white/10 py-20 text-center">
-          <div className="mb-6 flex items-center justify-center">
-            <img src="/logo final.png" alt={site.name} className="h-16 w-auto object-contain" />
+        <div className="flex flex-col items-center border-b border-white/10 py-14 sm:py-20 text-center">
+          <div className="mb-5 flex items-center justify-center">
+            <img src="/logo final.png" alt={site.name} className="h-12 sm:h-16 w-auto object-contain" />
           </div>
 
-          <p className="mb-8 max-w-xl font-sans text-[14px] font-medium leading-[1.8] text-paper/65">
+          <p className="mb-6 max-w-xl px-4 font-sans text-[13px] sm:text-[14px] font-medium leading-[1.8] text-paper/65">
             Boutique South African immigration advisory for high-net-worth individuals, investors and
             executives. Our specialists advise on strategy before a single form is filed, ensuring
             your time and capital are protected.
@@ -164,7 +164,7 @@ export default function Footer() {
                 { label: "Home", href: "/" },
                 { label: "About", href: "/about" },
                 { label: "Services", href: "/services" },
-                { label: "Visa", href: "/visa" },
+                { label: "Coaching", href: "/coaching" },
                 { label: "Contact", href: "/contact" },
               ].map((link) => (
                 <li key={link.href}>
@@ -191,7 +191,6 @@ export default function Footer() {
                 { label: "FAQ's", href: "/faq" },
                 { label: "Privacy Policy", href: "/privacy" },
                 { label: "Term & Conditions", href: "/terms" },
-                { label: "Contact", href: "/contact" },
               ].map((link) => (
                 <li key={link.label}>
                   <Link

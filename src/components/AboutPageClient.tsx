@@ -39,11 +39,11 @@ function GlobalPractice() {
   ];
 
   return (
-    <section ref={ref as React.RefObject<HTMLElement>} className="relative w-full bg-navy py-20 lg:py-28 overflow-hidden">
-      {/* Decorative world map with dots on the right */}
+    <section ref={ref as React.RefObject<HTMLElement>} className="relative w-full bg-navy py-16 lg:py-28 overflow-hidden">
+      {/* Decorative world map with dots — hidden on mobile for clarity */}
       <div 
         className={[
-          "absolute right-[-10%] top-1/2 w-full max-w-[800px] -translate-y-1/2 transition-all duration-1000 ease-out lg:w-[60%] lg:right-[-5%]",
+          "absolute right-[-10%] top-1/2 w-full max-w-[800px] -translate-y-1/2 transition-all duration-1000 ease-out lg:w-[60%] lg:right-[-5%] hidden md:block",
           inView ? "opacity-100" : "opacity-0"
         ].join(" ")}
       >
@@ -66,44 +66,44 @@ function GlobalPractice() {
       </div>
 
       <Container className="relative z-10">
-        <div className="grid grid-cols-1 gap-16 lg:grid-cols-2">
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-16">
           {/* Left side content */}
           <div 
             className={[
-              "flex flex-col gap-10 transition-all duration-1000 ease-out",
+              "flex flex-col gap-8 transition-all duration-1000 ease-out",
               inView ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-12"
             ].join(" ")}
           >
             <div>
               <p className="eyebrow mb-4 text-gold/90">The Practice</p>
-              <div className="border-l-[3px] border-gold pl-6">
+              <div className="border-l-[3px] border-gold pl-5 sm:pl-6">
                 <h2 className="font-display leading-[1.1]">
-                  <span className="block text-[clamp(1.7rem,3vw,2.4rem)] font-light text-paper/80">Johannesburg, and</span>
-                  <span className="block text-[clamp(1.7rem,3vw,2.4rem)] font-bold text-white">wherever your affairs are.</span>
+                  <span className="block text-[clamp(1.5rem,3vw,2.4rem)] font-light text-paper/80">Johannesburg, and</span>
+                  <span className="block text-[clamp(1.5rem,3vw,2.4rem)] font-bold text-white">wherever your affairs are.</span>
                 </h2>
               </div>
             </div>
 
-            <div className="space-y-5">
-              <p className="font-sans text-[14.5px] leading-[1.85] text-paper/70">
+            <div className="space-y-4">
+              <p className="font-sans text-[14px] leading-[1.85] text-paper/70">
                 A significant number of affluent individuals possess every means to invest, relocate or establish themselves in South Africa. Very few possess the time, the specialist knowledge or the administrative capacity that the country&apos;s immigration legislation quietly assumes of them.
               </p>
-              <p className="font-sans text-[14.5px] leading-[1.85] text-paper/70">
-                That gap is not a knowledge problem that a longer FAQ would solve. It is a structural one. The immigration market is built for volume, and volume requires standardisation. It works, and for many applicants it is exactly right. But it cannot accommodate the client whose affairs are complex, whose privacy is not negotiable, and for whom a delayed approval is not an inconvenience but a cost measured in opportunity.
+              <p className="font-sans text-[14px] leading-[1.85] text-paper/70">
+                That gap is not a knowledge problem that a longer FAQ would solve. It is a structural one. The immigration market is built for volume, and volume requires standardisation. But it cannot accommodate the client whose affairs are complex, whose privacy is not negotiable, and for whom a delayed approval is a cost measured in opportunity.
               </p>
-              <p className="font-sans text-[14.5px] leading-[1.85] text-paper/70">
-                Tide Global was established exclusively for those clients. Not a department inside a larger consultancy. Not a premium tier of a standard service. A separate practice, serving discerning clients through a highly personalised, concierge-driven approach.
+              <p className="font-sans text-[14px] leading-[1.85] text-paper/70">
+                Tide Global was established exclusively for those clients. A separate practice, serving discerning clients through a highly personalised, concierge-driven approach.
               </p>
             </div>
 
-            <div className="mt-4 grid grid-cols-1 gap-10 border-t border-white/15 pt-10 sm:grid-cols-2">
+            <div className="grid grid-cols-1 gap-8 border-t border-white/15 pt-8 sm:grid-cols-2">
               <div>
-                <p className="eyebrow mb-4 text-gold">Our mission</p>
-                <p className="font-display text-[1.2rem] leading-snug text-white">{mission}</p>
+                <p className="eyebrow mb-3 text-gold">Our mission</p>
+                <p className="font-display text-[1.15rem] leading-snug text-white">{mission}</p>
               </div>
               <div>
-                <p className="eyebrow mb-4 text-gold">Our vision</p>
-                <p className="font-display text-[1.2rem] leading-snug text-white">{vision}</p>
+                <p className="eyebrow mb-3 text-gold">Our vision</p>
+                <p className="font-display text-[1.15rem] leading-snug text-white">{vision}</p>
               </div>
             </div>
           </div>
@@ -355,8 +355,8 @@ export default function AboutPageClient() {
   return (
     <>
       <GlobalPractice />
-      <PracticeSteps />
       <OurAdvisors />
+      <PracticeSteps />
       <ValuesSection />
       <EstimateBanner />
     </>
