@@ -167,7 +167,7 @@ function FaqSplitSection() {
 function FaqBanner() {
   const { ref, inView } = useInView();
   return (
-    <section ref={ref as React.RefObject<HTMLElement>} className="w-full bg-mist py-14 lg:py-20 border-t border-silver/40">
+    <section ref={ref as React.RefObject<HTMLElement>} className="w-full bg-mist pt-14 lg:pt-20 pb-32 lg:pb-40 border-t border-silver/40">
       <Container>
         <div
           className={[

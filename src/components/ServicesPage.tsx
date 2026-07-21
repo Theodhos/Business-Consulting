@@ -247,7 +247,7 @@ function EngagementSection() {
   return (
     <section
       ref={ref as React.RefObject<HTMLElement>}
-      className="relative w-full overflow-hidden bg-navy py-20 lg:py-28"
+      className="relative w-full overflow-hidden bg-navy pt-20 lg:pt-28 pb-32 lg:pb-48"
     >
       {/* Subtle noise/texture overlay */}
       <div
@@ -302,10 +302,10 @@ function EngagementSection() {
           ].join(" ")}
         >
           <Link
-            href="/contact"
+            href="/faq"
             className="group inline-flex items-center gap-4 border border-gold px-10 py-4 font-sans text-[11px] font-semibold uppercase tracking-[0.22em] text-gold transition-all duration-300 hover:bg-gold hover:text-navy"
           >
-            Begin a Confidential Enquiry
+            Read Frequently Asked Questions
             <ArrowRight size={14} strokeWidth={2} className="transition-transform duration-300 group-hover:translate-x-1.5" />
           </Link>
         </div>

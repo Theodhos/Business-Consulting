@@ -372,12 +372,12 @@ function CoachingBanner() {
           <p className="mt-8 max-w-xl font-sans text-[15px] leading-[1.9] text-paper/75">
             Discuss your transition objectives with a specialist advisor. Every coaching session is structured around your specific operational realities and conducted in strict confidence.
           </p>
-          <div className="mt-12">
+          <div className="mt-12 text-center md:text-right">
             <Link 
-              href="/book-consultation" 
-              className="group inline-flex items-center gap-4 border border-white/40 px-9 py-4 font-sans text-[11px] font-semibold uppercase tracking-[0.24em] text-white transition-all duration-300 hover:border-gold hover:bg-gold hover:text-navy"
+              href="/services" 
+              className="group inline-flex items-center gap-4 bg-gold px-10 py-5 font-sans text-[11px] font-bold uppercase tracking-[0.24em] text-navy transition-all duration-300 hover:bg-white"
             >
-              Request a Session
+              Explore Services
               <ArrowRight size={14} strokeWidth={2} className="transition-transform duration-300 group-hover:translate-x-1.5" />
             </Link>
           </div>

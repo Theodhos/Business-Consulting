@@ -22,51 +22,15 @@ function useInView(threshold = 0.1) {
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   SECTION 1 — THE GLOBAL PRACTICE (Map with dots)
+   SECTION 1 — GLOBAL PRACTICE (Map and Text)
 ═══════════════════════════════════════════════════════════════ */
 function GlobalPractice() {
   const { ref, inView } = useInView();
   
-  // Coordinates for the glowing dots on the map (percentages)
-  const branches = [
-    { top: "25%", left: "18%" }, // North America
-    { top: "35%", left: "28%" }, // US East Coast
-    { top: "20%", left: "52%" }, // UK / Europe
-    { top: "45%", left: "62%" }, // Middle East
-    { top: "75%", left: "56%" }, // South Africa (Johannesburg)
-    { top: "82%", left: "85%" }, // Australia
-    { top: "35%", left: "75%" }, // Asia
-  ];
-
   return (
     <section ref={ref as React.RefObject<HTMLElement>} className="relative w-full bg-navy py-16 lg:py-28 overflow-hidden">
-      {/* Decorative world map with dots — hidden on mobile for clarity */}
-      <div 
-        className={[
-          "absolute right-[-10%] top-1/2 w-full max-w-[800px] -translate-y-1/2 transition-all duration-1000 ease-out lg:w-[60%] lg:right-[-5%] hidden md:block",
-          inView ? "opacity-100" : "opacity-0"
-        ].join(" ")}
-      >
-        <img 
-          src="/maps-overlay-scaled.webp" 
-          alt="World Map" 
-          className="w-full h-auto object-contain opacity-40 mix-blend-screen"
-        />
-        {/* Branch dots */}
-        {branches.map((b, i) => (
-          <div 
-            key={i} 
-            className={[
-              "absolute w-2 h-2 rounded-full bg-gold shadow-[0_0_15px_3px_rgba(182,143,82,0.8)] transition-all duration-700 ease-out",
-              inView ? "scale-100 opacity-100" : "scale-0 opacity-0"
-            ].join(" ")}
-            style={{ top: b.top, left: b.left, transitionDelay: `${800 + i * 150}ms` }}
-          />
-        ))}
-      </div>
-
       <Container className="relative z-10">
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-16">
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-16 items-center">
           {/* Left side content */}
           <div 
             className={[
@@ -107,6 +71,57 @@ function GlobalPractice() {
               </div>
             </div>
           </div>
+
+          {/* Right side: Map */}
+          <div 
+            className={[
+              "relative w-full h-[400px] lg:h-[600px] flex items-center justify-center transition-all duration-1000 delay-300 ease-out",
+              inView ? "opacity-100 translate-x-0" : "opacity-0 translate-x-12"
+            ].join(" ")}
+          >
+            <div className="relative w-full max-w-[800px]">
+              <img 
+                src="/maps-overlay-scaled.webp" 
+                alt="World Map" 
+                className="w-full h-auto object-contain opacity-40 mix-blend-screen drop-shadow-2xl"
+              />
+              
+              {/* South Africa Pin */}
+              <div 
+                className={[
+                  "absolute flex flex-col items-center gap-1.5 transition-all duration-1000 ease-out",
+                  inView ? "scale-100 opacity-100" : "scale-0 opacity-0"
+                ].join(" ")}
+                style={{ top: "72%", left: "54.5%", transitionDelay: "800ms" }}
+              >
+                <span className="font-sans text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-gold bg-navy/80 px-2 py-0.5 rounded backdrop-blur-sm -ml-4 whitespace-nowrap shadow-[0_4px_12px_rgba(0,0,0,0.5)]">
+                  South Africa
+                </span>
+                <div className="relative flex h-3.5 w-3.5 sm:h-4 sm:w-4 items-center justify-center -ml-4">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-gold opacity-75"></span>
+                  <span className="relative inline-flex h-2 w-2 sm:h-2.5 sm:w-2.5 rounded-full bg-gold shadow-[0_0_15px_3px_rgba(182,143,82,0.8)]"></span>
+                </div>
+              </div>
+
+              {/* Other subtle dots around the world to make it look active */}
+              {[
+                { top: "25%", left: "20%" }, // NA
+                { top: "28%", left: "48%" }, // EU
+                { top: "45%", left: "75%" }, // Asia
+                { top: "75%", left: "85%" }, // Aus
+                { top: "40%", left: "60%" }, // ME
+              ].map((dot, i) => (
+                <div 
+                  key={i}
+                  className={[
+                    "absolute h-1.5 w-1.5 rounded-full bg-white/30 transition-all duration-1000 ease-out",
+                    inView ? "scale-100 opacity-100" : "scale-0 opacity-0"
+                  ].join(" ")}
+                  style={{ top: dot.top, left: dot.left, transitionDelay: `${1000 + i * 150}ms` }}
+                />
+              ))}
+            </div>
+          </div>
         </div>
       </Container>
     </section>
@@ -114,7 +129,7 @@ function GlobalPractice() {
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   SECTION 2 — THE PRACTICE TODAY (Steps with arrows)
+   SECTION 2 — THE PRACTICE TODAY (Elegant Vertical/Staggered Layout)
 ═══════════════════════════════════════════════════════════════ */
 function PracticeSteps() {
   const { ref, inView } = useInView();
@@ -127,62 +142,67 @@ function PracticeSteps() {
   ];
 
   return (
-    <section ref={ref as React.RefObject<HTMLElement>} className="w-full bg-paper py-20 lg:py-28">
+    <section ref={ref as React.RefObject<HTMLElement>} className="w-full bg-paper py-20 lg:py-32 overflow-hidden">
       <Container>
         <div 
           className={[
-            "mb-16 text-center transition-all duration-1000 ease-out",
+            "mb-20 text-center transition-all duration-1000 ease-out",
             inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           ].join(" ")}
         >
           <p className="eyebrow mb-4">The practice today</p>
           <h2 className="font-display text-[clamp(2rem,3.3vw,2.8rem)] font-light leading-[1.05] text-navy mx-auto max-w-2xl">
-            What that model looks like in <span className="font-bold">daily practice</span>
+            What that model looks like in <span className="font-bold text-gold">daily practice</span>
           </h2>
-          <span className="mx-auto mt-7 block h-[2px] w-14 bg-gold" aria-hidden />
         </div>
 
-        {/* Steps container */}
-        <div className="flex flex-col lg:flex-row items-center justify-center gap-6 lg:gap-4 w-full">
-          {steps.map((step, i) => (
-            <div key={step.title} className="flex flex-col lg:flex-row items-center gap-6 lg:gap-4 flex-1 w-full lg:w-auto">
-              
-              {/* Step Card */}
-              <div 
-                className={[
-                  "group flex-1 flex flex-col items-center text-center bg-white border border-silver/40 p-8 shadow-[0_10px_30px_rgba(26,58,92,0.04)] w-full min-h-[260px] transition-all duration-700 ease-out hover:-translate-y-2 hover:border-gold/30 hover:shadow-[0_20px_40px_rgba(26,58,92,0.08)]",
-                  inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
-                ].join(" ")}
-                style={{ transitionDelay: inView ? `${i * 150}ms` : "0ms" }}
-              >
-                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-mist mb-6 border border-silver transition-colors duration-500 group-hover:bg-navy group-hover:border-navy">
-                  <span className="font-display text-xl font-bold text-navy transition-colors duration-500 group-hover:text-gold">0{i + 1}</span>
-                </div>
-                <h3 className="font-sans text-[13.5px] font-semibold text-navy mb-3 uppercase tracking-wide">{step.title}</h3>
-                <p className="font-sans text-[13px] leading-relaxed text-slate">{step.body}</p>
-              </div>
+        {/* Vertical Sleek Timeline */}
+        <div className="relative mx-auto max-w-3xl">
+          {/* Connecting vertical line */}
+          <div className="absolute left-[27px] sm:left-1/2 top-0 bottom-0 w-px bg-silver/40 sm:-translate-x-1/2" aria-hidden />
 
-              {/* Connecting Arrow (hidden on last item) */}
-              {i < steps.length - 1 && (
+          <div className="space-y-16 sm:space-y-24">
+            {steps.map((step, i) => {
+              const isEven = i % 2 === 0;
+              return (
                 <div 
+                  key={step.title} 
                   className={[
-                    "hidden lg:flex shrink-0 transition-all duration-700 ease-out",
-                    inView ? "opacity-100" : "opacity-0"
+                    "relative flex flex-col sm:flex-row items-start sm:items-center gap-10 group transition-all duration-700 ease-out",
+                    inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-16"
                   ].join(" ")}
-                  style={{ transitionDelay: inView ? `${(i * 150) + 100}ms` : "0ms" }}
+                  style={{ transitionDelay: inView ? `${i * 150}ms` : "0ms" }}
                 >
-                  <MoveRight size={24} className="text-silver" strokeWidth={1} />
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
+                  {/* Content Left (on desktop) */}
+                  <div className={`hidden sm:block w-1/2 pr-16 text-right ${isEven ? "" : "order-3 pl-16 text-left pr-0"}`}>
+                    <h3 className="font-display text-[1.4rem] font-semibold text-navy mb-3 transition-colors duration-300 group-hover:text-gold">{step.title}</h3>
+                    <p className="font-sans text-[14px] leading-relaxed text-slate/80">{step.body}</p>
+                  </div>
 
-        <div className="mt-16 flex justify-center">
-          <p className="font-sans text-[14px] text-slate/80">
-            Would you like to speak to our consultant over phone?{" "}
-            <Link href="/contact" className="font-semibold text-navy underline underline-offset-2 hover:text-gold">Contact Us Now.</Link>
-          </p>
+                  {/* Node */}
+                  <div className={`relative z-10 shrink-0 bg-paper ${isEven ? "sm:order-2" : "sm:order-2"}`}>
+                    <div className="flex h-14 w-14 items-center justify-center rounded-full bg-white border border-silver/50 shadow-[0_8px_20px_rgba(26,58,92,0.04)] transition-all duration-500 group-hover:border-gold group-hover:shadow-[0_12px_30px_rgba(182,143,82,0.2)] group-hover:scale-110">
+                      <span className="font-sans text-[12px] font-bold tracking-widest text-navy transition-colors duration-500 group-hover:text-gold">0{i + 1}</span>
+                    </div>
+                  </div>
+
+                  {/* Content Right (or mobile) */}
+                  <div className={`w-full sm:w-1/2 pl-6 sm:pl-16 ${isEven ? "sm:order-3" : "hidden sm:block sm:order-1"}`}>
+                    <div className={isEven ? "" : "hidden"}>
+                      <h3 className="font-display text-[1.4rem] font-semibold text-navy mb-3 transition-colors duration-300 group-hover:text-gold">{step.title}</h3>
+                      <p className="font-sans text-[14px] leading-relaxed text-slate/80">{step.body}</p>
+                    </div>
+                  </div>
+
+                  {/* Mobile content block (shows only on small screens) */}
+                  <div className="sm:hidden pl-20 -mt-16 w-full">
+                    <h3 className="font-display text-[1.3rem] font-semibold text-navy mb-2 transition-colors duration-300 group-hover:text-gold">{step.title}</h3>
+                    <p className="font-sans text-[13.5px] leading-relaxed text-slate/80">{step.body}</p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </div>
       </Container>
     </section>
@@ -239,7 +259,7 @@ function ValuesSection() {
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   SECTION 4 — CTA BANNER (Full bleed image)
+   SECTION 4 — EXPLORE SERVICES (Full bleed image)
 ═══════════════════════════════════════════════════════════════ */
 function EstimateBanner() {
   const { ref, inView } = useInView();
@@ -264,19 +284,19 @@ function EstimateBanner() {
             inView ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-12 scale-95"
           ].join(" ")}
         >
-          <p className="eyebrow mb-6 text-paper/85 tracking-[0.3em]">Ready to instruct?</p>
+          <p className="eyebrow mb-6 text-paper/85 tracking-[0.3em]">Immigration Pathways</p>
           <h2 className="font-display text-[clamp(2.2rem,4vw,3.8rem)] leading-[1.05] text-white">
-            Get Started With <span className="font-bold">A Confidential Consultation</span>
+            Discover Our <span className="font-bold text-gold">Core Practice Areas</span>
           </h2>
           <p className="mt-8 max-w-xl font-sans text-[15px] leading-[1.9] text-paper/75">
-            Discuss your objectives, timeline, and the most effective South African residence routes available to you. Completely confidential from first contact.
+            We handle everything from investment and executive visas to complex residence appeals. Review our eleven main service streams to see how we structure our advisory.
           </p>
           <div className="mt-12">
             <Link 
-              href="/contact" 
+              href="/services" 
               className="group inline-flex items-center gap-4 border border-white/40 px-9 py-4 font-sans text-[11px] font-semibold uppercase tracking-[0.24em] text-white transition-all duration-300 hover:border-gold hover:bg-gold hover:text-navy"
             >
-              Request Consultation
+              Explore Services
               <ArrowRight size={14} strokeWidth={2} className="transition-transform duration-300 group-hover:translate-x-1.5" />
             </Link>
           </div>

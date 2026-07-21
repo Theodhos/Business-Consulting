@@ -86,7 +86,7 @@ const socials = [
 
 export default function Footer() {
   return (
-    <footer className="relative mt-16 sm:mt-24 w-full bg-navy text-paper">
+    <footer className="relative w-full bg-navy text-paper">
       <Container className="relative z-10">
         <div className="relative -mt-20 overflow-hidden border border-white/10 bg-[#1f3550]">
           <div

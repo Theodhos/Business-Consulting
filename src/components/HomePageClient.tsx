@@ -512,8 +512,8 @@ function PassportBanner() {
             Dedicated private client support for residence, relocation and complex immigration matters. We lead with strategy, protect your time, and manage every stage with discretion.
           </p>
           <div className="mt-9">
-            <Link href="/contact" className="group inline-flex items-center gap-4 border border-paper/70 px-8 py-4 font-sans text-[11px] font-semibold uppercase tracking-[0.22em] text-paper transition-all duration-300 hover:border-gold hover:bg-gold hover:text-navy">
-              Contact Us
+            <Link href="/about" className="group inline-flex items-center gap-4 border border-paper/70 px-8 py-4 font-sans text-[11px] font-semibold uppercase tracking-[0.22em] text-paper transition-all duration-300 hover:border-gold hover:bg-gold hover:text-navy">
+              Learn About Us
               <ArrowRight size={14} strokeWidth={2} className="transition-transform duration-300 group-hover:translate-x-1.5" />
             </Link>
           </div>
@@ -533,7 +533,7 @@ function NewsSection() {
     { title: "Make Student Visa Over Years With Other Country", body: "How to structure a long-term study pathway with fewer surprises at the border.", img: "https://images.unsplash.com/photo-1455390582262-044cdead277a?q=80&w=900&auto=format&fit=crop" },
   ];
   return (
-    <section ref={ref as React.RefObject<HTMLElement>} className="w-full bg-paper py-20 lg:py-28 border-t border-silver/40">
+    <section ref={ref as React.RefObject<HTMLElement>} className="w-full bg-paper pt-20 lg:pt-28 pb-32 lg:pb-48 border-t border-silver/40">
       <Container>
         <div className={["mb-14 flex flex-col items-center text-center transition-all duration-1000 ease-out", inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"].join(" ")}>
           <p className="eyebrow mb-4 text-navy/80">The news</p>

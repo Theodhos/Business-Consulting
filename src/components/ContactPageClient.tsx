@@ -174,7 +174,7 @@ export default function ContactPageClient() {
       {/* ── MAP SECTION ─────────────────────────────────────────── */}
       <section
         ref={mapSection.ref as React.RefObject<HTMLElement>}
-        className="w-full bg-mist py-20 lg:py-28 border-t border-silver/40"
+        className="w-full bg-mist pt-20 lg:pt-28 pb-32 lg:pb-48 border-t border-silver/40"
       >
         <Container>
           {/* Header */}
