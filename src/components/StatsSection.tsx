@@ -99,17 +99,17 @@ export default function StatsSection() {
             <div
               key={idx}
               className={[
-                "flex flex-col items-center text-center p-10 xl:p-14 transition-transform duration-500",
+                "group flex flex-col items-center text-center p-10 xl:p-14 transition-all duration-700 ease-out",
                 stat.highlight 
-                  ? "bg-navy scale-105 shadow-2xl z-20 py-12 xl:py-16" // The highlighted block pops out
-                  : "bg-white hover:bg-mist z-10 border-b lg:border-b-0 lg:border-r border-silver/30 last:border-0",
+                  ? "bg-navy scale-105 shadow-[0_20px_50px_rgba(26,58,92,0.4)] z-20 py-12 xl:py-16" // The highlighted block pops out
+                  : "bg-white hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(26,58,92,0.08)] z-10 border-b lg:border-b-0 lg:border-r border-silver/30 last:border-0",
               ].join(" ")}
             >
               {/* Icon */}
               <stat.icon 
                 size={42} 
                 strokeWidth={1.25} 
-                className={["mb-5", stat.highlight ? "text-gold" : "text-gold"].join(" ")} 
+                className={["mb-5 transition-transform duration-700 group-hover:scale-110 group-hover:rotate-3", stat.highlight ? "text-gold" : "text-gold"].join(" ")} 
               />
               
               {/* Number */}

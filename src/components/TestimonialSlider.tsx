@@ -56,8 +56,8 @@ export default function TestimonialSlider() {
                 src={t.image}
                 alt={t.name}
                 className={[
-                  "absolute inset-0 h-full w-full object-cover transition-opacity duration-1000",
-                  idx === current ? "opacity-100 z-10" : "opacity-0 z-0",
+                  "absolute inset-0 h-full w-full object-cover transition-all duration-[10000ms] ease-out",
+                  idx === current ? "opacity-100 z-10 scale-110" : "opacity-0 z-0 scale-100",
                 ].join(" ")}
               />
             ))}
@@ -67,7 +67,7 @@ export default function TestimonialSlider() {
           <div className="w-full lg:w-[58%] relative lg:absolute lg:right-0 lg:top-12 z-20 mt-[-60px] lg:mt-0 px-4 lg:px-0">
             
             {/* White Testimonial Box */}
-            <div className="bg-white shadow-[0px_20px_60px_rgba(0,0,0,0.06)] p-8 md:p-14 lg:p-16 relative">
+            <div className="bg-white shadow-[0px_30px_80px_rgba(10,22,40,0.1)] p-8 md:p-14 lg:p-16 relative border border-silver/20 backdrop-blur-sm">
               
               {/* Header */}
               <p className="font-sans text-[11px] font-bold uppercase tracking-[0.2em] text-navy mb-5">
@@ -114,18 +114,24 @@ export default function TestimonialSlider() {
 
               {/* Controls (Dots + Arrows) */}
               <div className="mt-8 flex items-center justify-between border-t border-silver/50 pt-8">
-                {/* Dots */}
-                <div className="flex gap-2">
+                {/* Progress Bars */}
+                <div className="flex gap-3">
                   {testimonials.map((_, idx) => (
                     <button
                       key={idx}
                       onClick={() => goTo(idx)}
                       aria-label={`Slide ${idx + 1}`}
-                      className={[
-                        "h-1.5 rounded-full transition-all duration-300",
-                        idx === current ? "w-6 bg-gold" : "w-2 bg-silver hover:bg-navy/40",
-                      ].join(" ")}
-                    />
+                      className="relative h-1 w-10 overflow-hidden bg-silver transition-all hover:bg-navy/20"
+                    >
+                      <div
+                        className={[
+                          "absolute inset-y-0 left-0 bg-gold",
+                          idx === current
+                            ? "w-full transition-[width] duration-[6000ms] ease-linear"
+                            : "w-0 transition-none",
+                        ].join(" ")}
+                      />
+                    </button>
                   ))}
                 </div>
 

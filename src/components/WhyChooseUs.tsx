@@ -30,7 +30,7 @@ export default function WhyChooseUs() {
         className="absolute inset-0"
         style={{
           background:
-            "linear-gradient(90deg, rgba(26,58,92,0.96) 0%, rgba(26,58,92,0.88) 46%, rgba(26,58,92,0.72) 100%)",
+            "linear-gradient(90deg, rgba(26,58,92,0.98) 0%, rgba(26,58,92,0.85) 50%, rgba(26,58,92,0.60) 100%)",
         }}
         aria-hidden
       />
@@ -67,8 +67,8 @@ export default function WhyChooseUs() {
             {/* Two feature items */}
             <div className="mt-10 flex flex-col gap-7 border-t border-white/12 pt-9">
               {features.map((feat) => (
-                <div key={feat.title} className="flex items-start gap-5">
-                  <feat.icon size={30} strokeWidth={1.4} className="mt-0.5 shrink-0 text-gold" aria-hidden />
+                <div key={feat.title} className="group flex items-start gap-5 transition-transform duration-500 hover:translate-x-2">
+                  <feat.icon size={30} strokeWidth={1.4} className="mt-0.5 shrink-0 text-gold transition-transform duration-500 group-hover:scale-110" aria-hidden />
                   <div>
                     <h3 className="font-display text-[1.2rem] font-semibold text-white">{feat.title}</h3>
                     <p className="mt-1.5 font-sans text-[13.5px] leading-relaxed text-paper/70">
@@ -82,7 +82,7 @@ export default function WhyChooseUs() {
 
           {/* ── Right: booking card ─────────────────────────────────── */}
           <div className="w-full lg:max-w-md lg:justify-self-end">
-            <div className="bg-paper p-8 shadow-[0_30px_80px_-30px_rgba(10,22,40,0.6)] md:p-10">
+            <div className="bg-paper p-8 shadow-[0_40px_100px_-20px_rgba(10,22,40,0.8)] md:p-10 border border-white/5">
               <h3 className="font-display text-[1.7rem] font-bold leading-tight text-navy">
                 Book appointment now
               </h3>
