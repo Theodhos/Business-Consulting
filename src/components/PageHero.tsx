@@ -30,10 +30,10 @@ export default function PageHero({
           />
           {/* Left-weighted navy scrim so the heading and lead stay highly legible */}
           <div
-            className="absolute inset-0"
+            className="absolute inset-0 backdrop-blur-[2px]"
             style={{
               background:
-                "linear-gradient(90deg, rgba(18,30,48,0.95) 0%, rgba(18,30,48,0.86) 48%, rgba(18,30,48,0.62) 100%)",
+                "linear-gradient(90deg, rgba(26,58,92,0.98) 0%, rgba(26,58,92,0.85) 48%, rgba(26,58,92,0.50) 100%)",
             }}
             aria-hidden
           />
