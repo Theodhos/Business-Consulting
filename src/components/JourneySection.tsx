@@ -159,7 +159,7 @@ export default function JourneySection() {
                       className={[
                         "journey-step flex flex-col justify-center border-l-2 px-8 transition-all duration-500 lg:px-12",
                         i < journey.length - 1 ? "border-b border-b-silver" : "",
-                        activeStep ? "border-l-gold bg-paper" : "border-l-transparent bg-mist",
+                        activeStep ? "border-l-gold bg-paper shadow-[-4px_0_15px_-3px_rgba(201,160,80,0.4)]" : "border-l-transparent bg-mist",
                       ].join(" ")}
                       style={isDesktop ? { height: STEP_H } : { minHeight: STEP_H, paddingTop: 28, paddingBottom: 28 }}
                     >

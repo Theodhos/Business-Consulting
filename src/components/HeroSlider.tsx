@@ -121,7 +121,7 @@ export default function HeroSlider() {
               className={[
                 "absolute inset-0 bg-cover bg-center",
                 "transition-transform duration-[12000ms] ease-out",
-                idx === current ? "scale-100" : "scale-110",
+                idx === current ? "scale-110" : "scale-100",
               ].join(" ")}
               style={{ backgroundImage: `url('${slide.image}')` }}
             />
@@ -138,7 +138,7 @@ export default function HeroSlider() {
 
         {/* Slide content */}
         <Container className="relative z-20 pb-48 pt-44 md:pb-60">
-          <div className="max-w-3xl">
+          <div className="max-w-3xl backdrop-blur-md bg-navy/30 p-10 md:p-14 border border-white/10 shadow-[0_30px_60px_rgba(26,58,92,0.4)]">
             {/* Eyebrow — Inter SemiBold */}
             <p className="mb-5 font-sans text-[11px] font-semibold uppercase tracking-[0.28em] text-gold">
               {slides[current].eyebrow}
@@ -176,18 +176,24 @@ export default function HeroSlider() {
           </div>
         </Container>
 
-        {/* Slide indicators (dots) */}
-        <div className="absolute bottom-10 left-1/2 z-30 flex -translate-x-1/2 items-center gap-2">
+        {/* Slide indicators (progress bars) */}
+        <div className="absolute bottom-10 left-1/2 z-30 flex -translate-x-1/2 items-center gap-3">
           {slides.map((_, idx) => (
             <button
               key={idx}
               onClick={() => goTo(idx)}
               aria-label={`Slide ${idx + 1}`}
-              className={[
-                "h-1.5 rounded-full transition-all duration-300",
-                idx === current ? "w-8 bg-gold" : "w-2 bg-white/40 hover:bg-white/70",
-              ].join(" ")}
-            />
+              className="relative h-1.5 w-12 overflow-hidden bg-white/20 transition-all hover:bg-white/40"
+            >
+              <div
+                className={[
+                  "absolute inset-y-0 left-0 bg-gold",
+                  idx === current
+                    ? "w-full transition-[width] duration-[7000ms] ease-linear"
+                    : "w-0 transition-none",
+                ].join(" ")}
+              />
+            </button>
           ))}
         </div>
 

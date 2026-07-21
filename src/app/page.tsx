@@ -33,7 +33,7 @@ export default function HomePage() {
             {/* Column A — two stacked small images (passport + travel accessories) */}
             <div className="flex w-[46%] flex-col gap-4">
               {/* Photo 4 — Passports on wooden surface */}
-              <div className="aspect-square overflow-hidden">
+              <div className="aspect-square overflow-hidden shadow-2xl shadow-navy/20">
                 <img
                   src="/ph1.png"
                   alt="Corporate passport and documents"
@@ -41,7 +41,7 @@ export default function HomePage() {
                 />
               </div>
               {/* Photo 5 — Travel accessories: hat, notebook, sunglasses */}
-              <div className="aspect-square overflow-hidden">
+              <div className="aspect-square overflow-hidden shadow-2xl shadow-navy/20">
                 <img
                   src="/ph2.png"
                   alt="Executive travel accessories"
@@ -51,7 +51,7 @@ export default function HomePage() {
             </div>
 
             {/* Column B — tall portrait image (couple with luggage) */}
-            <div className="w-[54%] overflow-hidden">
+            <div className="w-[54%] overflow-hidden shadow-2xl shadow-navy/20">
               {/* Photo 3 — Couple with backpacks and luggage */}
               <img
                 src="/ph9.png"
@@ -182,13 +182,13 @@ export default function HomePage() {
           {services.slice(0, 2).map((s) => (
             <div
               key={s.slug}
-              className="group flex flex-col bg-paper p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md"
+              className="group relative flex flex-col bg-paper p-8 shadow-sm border border-transparent transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(26,58,92,0.08)] hover:border-gold/20"
             >
               {/* Gold icon — large, centered above title */}
               <s.icon
                 size={48}
                 strokeWidth={1.0}
-                className="mb-6 text-gold"
+                className="mb-6 text-gold transition-transform duration-500 group-hover:scale-110"
                 aria-hidden
               />
               {/* Silver hairline below icon */}
@@ -206,12 +206,12 @@ export default function HomePage() {
           {services.slice(2, 6).map((s) => (
             <div
               key={s.slug}
-              className="group flex flex-col bg-paper p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md"
+              className="group relative flex flex-col bg-paper p-8 shadow-sm border border-transparent transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(26,58,92,0.08)] hover:border-gold/20"
             >
               <s.icon
                 size={48}
                 strokeWidth={1.0}
-                className="mb-6 text-gold"
+                className="mb-6 text-gold transition-transform duration-500 group-hover:scale-110"
                 aria-hidden
               />
               <span className="mb-6 block h-px w-full bg-silver" />
@@ -555,7 +555,7 @@ export default function HomePage() {
               <Link
                 key={dest.country}
                 href={dest.href}
-                className="group flex flex-col border border-silver bg-paper transition-all duration-300 hover:-translate-y-1.5 hover:shadow-lg"
+                className="group flex flex-col border border-silver/40 bg-paper transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(26,58,92,0.08)]"
               >
                 {/* Photo */}
                 <div className="h-[185px] overflow-hidden">
@@ -579,9 +579,10 @@ export default function HomePage() {
                     {dest.desc}
                   </p>
                   {/* READ MORE — Inter SemiBold, Gold */}
-                  <span className="mt-5 inline-flex items-center gap-2 font-sans text-[10px] font-semibold uppercase tracking-[0.2em] text-gold transition-colors group-hover:text-navy">
+                  <span className="relative mt-5 inline-flex w-fit items-center gap-2 font-sans text-[10px] font-semibold uppercase tracking-[0.2em] text-gold transition-colors group-hover:text-navy">
                     Read More
                     <ArrowRight size={12} strokeWidth={2} className="transition-transform duration-300 group-hover:translate-x-1" />
+                    <span className="absolute -bottom-1 left-0 h-[2px] w-0 bg-gold transition-all duration-500 group-hover:w-full" />
                   </span>
                 </div>
               </Link>
@@ -694,7 +695,7 @@ export default function HomePage() {
                   />
                 </div>
                 <div className="flex flex-col justify-center p-6 md:p-7">
-                  <h3 className="max-w-md font-display text-[1.15rem] font-semibold leading-[1.25] text-navy">
+                  <h3 className="max-w-md font-display text-[1.15rem] font-semibold leading-[1.25] text-navy transition-colors duration-300 group-hover:text-gold">
                     {post.title}
                   </h3>
                   <p className="mt-4 max-w-md font-sans text-[13.5px] leading-[1.85] text-slate">
@@ -719,7 +720,7 @@ export default function HomePage() {
               className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
             />
             <div
-              className="absolute inset-0"
+              className="absolute inset-0 transition-all duration-700 group-hover:opacity-90"
               style={{
                 background:
                   "linear-gradient(180deg, rgba(26,58,92,0.06) 0%, rgba(26,58,92,0.32) 42%, rgba(26,58,92,0.92) 100%)",
