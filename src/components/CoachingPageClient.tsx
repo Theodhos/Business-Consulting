@@ -340,49 +340,32 @@ function CoachingDifference() {
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   SECTION 4 — CTA BANNER (Full bleed image)
+   SECTION 5 — CONFIDENTIALITY COMMITMENT (Replaces redundant CTA)
 ═══════════════════════════════════════════════════════════════ */
-function CoachingBanner() {
+function CoachingCommitment() {
   const { ref, inView } = useInView();
   return (
-    <section ref={ref as React.RefObject<HTMLElement>} className="relative w-full min-h-[480px] overflow-hidden">
-      {/* Background image */}
-      <img 
-        src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1600&auto=format&fit=crop" 
-        alt="Corporate skyline" 
-        className="absolute inset-0 h-full w-full object-cover transition-transform duration-[20s] ease-linear hover:scale-110 grayscale-[20%]" 
-      />
-      {/* Dark overlay */}
-      <div 
-        className="absolute inset-0 bg-navy/85 backdrop-blur-[2px]" 
-        style={{ background: "radial-gradient(circle at center, rgba(18,26,38,0.7) 0%, rgba(18,26,38,0.95) 100%)" }}
-      />
-      
-      <div className="relative z-10 flex h-full min-h-[480px] flex-col items-center justify-center text-center px-6 md:px-8">
-        <div 
-          className={[
-            "flex flex-col items-center transition-all duration-1000 ease-out",
-            inView ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-12 scale-95"
-          ].join(" ")}
-        >
-          <p className="eyebrow mb-6 text-paper/85 tracking-[0.3em]">Ready to begin?</p>
-          <h2 className="font-display text-[clamp(2.2rem,4vw,3.8rem)] leading-[1.05] text-white">
-            Secure Your <span className="font-bold">Strategic Advantage</span>
-          </h2>
-          <p className="mt-8 max-w-xl font-sans text-[15px] leading-[1.9] text-paper/75">
-            Discuss your transition objectives with a specialist advisor. Every coaching session is structured around your specific operational realities and conducted in strict confidence.
-          </p>
-          <div className="mt-12 text-center md:text-right">
-            <Link 
-              href="/services" 
-              className="group inline-flex items-center gap-4 bg-gold px-10 py-5 font-sans text-[11px] font-bold uppercase tracking-[0.24em] text-navy transition-all duration-300 hover:bg-white"
-            >
-              Explore Services
-              <ArrowRight size={14} strokeWidth={2} className="transition-transform duration-300 group-hover:translate-x-1.5" />
-            </Link>
+    <section ref={ref as React.RefObject<HTMLElement>} className="w-full bg-paper pt-20 lg:pt-28 pb-32 lg:pb-48 overflow-hidden">
+      <Container>
+        <div className="mx-auto max-w-4xl text-center">
+          <div 
+            className={[
+              "transition-all duration-1000 ease-out",
+              inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+            ].join(" ")}
+          >
+            <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-mist border border-silver/60">
+              <ShieldCheck size={28} className="text-gold" strokeWidth={1.5} />
+            </div>
+            <h2 className="font-display text-[clamp(1.6rem,3vw,2.4rem)] font-light leading-[1.3] text-navy">
+              Executive transitions involve sensitive corporate restructuring and family affairs. Our primary commitment is <span className="font-bold text-gold">absolute discretion</span> before, during, and after your engagement.
+            </h2>
+            <p className="mt-8 font-sans text-[11px] font-bold uppercase tracking-[0.2em] text-slate">
+              — The Coaching Advisory Board
+            </p>
           </div>
         </div>
-      </div>
+      </Container>
     </section>
   );
 }
@@ -398,7 +381,7 @@ export default function CoachingPageClient() {
       <CoachingExpertise />
       <CoachingStats />
       <CoachingDifference />
-      <CoachingBanner />
+      <CoachingCommitment />
     </>
   );
 }

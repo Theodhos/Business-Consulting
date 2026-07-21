@@ -259,49 +259,32 @@ function ValuesSection() {
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   SECTION 4 — EXPLORE SERVICES (Full bleed image)
+   SECTION 4 — LEADERSHIP STATEMENT (Replaces redundant CTA)
 ═══════════════════════════════════════════════════════════════ */
-function EstimateBanner() {
+function AboutLeadership() {
   const { ref, inView } = useInView();
   return (
-    <section ref={ref as React.RefObject<HTMLElement>} className="relative w-full min-h-[480px] overflow-hidden">
-      {/* Background image */}
-      <img 
-        src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1600&auto=format&fit=crop" 
-        alt="Modern corporate office" 
-        className="absolute inset-0 h-full w-full object-cover transition-transform duration-[20s] ease-linear hover:scale-110 grayscale-[30%]" 
-      />
-      {/* Dark overlay */}
-      <div 
-        className="absolute inset-0 bg-navy/85 backdrop-blur-[2px]" 
-        style={{ background: "radial-gradient(circle at center, rgba(18,26,38,0.75) 0%, rgba(18,26,38,0.95) 100%)" }}
-      />
-      
-      <div className="relative z-10 flex h-full min-h-[480px] flex-col items-center justify-center text-center px-6 md:px-8">
-        <div 
-          className={[
-            "flex flex-col items-center transition-all duration-1000 ease-out",
-            inView ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-12 scale-95"
-          ].join(" ")}
-        >
-          <p className="eyebrow mb-6 text-paper/85 tracking-[0.3em]">Immigration Pathways</p>
-          <h2 className="font-display text-[clamp(2.2rem,4vw,3.8rem)] leading-[1.05] text-white">
-            Discover Our <span className="font-bold text-gold">Core Practice Areas</span>
-          </h2>
-          <p className="mt-8 max-w-xl font-sans text-[15px] leading-[1.9] text-paper/75">
-            We handle everything from investment and executive visas to complex residence appeals. Review our eleven main service streams to see how we structure our advisory.
-          </p>
-          <div className="mt-12">
-            <Link 
-              href="/services" 
-              className="group inline-flex items-center gap-4 border border-white/40 px-9 py-4 font-sans text-[11px] font-semibold uppercase tracking-[0.24em] text-white transition-all duration-300 hover:border-gold hover:bg-gold hover:text-navy"
-            >
-              Explore Services
-              <ArrowRight size={14} strokeWidth={2} className="transition-transform duration-300 group-hover:translate-x-1.5" />
-            </Link>
+    <section ref={ref as React.RefObject<HTMLElement>} className="w-full bg-paper pt-20 lg:pt-28 pb-32 lg:pb-48 overflow-hidden">
+      <Container>
+        <div className="mx-auto max-w-4xl text-center">
+          <div 
+            className={[
+              "transition-all duration-1000 ease-out",
+              inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+            ].join(" ")}
+          >
+            <div className="mx-auto mb-8 flex h-16 w-16 items-center justify-center rounded-full bg-mist border border-silver/60">
+              <span className="font-display text-2xl font-bold text-navy">”</span>
+            </div>
+            <h2 className="font-display text-[clamp(1.6rem,3vw,2.4rem)] font-light leading-[1.3] text-navy">
+              Our firm was built on a single, uncompromising principle: that <span className="font-bold text-gold">high-net-worth immigration</span> requires the exact same level of strategic rigor, privacy, and white-glove execution as elite wealth management.
+            </h2>
+            <p className="mt-8 font-sans text-[11px] font-bold uppercase tracking-[0.2em] text-slate">
+              — The Managing Partners, Tide Global
+            </p>
           </div>
         </div>
-      </div>
+      </Container>
     </section>
   );
 }
@@ -378,7 +361,7 @@ export default function AboutPageClient() {
       <OurAdvisors />
       <PracticeSteps />
       <ValuesSection />
-      <EstimateBanner />
+      <AboutLeadership />
     </>
   );
 }
