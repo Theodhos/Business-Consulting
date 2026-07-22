@@ -263,9 +263,9 @@ export default function Footer() {
 
       <div className="border-t border-white/10 bg-[#152f49] py-6">
         <Container>
-          <div className="text-center md:text-left">
+          <div className="text-center">
             <p className="font-sans text-[12.5px] font-medium text-paper/55">
-              Copyright © {new Date().getFullYear()} {site.name}. Powered by PCS Design Systems.
+              Copyright © {new Date().getFullYear()} {site.name}. All rights reserved.
             </p>
           </div>
         </Container>
