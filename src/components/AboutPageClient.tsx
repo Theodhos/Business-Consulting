@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { ArrowRight, MoveRight, ShieldCheck, Compass, ClipboardList, BookOpen, CreditCard, BookMarked } from "lucide-react";
 import { Container } from "@/components/ui/Section";
-import { mission, vision, values, site } from "@/lib/content";
+import { mission, vision, values, site, advantages } from "@/lib/content";
 
 /* ─── Shared hook: fire animation once in viewport ──────────── */
 function useInView(threshold = 0.1) {
@@ -446,6 +446,51 @@ function OurAdvisors() {
 }
 
 /* ═══════════════════════════════════════════════════════════════
+   SECTION 6 — WHY TIDE GLOBAL (Advantages)
+═══════════════════════════════════════════════════════════════ */
+function WhyTideGlobalSection() {
+  const { ref, inView } = useInView();
+  return (
+    <section ref={ref as React.RefObject<HTMLElement>} className="w-full bg-paper py-20 lg:py-28 overflow-hidden">
+      <Container>
+        <div 
+          className={[
+            "transition-all duration-1000 ease-out",
+            inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+          ].join(" ")}
+        >
+          <div className="mb-14">
+            <p className="eyebrow mb-4 text-gold/90">Why Tide Global</p>
+            <div className="border-l-[3px] border-gold pl-5 sm:pl-6 max-w-3xl">
+              <h2 className="font-display leading-[1.1]">
+                <span className="block text-[clamp(1.8rem,3vw,2.4rem)] font-light text-navy/70">Nine structural</span>
+                <span className="block text-[clamp(1.8rem,3vw,2.4rem)] font-bold text-navy">differences.</span>
+              </h2>
+              <p className="font-sans text-[15px] leading-[1.8] text-slate mt-5">
+                Each of these is a consequence of the boutique model, not a promise layered on top of it. That is precisely why a volume practice cannot simply match them.
+              </p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 gap-px border border-silver/40 bg-silver/40 md:grid-cols-2 lg:grid-cols-3">
+            {advantages.map((a, i) => (
+              <div key={a.title} className="bg-paper p-8 lg:p-10 transition-colors duration-500 hover:bg-mist">
+                <div className="mb-6 flex items-center justify-between">
+                  <a.icon size={26} strokeWidth={1.5} className="text-gold" aria-hidden />
+                  <span className="font-sans text-[11px] font-bold text-slate/40">{String(i + 1).padStart(2, "0")}</span>
+                </div>
+                <h3 className="font-display text-[1.2rem] font-semibold text-navy mb-3">{a.title}</h3>
+                <p className="font-sans text-[14px] leading-[1.75] text-slate/80">{a.body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </Container>
+    </section>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════════
    MAIN ABOUT PAGE EXPORT
 ═══════════════════════════════════════════════════════════════ */
 export default function AboutPageClient() {
@@ -453,6 +498,7 @@ export default function AboutPageClient() {
     <>
       <AboutIntro />
       <GlobalPractice />
+      <WhyTideGlobalSection />
       <OurAdvisors />
       <PracticeSteps />
       <ValuesSection />
