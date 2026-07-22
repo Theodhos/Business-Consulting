@@ -39,10 +39,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${cormorant.variable} h-full overflow-x-hidden`}
+      className={`${inter.variable} ${cormorant.variable} h-full overflow-x-clip`}
       suppressHydrationWarning
     >
-      <body className="flex min-h-full flex-col overflow-x-hidden w-full" suppressHydrationWarning>
+      <body className="flex min-h-full flex-col overflow-x-clip w-full" suppressHydrationWarning>
         <a
           href="#main"
           className="sr-only focus:not-sr-only focus:fixed focus:left-6 focus:top-6 focus:z-[60] focus:bg-gold focus:px-5 focus:py-3 focus:font-sans focus:text-[11px] focus:font-semibold focus:uppercase focus:tracking-[0.18em] focus:text-ink"
