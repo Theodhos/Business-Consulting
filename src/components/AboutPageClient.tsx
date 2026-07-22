@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { ArrowRight, MoveRight } from "lucide-react";
+import { ArrowRight, MoveRight, ShieldCheck, Compass, ClipboardList, BookOpen, CreditCard, BookMarked } from "lucide-react";
 import { Container } from "@/components/ui/Section";
 import { mission, vision, values, site } from "@/lib/content";
 
@@ -22,13 +22,89 @@ function useInView(threshold = 0.1) {
 }
 
 /* ═══════════════════════════════════════════════════════════════
+   SECTION 0 — ABOUT INTRO (Photo Layout with Single Image)
+═══════════════════════════════════════════════════════════════ */
+function AboutIntro() {
+  const { ref, inView } = useInView();
+
+  return (
+    <section ref={ref as React.RefObject<HTMLElement>} className="w-full bg-paper py-20 lg:py-28 overflow-hidden">
+      <Container>
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-16 items-center">
+          
+          {/* Left: Single Image */}
+          <div 
+            className={[
+              "relative w-full h-[500px] lg:h-[650px] overflow-hidden shadow-[0_20px_50px_rgba(26,58,92,0.15)] transition-all duration-1000 ease-out",
+              inView ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-12"
+            ].join(" ")}
+          >
+            <img 
+              src="https://images.unsplash.com/photo-1544131584-6fb0299f1c71?q=80&w=1200&auto=format&fit=crop" 
+              alt="Travel and Immigration" 
+              className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 hover:scale-105" 
+            />
+          </div>
+
+          {/* Right: Content */}
+          <div 
+            className={[
+              "flex flex-col justify-center transition-all duration-1000 delay-200 ease-out",
+              inView ? "opacity-100 translate-x-0" : "opacity-0 translate-x-12"
+            ].join(" ")}
+          >
+            <p className="eyebrow text-navy mb-4 tracking-[0.2em]">ABOUT {site.name.toUpperCase()}</p>
+            <div className="border-l-[4px] border-gold pl-5 sm:pl-6 mb-8">
+              <h1 className="font-display leading-[1.1]">
+                <span className="block text-[clamp(1.8rem,3vw,2.6rem)] font-light text-navy/70">Immigration Services From</span>
+                <span className="block text-[clamp(1.8rem,3vw,2.6rem)] font-bold text-navy">Experienced Advisors</span>
+              </h1>
+            </div>
+            
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 mb-10 text-slate text-[14px] leading-[1.85]">
+              <p>A significant number of affluent individuals possess every means to invest, relocate or establish themselves in South Africa. Very few possess the time or the specialist knowledge the legislation quietly assumes of them.</p>
+              <p>That gap is a structural one. The immigration market is built for volume, but we serve the client whose affairs are complex, whose privacy is not negotiable, and for whom a delayed approval is a measured cost.</p>
+            </div>
+
+            {/* Mission & Vision blocks */}
+            <div className="flex flex-col gap-6">
+              <div className="flex items-start gap-5 group">
+                <div className="flex shrink-0 h-16 w-16 items-center justify-center rounded bg-mist border border-silver/40 transition-colors duration-500 group-hover:border-gold">
+                   <ShieldCheck size={26} className="text-gold transition-transform duration-500 group-hover:scale-110" strokeWidth={1.5} />
+                </div>
+                <div className="flex-1">
+                  <h4 className="font-display text-[1.25rem] font-bold text-navy mb-2">Our Mission</h4>
+                  <p className="font-sans text-[13.5px] leading-relaxed text-slate">{mission}</p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-5 group">
+                <div className="flex shrink-0 h-16 w-16 items-center justify-center rounded bg-mist border border-silver/40 transition-colors duration-500 group-hover:border-gold">
+                   <Compass size={26} className="text-gold transition-transform duration-500 group-hover:scale-110" strokeWidth={1.5} />
+                </div>
+                <div className="flex-1">
+                  <h4 className="font-display text-[1.25rem] font-bold text-navy mb-2">Our Vision</h4>
+                  <p className="font-sans text-[13.5px] leading-relaxed text-slate">{vision}</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </Container>
+    </section>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════════
    SECTION 1 — GLOBAL PRACTICE (Map and Text)
 ═══════════════════════════════════════════════════════════════ */
 function GlobalPractice() {
   const { ref, inView } = useInView();
   
   return (
-    <section ref={ref as React.RefObject<HTMLElement>} className="relative w-full bg-navy py-16 lg:py-28 overflow-hidden">
+    <section ref={ref as React.RefObject<HTMLElement>} className="relative w-full bg-navy py-2 lg:py-4 overflow-hidden">
       <Container className="relative z-10">
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-16 items-center">
           {/* Left side content */}
@@ -50,25 +126,8 @@ function GlobalPractice() {
 
             <div className="space-y-4">
               <p className="font-sans text-[14px] leading-[1.85] text-paper/70">
-                A significant number of affluent individuals possess every means to invest, relocate or establish themselves in South Africa. Very few possess the time, the specialist knowledge or the administrative capacity that the country&apos;s immigration legislation quietly assumes of them.
+                Tide Global was established exclusively for discerning clients. A separate practice, serving through a highly personalised, concierge-driven approach where every matter is overseen by seasoned professionals.
               </p>
-              <p className="font-sans text-[14px] leading-[1.85] text-paper/70">
-                That gap is not a knowledge problem that a longer FAQ would solve. It is a structural one. The immigration market is built for volume, and volume requires standardisation. But it cannot accommodate the client whose affairs are complex, whose privacy is not negotiable, and for whom a delayed approval is a cost measured in opportunity.
-              </p>
-              <p className="font-sans text-[14px] leading-[1.85] text-paper/70">
-                Tide Global was established exclusively for those clients. A separate practice, serving discerning clients through a highly personalised, concierge-driven approach.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 gap-8 border-t border-white/15 pt-8 sm:grid-cols-2">
-              <div>
-                <p className="eyebrow mb-3 text-gold">Our mission</p>
-                <p className="font-display text-[1.15rem] leading-snug text-white">{mission}</p>
-              </div>
-              <div>
-                <p className="eyebrow mb-3 text-gold">Our vision</p>
-                <p className="font-display text-[1.15rem] leading-snug text-white">{vision}</p>
-              </div>
             </div>
           </div>
 
@@ -129,80 +188,106 @@ function GlobalPractice() {
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   SECTION 2 — THE PRACTICE TODAY (Elegant Vertical/Staggered Layout)
+   SECTION 2 — THE PRACTICE TODAY (Horizontal Process Layout)
 ═══════════════════════════════════════════════════════════════ */
 function PracticeSteps() {
   const { ref, inView } = useInView();
+  
+  // Customizing steps to match the 4-step layout from the photo
   const steps = [
-    { title: "One named relationship manager", body: "Your matter belongs to a person, not a queue. You can reach them directly." },
-    { title: "Strategy before process", body: "Every engagement opens with an assessment of every route open to you." },
-    { title: "End-to-end coordination", body: "Documents, verification and submission are carried by the firm." },
-    { title: "Technology where it belongs", body: "Structured case management so nothing depends on memory." },
-    { title: "Confidentiality as structure", body: "Access to your matter is limited to the people working on it." },
+    { 
+      icon: <ClipboardList size={28} strokeWidth={1.2} />,
+      title: "Strategy before process", 
+      body: "Every engagement opens with an assessment of every route open to you." 
+    },
+    { 
+      icon: <BookOpen size={28} strokeWidth={1.2} />,
+      title: "End-to-end coordination", 
+      body: "Documents, verification and submission are carried by the firm." 
+    },
+    { 
+      icon: <CreditCard size={28} strokeWidth={1.2} />,
+      title: "Technology integration", 
+      body: "Structured case management so nothing depends on memory." 
+    },
+    { 
+      icon: <BookMarked size={28} strokeWidth={1.2} />,
+      title: "Confidentiality structure", 
+      body: "Access to your matter is limited to the people working on it." 
+    },
   ];
 
   return (
-    <section ref={ref as React.RefObject<HTMLElement>} className="w-full bg-paper py-20 lg:py-32 overflow-hidden">
+    <section ref={ref as React.RefObject<HTMLElement>} className="w-full bg-paper py-20 lg:py-28 overflow-hidden">
       <Container>
+        {/* Top Header Section */}
         <div 
           className={[
-            "mb-20 text-center transition-all duration-1000 ease-out",
+            "grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20 mb-20 transition-all duration-1000 ease-out",
             inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           ].join(" ")}
         >
-          <p className="eyebrow mb-4">The practice today</p>
-          <h2 className="font-display text-[clamp(2rem,3.3vw,2.8rem)] font-light leading-[1.05] text-navy mx-auto max-w-2xl">
-            What that model looks like in <span className="font-bold text-gold">daily practice</span>
-          </h2>
+          <div>
+            <p className="eyebrow mb-4 text-navy font-bold uppercase tracking-widest text-[11px]">THE PRACTICE TODAY</p>
+            <div className="border-l-[3px] border-gold pl-5">
+              <h2 className="font-display text-[clamp(1.8rem,3vw,2.5rem)] font-light leading-[1.1] text-navy">
+                What that model looks like in <span className="font-bold">daily practice</span>
+              </h2>
+            </div>
+          </div>
+          <div className="flex items-center">
+            <p className="font-sans text-[14px] leading-[1.85] text-slate">
+              Our service model is built entirely around the needs of the private client. We have engineered out the friction of traditional immigration processes to provide a streamlined, highly coordinated engagement from assessment to approval.
+            </p>
+          </div>
         </div>
 
-        {/* Vertical Sleek Timeline */}
-        <div className="relative mx-auto max-w-3xl">
-          {/* Connecting vertical line */}
-          <div className="absolute left-[27px] sm:left-1/2 top-0 bottom-0 w-px bg-silver/40 sm:-translate-x-1/2" aria-hidden />
-
-          <div className="space-y-16 sm:space-y-24">
-            {steps.map((step, i) => {
-              const isEven = i % 2 === 0;
-              return (
-                <div 
-                  key={step.title} 
-                  className={[
-                    "relative flex flex-col sm:flex-row items-start sm:items-center gap-10 group transition-all duration-700 ease-out",
-                    inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-16"
-                  ].join(" ")}
-                  style={{ transitionDelay: inView ? `${i * 150}ms` : "0ms" }}
-                >
-                  {/* Content Left (on desktop) */}
-                  <div className={`hidden sm:block w-1/2 pr-16 text-right ${isEven ? "" : "order-3 pl-16 text-left pr-0"}`}>
-                    <h3 className="font-display text-[1.4rem] font-semibold text-navy mb-3 transition-colors duration-300 group-hover:text-gold">{step.title}</h3>
-                    <p className="font-sans text-[14px] leading-relaxed text-slate/80">{step.body}</p>
-                  </div>
-
-                  {/* Node */}
-                  <div className={`relative z-10 shrink-0 bg-paper ${isEven ? "sm:order-2" : "sm:order-2"}`}>
-                    <div className="flex h-14 w-14 items-center justify-center rounded-full bg-white border border-silver/50 shadow-[0_8px_20px_rgba(26,58,92,0.04)] transition-all duration-500 group-hover:border-gold group-hover:shadow-[0_12px_30px_rgba(182,143,82,0.2)] group-hover:scale-110">
-                      <span className="font-sans text-[12px] font-bold tracking-widest text-navy transition-colors duration-500 group-hover:text-gold">0{i + 1}</span>
-                    </div>
-                  </div>
-
-                  {/* Content Right (or mobile) */}
-                  <div className={`w-full sm:w-1/2 pl-6 sm:pl-16 ${isEven ? "sm:order-3" : "hidden sm:block sm:order-1"}`}>
-                    <div className={isEven ? "" : "hidden"}>
-                      <h3 className="font-display text-[1.4rem] font-semibold text-navy mb-3 transition-colors duration-300 group-hover:text-gold">{step.title}</h3>
-                      <p className="font-sans text-[14px] leading-relaxed text-slate/80">{step.body}</p>
-                    </div>
-                  </div>
-
-                  {/* Mobile content block (shows only on small screens) */}
-                  <div className="sm:hidden pl-20 -mt-16 w-full">
-                    <h3 className="font-display text-[1.3rem] font-semibold text-navy mb-2 transition-colors duration-300 group-hover:text-gold">{step.title}</h3>
-                    <p className="font-sans text-[13.5px] leading-relaxed text-slate/80">{step.body}</p>
+        {/* Steps Grid */}
+        <div 
+          className={[
+            "relative flex flex-col md:flex-row justify-between items-start md:items-center gap-12 md:gap-4 lg:gap-8 transition-all duration-1000 delay-200 ease-out",
+            inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+          ].join(" ")}
+        >
+          {steps.map((step, i) => (
+            <React.Fragment key={step.title}>
+              {/* Step Item */}
+              <div className="flex flex-col items-center text-center w-full md:w-1/4 group cursor-default">
+                {/* Square Icon Box */}
+                <div className="mb-6 flex h-28 w-28 items-center justify-center border border-navy/20 bg-white transition-all duration-500 group-hover:border-gold group-hover:shadow-[0_10px_30px_rgba(182,143,82,0.15)] group-hover:-translate-y-2">
+                  <div className="text-navy transition-colors duration-500 group-hover:text-gold">
+                    {step.icon}
                   </div>
                 </div>
-              );
-            })}
-          </div>
+                {/* Text */}
+                <h3 className="font-display text-[1.1rem] font-bold text-navy mb-3 leading-snug px-2">
+                  {step.title}
+                </h3>
+                <p className="font-sans text-[13px] leading-relaxed text-slate px-2">
+                  {step.body}
+                </p>
+              </div>
+
+              {/* Arrow (hidden on last item and mobile) */}
+              {i < steps.length - 1 && (
+                <div className="hidden md:flex shrink-0 -mt-20">
+                  <ArrowRight size={28} className="text-navy/40" strokeWidth={1} />
+                </div>
+              )}
+            </React.Fragment>
+          ))}
+        </div>
+
+        {/* Bottom CTA */}
+        <div 
+          className={[
+            "mt-20 text-center transition-all duration-1000 delay-500 ease-out",
+            inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          ].join(" ")}
+        >
+          <p className="font-sans text-[14px] text-slate">
+            Would you like to speak to one of our consultants? <Link href="/contact" className="font-bold text-navy hover:text-gold transition-colors">Contact Us Now.</Link>
+          </p>
         </div>
       </Container>
     </section>
@@ -215,43 +300,52 @@ function PracticeSteps() {
 function ValuesSection() {
   const { ref, inView } = useInView();
   return (
-    <section ref={ref as React.RefObject<HTMLElement>} className="w-full bg-mist py-20 lg:py-28 border-t border-silver/40">
+    <section ref={ref as React.RefObject<HTMLElement>} className="relative w-full bg-mist py-24 lg:py-32 border-t border-silver/30 overflow-visible">
       <Container>
-        <div 
-          className={[
-            "mb-12 grid grid-cols-1 gap-6 lg:grid-cols-2 lg:items-end transition-all duration-1000 ease-out",
-            inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          ].join(" ")}
-        >
-          <div>
-            <p className="eyebrow mb-4">Company values</p>
-            <div className="border-l-[3px] border-gold pl-6">
-              <h2 className="font-display leading-[1.1]">
-                <span className="block text-[clamp(1.6rem,2.8vw,2.4rem)] font-light text-navy/70">Ten words, and the</span>
-                <span className="block text-[clamp(1.6rem,2.8vw,2.4rem)] font-bold text-navy">discipline to mean them</span>
-              </h2>
-            </div>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
+          
+          {/* Sticky Left Sidebar for Title and Intro */}
+          <div 
+            className={[
+              "lg:col-span-5 lg:sticky lg:top-32 transition-all duration-1000 ease-out",
+              inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            ].join(" ")}
+          >
+            <p className="eyebrow mb-5 text-gold tracking-[0.2em] uppercase">Company values</p>
+            <h2 className="font-display text-[clamp(2.2rem,4vw,3.2rem)] font-light leading-[1.1] text-navy mb-6">
+              Ten words, and the <span className="font-bold">discipline</span> to mean them.
+            </h2>
+            <p className="font-sans text-[15px] leading-[1.9] text-slate max-w-md">
+              Values are worth nothing as a wall poster. These are the ones we are prepared to be measured against — including when it costs us the engagement.
+            </p>
           </div>
-          <p className="font-sans text-[14.5px] leading-[1.85] text-slate lg:text-right max-w-sm lg:ml-auto">
-            Values are worth nothing as a wall poster. These are the ones we are prepared to be measured against — including when it costs us the engagement.
-          </p>
-        </div>
 
-        <div className="grid grid-cols-1 gap-px border border-silver/40 bg-silver/40 sm:grid-cols-2 lg:grid-cols-5">
-          {values.map((v, i) => (
-            <div 
-              key={v} 
-              className={[
-                "group relative bg-paper p-8 transition-all duration-500 ease-out hover:-translate-y-1 hover:z-10 hover:shadow-[0_20px_40px_rgba(26,58,92,0.1)]",
-                inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-              ].join(" ")}
-              style={{ transitionDelay: inView ? `${i * 50}ms` : "0ms" }}
-            >
-              <span className="absolute left-0 top-0 h-[3px] w-0 bg-gold transition-all duration-500 group-hover:w-full" aria-hidden />
-              <span className="font-sans text-[10px] font-bold uppercase tracking-[0.2em] text-slate/40 mb-4 block group-hover:text-gold transition-colors">{String(i + 1).padStart(2, "0")}</span>
-              <p className="font-display text-[1.4rem] font-semibold text-navy">{v}</p>
-            </div>
-          ))}
+          {/* Scrollable Right List: Editorial Index */}
+          <div className="lg:col-span-7 flex flex-col mt-8 lg:mt-0">
+            {values.map((v, i) => (
+              <div 
+                key={v} 
+                className={[
+                  "group relative flex items-baseline gap-6 py-8 border-b border-navy/10 transition-all duration-700 ease-out hover:border-gold",
+                  inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+                ].join(" ")}
+                style={{ transitionDelay: inView ? `${(i % 5) * 100}ms` : "0ms" }}
+              >
+                {/* Index Number */}
+                <div className="w-12 shrink-0">
+                  <span className="font-sans text-[13px] font-bold uppercase tracking-[0.2em] text-navy/30 transition-colors duration-500 group-hover:text-gold">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                </div>
+                
+                {/* Value Text */}
+                <h3 className="font-display text-[clamp(1.8rem,3vw,2.5rem)] font-semibold text-navy transition-all duration-500 group-hover:text-gold group-hover:translate-x-2">
+                  {v}
+                </h3>
+              </div>
+            ))}
+          </div>
+
         </div>
       </Container>
     </section>
@@ -295,7 +389,7 @@ function AboutLeadership() {
 function OurAdvisors() {
   const { ref, inView } = useInView();
   return (
-    <section ref={ref as React.RefObject<HTMLElement>} className="w-full bg-paper py-20 lg:py-28 border-t border-silver/40 overflow-hidden">
+    <section ref={ref as React.RefObject<HTMLElement>} className="w-full bg-mist py-20 lg:py-28 border-t border-silver/40 overflow-hidden">
       <Container>
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-20">
           {/* Left: Text */}
@@ -357,6 +451,7 @@ function OurAdvisors() {
 export default function AboutPageClient() {
   return (
     <>
+      <AboutIntro />
       <GlobalPractice />
       <OurAdvisors />
       <PracticeSteps />

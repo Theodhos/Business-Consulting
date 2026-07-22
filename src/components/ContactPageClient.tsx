@@ -149,22 +149,31 @@ export default function ContactPageClient() {
       {/* ── ASSURANCES STRIP ─────────────────────────────────────── */}
       <section
         ref={assurancesSection.ref as React.RefObject<HTMLElement>}
-        className="w-full bg-navy py-16 border-t border-white/10"
+        className="relative w-full bg-navy py-24 border-t border-white/10 overflow-hidden"
       >
-        <Container>
-          <div className="grid grid-cols-1 gap-px bg-white/10 md:grid-cols-3">
+        {/* Subtle background glow */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[300px] bg-gold/5 rounded-[100%] blur-[120px] pointer-events-none" />
+
+        <Container className="relative z-10">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-16">
             {assurances.map((a, i) => (
               <div
                 key={a.title}
                 className={[
-                  "flex flex-col bg-charcoal p-8 transition-all duration-700 ease-out",
-                  assurancesSection.inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8",
+                  "group flex flex-col items-center text-center transition-all duration-700 ease-out",
+                  assurancesSection.inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12",
                 ].join(" ")}
-                style={{ transitionDelay: assurancesSection.inView ? `${i * 100}ms` : "0ms" }}
+                style={{ transitionDelay: assurancesSection.inView ? `${i * 150}ms` : "0ms" }}
               >
-                <span className="mb-4 inline-block h-[2px] w-8 bg-gold" />
-                <h3 className="mb-3 font-display text-[1.1rem] font-semibold text-white">{a.title}</h3>
-                <p className="font-sans text-[13.5px] leading-relaxed text-paper/60">{a.body}</p>
+                {/* Decorative Top Element */}
+                <div className="relative mb-8 flex h-16 w-16 items-center justify-center rounded-full border border-white/10 bg-white/5 transition-all duration-500 group-hover:border-gold/50 group-hover:bg-gold/10 group-hover:-translate-y-1 group-hover:shadow-[0_10px_30px_rgba(182,143,82,0.15)]">
+                  <span className="font-display text-[1.2rem] font-bold text-gold/60 transition-colors duration-500 group-hover:text-gold">0{i + 1}</span>
+                  {/* Subtle spinning dashed border on hover */}
+                  <div className="absolute inset-[-4px] rounded-full border border-dashed border-gold/0 transition-all duration-700 group-hover:border-gold/40 group-hover:animate-[spin_10s_linear_infinite]" />
+                </div>
+
+                <h3 className="mb-4 font-display text-[1.3rem] font-semibold text-white transition-colors duration-300 group-hover:text-gold">{a.title}</h3>
+                <p className="font-sans text-[14px] leading-relaxed text-paper/60 px-4">{a.body}</p>
               </div>
             ))}
           </div>
