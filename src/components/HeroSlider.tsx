@@ -256,7 +256,7 @@ export default function HeroSlider() {
               </p>
 
               {/* Read more link — Inter SemiBold */}
-              <span className={`mt-8 inline-flex items-center gap-2.5 font-sans text-[11px] font-semibold uppercase tracking-[0.2em] transition-colors ${card.linkColor}`}>
+              <span className={`mt-auto pt-8 inline-flex items-center gap-2.5 font-sans text-[11px] font-semibold uppercase tracking-[0.2em] transition-colors ${card.linkColor}`}>
                 Read More
                 <ArrowRight
                   size={14}

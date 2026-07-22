@@ -8,7 +8,7 @@ import TestimonialSlider from "@/components/TestimonialSlider";
 import StatsSection from "@/components/StatsSection";
 import WhyChooseUs from "@/components/WhyChooseUs";
 import HeroSlider from "@/components/HeroSlider";
-import { advantages, services } from "@/lib/content";
+import { advantages, services, articles } from "@/lib/content";
 import { Container } from "@/components/ui/Section";
 
 /* ─── Shared hook: fire animation once in viewport ──────────── */
@@ -235,6 +235,9 @@ function WhatWeDo() {
               <span className="mb-6 block h-px w-full bg-silver" />
               <h3 className="font-display text-[1.15rem] font-semibold text-navy">{s.title}</h3>
               <p className="mt-3 font-sans text-[13px] leading-relaxed text-slate">{s.summary}</p>
+              <Link href={`/services#${s.slug}`} className="group/lnk mt-auto pt-6 inline-flex items-center gap-2 font-sans text-[10.5px] font-semibold uppercase tracking-[0.22em] text-gold transition-colors hover:text-navy">
+                Learn More <ArrowRight size={12} strokeWidth={2} className="transition-transform duration-300 group-hover/lnk:translate-x-1" />
+              </Link>
             </div>
           ))}
         </div>
@@ -528,10 +531,11 @@ function PassportBanner() {
 ═══════════════════════════════════════════════════════════════ */
 function NewsSection() {
   const { ref, inView } = useInView();
-  const posts = [
-    { title: "Great Value For Your Visa Job Seeker Immigration", body: "Practical guidance for applicants balancing timing, evidence and route selection.", img: "/ph5.png" },
-    { title: "Make Student Visa Over Years With Other Country", body: "How to structure a long-term study pathway with fewer surprises at the border.", img: "/ph6.png" },
-  ];
+  
+  // Use real articles from our content
+  const featuredArticle = articles.find((a: any) => a.featured) || articles[0];
+  const standardArticles = articles.filter((a: any) => a.slug !== featuredArticle.slug).slice(0, 2);
+
   return (
     <section ref={ref as React.RefObject<HTMLElement>} className="w-full bg-paper pt-20 lg:pt-28 pb-32 lg:pb-48 border-t border-silver/40">
       <Container>
@@ -545,7 +549,7 @@ function NewsSection() {
 
         <div className="grid grid-cols-1 gap-6 xl:grid-cols-12">
           <div className="flex flex-col gap-5 xl:col-span-8">
-            {posts.map((post, i) => (
+            {standardArticles.map((post: any, i) => (
               <article
                 key={post.title}
                 className={[
@@ -555,13 +559,13 @@ function NewsSection() {
                 style={{ transitionDelay: inView ? `${i * 150}ms` : "0ms" }}
               >
                 <div className="relative min-h-[210px] overflow-hidden bg-silver md:min-h-full">
-                  <img src={post.img} alt={post.title} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                  <img src={post.image} alt={post.title} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
                   <span className="absolute left-0 top-0 h-[3px] w-0 bg-gold transition-all duration-500 group-hover:w-full" aria-hidden />
                 </div>
                 <div className="flex flex-col justify-center p-6 md:p-8">
                   <h3 className="max-w-md font-display text-[1.15rem] font-semibold leading-[1.25] text-navy transition-colors duration-300 group-hover:text-gold">{post.title}</h3>
-                  <p className="mt-4 max-w-md font-sans text-[13.5px] leading-[1.85] text-slate">{post.body}</p>
-                  <Link href="/insights" className="mt-6 inline-flex items-center gap-2 font-sans text-[10.5px] font-semibold uppercase tracking-[0.22em] text-gold transition-colors group-hover:text-navy">
+                  <p className="mt-4 max-w-md font-sans text-[13.5px] leading-[1.85] text-slate line-clamp-2">{post.excerpt}</p>
+                  <Link href={`/articles/${post.slug}`} className="mt-6 inline-flex items-center gap-2 font-sans text-[10.5px] font-semibold uppercase tracking-[0.22em] text-gold transition-colors group-hover:text-navy">
                     Read More <ArrowRight size={13} strokeWidth={2} className="transition-transform duration-300 group-hover:translate-x-1" />
                   </Link>
                 </div>
@@ -575,13 +579,13 @@ function NewsSection() {
               inView ? "opacity-100 translate-x-0" : "opacity-0 translate-x-8",
             ].join(" ")}
           >
-            <img src="/ph8.png" alt="Visa application" className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+            <img src={(featuredArticle as any).image} alt={(featuredArticle as any).title} className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
             <div className="absolute inset-0 transition-all duration-700 group-hover:opacity-90" style={{ background: "linear-gradient(180deg, rgba(26,58,92,0.06) 0%, rgba(26,58,92,0.32) 42%, rgba(26,58,92,0.92) 100%)" }} />
             <div className="relative z-10 flex h-full flex-col justify-end p-7 md:p-8">
               <p className="eyebrow mb-4 text-paper/80">Feature story</p>
-              <h3 className="max-w-sm font-display text-[clamp(1.7rem,2.6vw,2.5rem)] font-bold leading-[1.04] text-white">How To Ensure A Direct Hassle Free Visa Application</h3>
-              <p className="mt-5 max-w-sm font-sans text-[14px] leading-[1.8] text-white/72">A private client approach to file preparation, evidence quality and decision-ready applications.</p>
-              <Link href="/insights" className="group/btn mt-8 inline-flex items-center gap-3 border border-white/30 px-6 py-3 font-sans text-[10.5px] font-semibold uppercase tracking-[0.22em] text-white transition-all duration-300 hover:border-gold hover:bg-gold hover:text-navy">
+              <h3 className="max-w-sm font-display text-[clamp(1.7rem,2.6vw,2.5rem)] font-bold leading-[1.04] text-white">{(featuredArticle as any).title}</h3>
+              <p className="mt-5 max-w-sm font-sans text-[14px] leading-[1.8] text-white/72 line-clamp-3">{(featuredArticle as any).excerpt}</p>
+              <Link href={`/articles/${(featuredArticle as any).slug}`} className="group/btn mt-8 inline-flex items-center gap-3 border border-white/30 px-6 py-3 font-sans text-[10.5px] font-semibold uppercase tracking-[0.22em] text-white transition-all duration-300 hover:border-gold hover:bg-gold hover:text-navy">
                 Read More <ArrowRight size={13} strokeWidth={2} className="transition-transform duration-300 group-hover/btn:translate-x-1.5" />
               </Link>
             </div>

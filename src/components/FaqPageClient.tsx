@@ -201,6 +201,75 @@ function FaqBanner() {
 }
 
 /* ═══════════════════════════════════════════════════════════════
+   SECTION 3 — NEWS & ARTICLES
+═══════════════════════════════════════════════════════════════ */
+function NewsSection() {
+  const { ref, inView } = useInView();
+  const posts = [
+    { title: "Great Value For Your Visa Job Seeker Immigration", body: "Practical guidance for applicants balancing timing, evidence and route selection.", img: "/ph5.png" },
+    { title: "Make Student Visa Over Years With Other Country", body: "How to structure a long-term study pathway with fewer surprises at the border.", img: "/ph6.png" },
+  ];
+  return (
+    <section ref={ref as React.RefObject<HTMLElement>} className="w-full bg-paper pt-20 lg:pt-28 pb-32 lg:pb-48 border-t border-silver/40">
+      <Container>
+        <div className={["mb-14 flex flex-col items-center text-center transition-all duration-1000 ease-out", inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"].join(" ")}>
+          <p className="eyebrow mb-4 text-navy/80">The news</p>
+          <h2 className="font-display text-[clamp(2rem,3.3vw,3.2rem)] font-light leading-[1.05] text-navy">
+            News & <span className="font-bold text-navy">Articles</span>
+          </h2>
+          <span className="mt-7 block h-px w-14 bg-gold" aria-hidden />
+        </div>
+
+        <div className="grid grid-cols-1 gap-6 xl:grid-cols-12">
+          <div className="flex flex-col gap-5 xl:col-span-8">
+            {posts.map((post, i) => (
+              <article
+                key={post.title}
+                className={[
+                  "group grid flex-1 grid-cols-1 overflow-hidden border border-silver/40 bg-paper transition-all duration-700 ease-out hover:-translate-y-1 hover:shadow-[0_18px_40px_rgba(26,58,92,0.08)] md:grid-cols-[200px_minmax(0,1fr)]",
+                  inView ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-8",
+                ].join(" ")}
+                style={{ transitionDelay: inView ? `${i * 150}ms` : "0ms" }}
+              >
+                <div className="relative min-h-[210px] overflow-hidden bg-silver md:min-h-full">
+                  <img src={post.img} alt={post.title} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                  <span className="absolute left-0 top-0 h-[3px] w-0 bg-gold transition-all duration-500 group-hover:w-full" aria-hidden />
+                </div>
+                <div className="flex flex-col justify-center p-6 md:p-8">
+                  <h3 className="max-w-md font-display text-[1.15rem] font-semibold leading-[1.25] text-navy transition-colors duration-300 group-hover:text-gold">{post.title}</h3>
+                  <p className="mt-4 max-w-md font-sans text-[13.5px] leading-[1.85] text-slate">{post.body}</p>
+                  <Link href="/insights" className="mt-6 inline-flex items-center gap-2 font-sans text-[10.5px] font-semibold uppercase tracking-[0.22em] text-gold transition-colors group-hover:text-navy">
+                    Read More <ArrowRight size={13} strokeWidth={2} className="transition-transform duration-300 group-hover:translate-x-1" />
+                  </Link>
+                </div>
+              </article>
+            ))}
+          </div>
+
+          <article
+            className={[
+              "group relative min-h-[500px] overflow-hidden border border-silver/40 xl:col-span-4 transition-all duration-1000 delay-300 ease-out",
+              inView ? "opacity-100 translate-x-0" : "opacity-0 translate-x-8",
+            ].join(" ")}
+          >
+            <img src="/ph8.png" alt="Visa application" className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+            <div className="absolute inset-0 transition-all duration-700 group-hover:opacity-90" style={{ background: "linear-gradient(180deg, rgba(26,58,92,0.06) 0%, rgba(26,58,92,0.32) 42%, rgba(26,58,92,0.92) 100%)" }} />
+            <div className="relative z-10 flex h-full flex-col justify-end p-7 md:p-8">
+              <p className="eyebrow mb-4 text-paper/80">Feature story</p>
+              <h3 className="max-w-sm font-display text-[clamp(1.7rem,2.6vw,2.5rem)] font-bold leading-[1.04] text-white">How To Ensure A Direct Hassle Free Visa Application</h3>
+              <p className="mt-5 max-w-sm font-sans text-[14px] leading-[1.8] text-white/72">A private client approach to file preparation, evidence quality and decision-ready applications.</p>
+              <Link href="/insights" className="group/btn mt-8 inline-flex items-center gap-3 border border-white/30 px-6 py-3 font-sans text-[10.5px] font-semibold uppercase tracking-[0.22em] text-white transition-all duration-300 hover:border-gold hover:bg-gold hover:text-navy">
+                Read More <ArrowRight size={13} strokeWidth={2} className="transition-transform duration-300 group-hover/btn:translate-x-1.5" />
+              </Link>
+            </div>
+          </article>
+        </div>
+      </Container>
+    </section>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════════
    EXPORT
 ═══════════════════════════════════════════════════════════════ */
 export default function FaqPageClient() {
@@ -208,6 +277,7 @@ export default function FaqPageClient() {
     <>
       <FaqSplitSection />
       <FaqBanner />
+      <NewsSection />
     </>
   );
 }
