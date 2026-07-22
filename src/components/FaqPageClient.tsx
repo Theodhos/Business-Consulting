@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { ArrowRight, ChevronDown, CheckCircle2, Mail, Phone } from "lucide-react";
+import { ArrowRight, ChevronDown, CheckCircle2, Mail, Phone, CheckSquare } from "lucide-react";
 import { Container } from "@/components/ui/Section";
 import { faqs, site } from "@/lib/content";
 
@@ -28,9 +28,9 @@ function FaqSplitSection() {
   const { ref, inView } = useInView();
   const [openIdx, setOpenIdx] = useState(0);
 
-  // Split FAQs into left accordion and right checklist
-  const accordionFaqs = faqs.slice(0, Math.min(faqs.length, 6));
-  const checklistFaqs = faqs.slice(6, Math.min(faqs.length, 10));
+  // Split FAQs into left accordion and right checklist (Balanced 4 and 4)
+  const accordionFaqs = faqs.slice(0, 4);
+  const checklistFaqs = faqs.slice(4, 8);
 
   return (
     <section ref={ref as React.RefObject<HTMLElement>} className="w-full bg-paper py-16 lg:py-28 border-t border-silver/40">
@@ -58,26 +58,26 @@ function FaqSplitSection() {
             </div>
 
             {/* Accordion */}
-            <div className="flex flex-col">
+            <div className="flex flex-col gap-3">
               {accordionFaqs.map((faq, i) => {
                 const isOpen = i === openIdx;
                 return (
-                  <div key={faq.q} className="border-b border-silver/40 first:border-t first:border-silver/40">
+                  <div key={faq.q} className="flex flex-col">
                     <button
                       onClick={() => setOpenIdx(isOpen ? -1 : i)}
                       className={[
-                        "w-full flex items-center justify-between gap-4 py-5 text-left font-sans text-[14px] sm:text-[15px] font-semibold transition-all duration-300",
-                        isOpen ? "bg-navy text-white px-5 sm:px-6 -mx-1" : "text-navy hover:text-gold px-0"
+                        "w-full flex items-center gap-4 py-4 px-5 text-left font-sans text-[14px] sm:text-[15px] font-semibold transition-all duration-300 border",
+                        isOpen ? "bg-navy text-white border-navy" : "bg-white text-navy border-silver/40 hover:border-gold/60"
                       ].join(" ")}
                     >
-                      <span>{faq.q}</span>
                       <ChevronDown
                         size={18}
                         className={[
                           "shrink-0 transition-transform duration-300",
-                          isOpen ? "rotate-180 text-gold" : "text-gold"
+                          isOpen ? "text-gold rotate-0" : "text-gold -rotate-90"
                         ].join(" ")}
                       />
+                      <span>{faq.q}</span>
                     </button>
                     <div
                       className={[
@@ -85,7 +85,7 @@ function FaqSplitSection() {
                         isOpen ? "max-h-60 opacity-100" : "max-h-0 opacity-0"
                       ].join(" ")}
                     >
-                      <p className="py-4 font-sans text-[13.5px] leading-[1.85] text-slate">
+                      <p className="py-5 px-5 font-sans text-[13.5px] leading-[1.85] text-slate">
                         {faq.a}
                       </p>
                     </div>
@@ -98,7 +98,7 @@ function FaqSplitSection() {
           {/* RIGHT — Extended Questions Checklist + Support */}
           <div
             className={[
-              "flex flex-col gap-10 transition-all duration-1000 delay-200 ease-out",
+              "flex flex-col gap-10 transition-all duration-1000 delay-200 ease-out mt-8 lg:mt-0",
               inView ? "opacity-100 translate-x-0" : "opacity-0 translate-x-12"
             ].join(" ")}
           >
@@ -112,7 +112,7 @@ function FaqSplitSection() {
                 <ul className="space-y-4">
                   {checklistFaqs.map((faq) => (
                     <li key={faq.q} className="flex items-start gap-3">
-                      <CheckCircle2 size={18} className="shrink-0 mt-0.5 text-gold" />
+                      <CheckSquare size={18} strokeWidth={2} className="shrink-0 mt-0.5 text-navy" />
                       <span className="font-sans text-[14px] font-medium text-navy">{faq.q}</span>
                     </li>
                   ))}
