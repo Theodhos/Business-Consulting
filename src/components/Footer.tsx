@@ -188,6 +188,7 @@ export default function Footer() {
             <h3 className="mb-8 font-display text-[1.35rem] font-semibold text-white">Support</h3>
             <ul className="space-y-4">
               {[
+                { label: "Articles", href: "/articles" },
                 { label: "FAQ's", href: "/faq" },
                 { label: "Privacy Policy", href: "/privacy" },
                 { label: "Term & Conditions", href: "/terms" },
