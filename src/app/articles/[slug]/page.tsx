@@ -85,25 +85,27 @@ export default async function ArticlePage({ params }: Props) {
         />
 
         <Container className="relative z-10 pb-16 md:pb-20">
-          {/* Back link */}
-          <Link
-            href="/articles"
-            className="group mb-8 inline-flex items-center gap-2 font-sans text-[11px] font-semibold uppercase tracking-[0.22em] text-white/50 transition-colors hover:text-gold"
-          >
-            <ArrowLeft
-              size={13}
-              strokeWidth={2}
-              className="transition-transform duration-300 group-hover:-translate-x-1"
-            />
-            All Articles
-          </Link>
+          <div className="mb-8 flex flex-wrap items-center gap-6">
+            {/* Back link */}
+            <Link
+              href="/articles"
+              className="group inline-flex items-center gap-2 font-sans text-[11px] font-semibold uppercase tracking-[0.22em] text-white/50 transition-colors hover:text-gold"
+            >
+              <ArrowLeft
+                size={13}
+                strokeWidth={2}
+                className="transition-transform duration-300 group-hover:-translate-x-1"
+              />
+              All Articles
+            </Link>
 
-          {/* Category badge */}
-          <div className="mb-5 inline-flex items-center gap-2 border border-gold/30 bg-gold/10 px-3 py-1.5">
-            <Tag size={10} strokeWidth={2.5} className="text-gold" />
-            <span className="font-sans text-[10px] font-bold uppercase tracking-[0.22em] text-gold">
-              {(article as any).category}
-            </span>
+            {/* Category badge */}
+            <div className="inline-flex items-center gap-2 border border-gold/30 bg-gold/10 px-3 py-1.5">
+              <Tag size={10} strokeWidth={2.5} className="text-gold" />
+              <span className="font-sans text-[10px] font-bold uppercase tracking-[0.22em] text-gold">
+                {(article as any).category}
+              </span>
+            </div>
           </div>
 
           {/* Headline */}
@@ -229,42 +231,45 @@ export default async function ArticlePage({ params }: Props) {
           </div>
         </Container>
 
-        {/* ── Prev / Next navigation ─────────────── */}
+        {/* ── Prev / Next Minimal Navigation ─────────────── */}
         {(prev || next) && (
-          <div className="border-t border-silver/40">
+          <div className="border-t border-silver/40 py-16 md:py-24">
             <Container>
-              <div className="grid grid-cols-1 divide-y divide-silver/40 md:grid-cols-2 md:divide-y-0 md:divide-x">
+              <div className="grid grid-cols-1 gap-12 md:grid-cols-2 md:gap-8">
+                {/* Previous (Left) */}
                 {prev ? (
                   <Link
                     href={`/articles/${prev.slug}`}
-                    className="group flex flex-col gap-2 p-8 transition-colors hover:bg-mist md:p-12"
+                    className="group flex flex-col items-start gap-3 text-left transition-colors"
                   >
-                    <span className="inline-flex items-center gap-2 font-sans text-[10px] font-semibold uppercase tracking-[0.22em] text-slate/50 transition-colors group-hover:text-gold">
-                      <ArrowLeft size={11} strokeWidth={2} />
-                      Previous
+                    <span className="inline-flex items-center gap-2 font-sans text-[10px] font-bold uppercase tracking-[0.2em] text-slate/50 transition-colors group-hover:text-gold">
+                      <ArrowLeft size={11} strokeWidth={2.5} className="transition-transform duration-300 group-hover:-translate-x-1" />
+                      Previous Article
                     </span>
-                    <p className="font-display text-[1rem] font-semibold leading-[1.3] text-navy transition-colors group-hover:text-gold">
+                    <p className="max-w-md font-display text-[1.6rem] font-semibold leading-[1.2] text-navy transition-colors group-hover:text-gold">
                       {prev.title}
                     </p>
                   </Link>
                 ) : (
-                  <div />
+                  <div className="hidden md:block" />
                 )}
+                
+                {/* Next (Right) */}
                 {next ? (
                   <Link
                     href={`/articles/${next.slug}`}
-                    className="group flex flex-col items-end gap-2 p-8 text-right transition-colors hover:bg-mist md:p-12"
+                    className="group flex flex-col items-end gap-3 text-right transition-colors"
                   >
-                    <span className="inline-flex items-center gap-2 font-sans text-[10px] font-semibold uppercase tracking-[0.22em] text-slate/50 transition-colors group-hover:text-gold">
-                      Next
-                      <ArrowRight size={11} strokeWidth={2} />
+                    <span className="inline-flex items-center gap-2 font-sans text-[10px] font-bold uppercase tracking-[0.2em] text-slate/50 transition-colors group-hover:text-gold">
+                      Next Article
+                      <ArrowRight size={11} strokeWidth={2.5} className="transition-transform duration-300 group-hover:translate-x-1" />
                     </span>
-                    <p className="font-display text-[1rem] font-semibold leading-[1.3] text-navy transition-colors group-hover:text-gold">
+                    <p className="max-w-md font-display text-[1.6rem] font-semibold leading-[1.2] text-navy transition-colors group-hover:text-gold">
                       {next.title}
                     </p>
                   </Link>
                 ) : (
-                  <div />
+                  <div className="hidden md:block" />
                 )}
               </div>
             </Container>
