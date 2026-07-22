@@ -249,10 +249,10 @@ function WhatWeDo() {
 function WhoWeServe() {
   const { ref, inView } = useInView();
   const cards = [
-    { title: "High-Net-Worth Individuals", body: "Residence solutions for the globally mobile, structured around existing affairs.", img: "/businessman-cupped-his-hands-blue-tone.jpg", href: "/services#financial-independence" },
-    { title: "Investors & Entrepreneurs", body: "Immigration that supports the commercial opportunity and its timetable.", img: "https://images.unsplash.com/photo-1556761175-4b46a572b786?q=80&w=700&auto=format&fit=crop", href: "/services#business-visas" },
+    { title: "High-Net-Worth Individuals", body: "Residence solutions for the globally mobile, structured around existing affairs.", img: "/ph3.png", href: "/services#financial-independence" },
+    { title: "Investors & Entrepreneurs", body: "Immigration that supports the commercial opportunity and its timetable.", img: "/ph4.png", href: "/services#business-visas" },
     { title: "Corporate Executives", body: "Executive relocation and the full family transition that comes with it.", img: "/ph6.png", href: "/services#executive-relocation" },
-    { title: "Families & Affluent Retirees", body: "Long-horizon planning across generations and jurisdictions.", img: "https://images.unsplash.com/photo-1532619675605-1ede6c2ed2b0?q=80&w=700&auto=format&fit=crop", href: "/services#family-immigration" },
+    { title: "Families & Affluent Retirees", body: "Long-horizon planning across generations and jurisdictions.", img: "/ph5.png", href: "/services#family-immigration" },
   ];
 
   return (
@@ -353,7 +353,7 @@ function CtaBanner() {
           {/* Right: photo */}
           <div className={["relative min-h-[280px] overflow-hidden lg:min-h-full transition-all duration-1000 delay-200 ease-out", inView ? "translate-x-0 opacity-100" : "translate-x-8 opacity-0"].join(" ")}>
             <img
-              src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1600&auto=format&fit=crop"
+              src="/ph7.png"
               alt="Corporate building"
               className="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-700 hover:scale-105"
             />
@@ -420,10 +420,10 @@ function WhyTideGlobal() {
 function GlobalReach() {
   const { ref, inView } = useInView();
   const destinations = [
-    { country: "United Kingdom", desc: "High-net-worth clients relocating from London, advising on South African residence routes aligned to their existing structures.", img: "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?q=80&w=700&auto=format&fit=crop" },
-    { country: "United States", desc: "US-based investors and entrepreneurs establishing South African residence alongside their global financial planning.", img: "https://images.unsplash.com/photo-1485738422979-f5c462d49f74?q=80&w=700&auto=format&fit=crop" },
-    { country: "United Arab Emirates", desc: "UAE residents and GCC nationals seeking South African permanent residence as a secondary base or investment destination.", img: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?q=80&w=700&auto=format&fit=crop" },
-    { country: "Australia & Canada", desc: "Clients from Commonwealth nations pursuing South African residence for lifestyle, business or family reasons.", img: "https://images.unsplash.com/photo-1523482580672-f109ba8cb9be?q=80&w=700&auto=format&fit=crop" },
+    { country: "United Kingdom", desc: "High-net-worth clients relocating from London, advising on South African residence routes aligned to their existing structures.", img: "/ph1.png" },
+    { country: "United States", desc: "US-based investors and entrepreneurs establishing South African residence alongside their global financial planning.", img: "/ph2.png" },
+    { country: "United Arab Emirates", desc: "UAE residents and GCC nationals seeking South African permanent residence as a secondary base or investment destination.", img: "/ph3.png" },
+    { country: "Australia & Canada", desc: "Clients from Commonwealth nations pursuing South African residence for lifestyle, business or family reasons.", img: "/ph4.png" },
   ];
 
   return (
@@ -529,8 +529,8 @@ function PassportBanner() {
 function NewsSection() {
   const { ref, inView } = useInView();
   const posts = [
-    { title: "Great Value For Your Visa Job Seeker Immigration", body: "Practical guidance for applicants balancing timing, evidence and route selection.", img: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=900&auto=format&fit=crop" },
-    { title: "Make Student Visa Over Years With Other Country", body: "How to structure a long-term study pathway with fewer surprises at the border.", img: "https://images.unsplash.com/photo-1455390582262-044cdead277a?q=80&w=900&auto=format&fit=crop" },
+    { title: "Great Value For Your Visa Job Seeker Immigration", body: "Practical guidance for applicants balancing timing, evidence and route selection.", img: "/ph5.png" },
+    { title: "Make Student Visa Over Years With Other Country", body: "How to structure a long-term study pathway with fewer surprises at the border.", img: "/ph6.png" },
   ];
   return (
     <section ref={ref as React.RefObject<HTMLElement>} className="w-full bg-paper pt-20 lg:pt-28 pb-32 lg:pb-48 border-t border-silver/40">
@@ -575,7 +575,7 @@ function NewsSection() {
               inView ? "opacity-100 translate-x-0" : "opacity-0 translate-x-8",
             ].join(" ")}
           >
-            <img src="https://images.unsplash.com/photo-1519452575417-564c1401ecc0?q=80&w=1200&auto=format&fit=crop" alt="Visa application" className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+            <img src="/ph8.png" alt="Visa application" className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
             <div className="absolute inset-0 transition-all duration-700 group-hover:opacity-90" style={{ background: "linear-gradient(180deg, rgba(26,58,92,0.06) 0%, rgba(26,58,92,0.32) 42%, rgba(26,58,92,0.92) 100%)" }} />
             <div className="relative z-10 flex h-full flex-col justify-end p-7 md:p-8">
               <p className="eyebrow mb-4 text-paper/80">Feature story</p>

@@ -40,7 +40,7 @@ function AboutIntro() {
             ].join(" ")}
           >
             <img 
-              src="https://images.unsplash.com/photo-1544131584-6fb0299f1c71?q=80&w=1200&auto=format&fit=crop" 
+              src="/ph3.png" 
               alt="Travel and Immigration" 
               className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 hover:scale-105" 
             />
@@ -431,7 +431,7 @@ function OurAdvisors() {
             ].join(" ")}
           >
             <img 
-              src="/businessman-cupped-his-hands-blue-tone.jpg" 
+              src="/ph4.png" 
               alt="Corporate advisors" 
               className="absolute inset-0 h-full w-full object-cover transition-transform duration-[10s] hover:scale-110"
             />
