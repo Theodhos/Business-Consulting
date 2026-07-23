@@ -5,11 +5,12 @@ import { redirect } from "next/navigation";
 
 import {
   authConfigError,
+  checkCredentials,
   createSession,
   destroySession,
   requireSession,
-  verifyCredentials,
 } from "@/lib/auth";
+import { CONSOLE_LOGIN_PATH, CONSOLE_PATH } from "@/lib/console-path";
 import {
   deletePost as removePost,
   estimateReadTime,
@@ -30,11 +31,11 @@ export async function loginAction(
   formData: FormData,
 ): Promise<LoginState> {
   const configError = authConfigError();
-  if (configError === "missing-credentials") {
-    return { error: "The admin panel is not configured. Set ADMIN_USERNAME and ADMIN_PASSWORD." };
+  if (configError === "missing-database") {
+    return { error: "The console is not configured. Set MONGODB_URI." };
   }
   if (configError === "missing-secret") {
-    return { error: "The admin panel is not configured. Set ADMIN_SESSION_SECRET." };
+    return { error: "The console is not configured. Set ADMIN_SESSION_SECRET." };
   }
 
   const username = String(formData.get("username") ?? "").trim();
@@ -44,12 +45,17 @@ export async function loginAction(
     return { error: "Enter both a username and a password." };
   }
 
-  if (!verifyCredentials(username, password)) {
+  const outcome = await checkCredentials(username, password);
+
+  if (!outcome.ok) {
+    if (outcome.reason === "unavailable") {
+      return { error: "The account database could not be reached. Check that MongoDB is running." };
+    }
     // Deliberately vague — the response must not reveal which field was wrong.
     return { error: "Those credentials were not recognised." };
   }
 
-  if (!(await createSession(username))) {
+  if (!(await createSession(outcome.username))) {
     return { error: "The session could not be created. Check ADMIN_SESSION_SECRET." };
   }
 
@@ -57,19 +63,19 @@ export async function loginAction(
 }
 
 /**
- * Only paths back inside the panel are honoured, so the `from` parameter the
+ * Only paths back inside the console are honoured, so the `from` parameter the
  * proxy attaches can never be turned into an open redirect. `//host` and
  * `/\host` are rejected explicitly — both are protocol-relative URLs.
  */
 function safeReturnPath(candidate: string): string {
-  if (!candidate.startsWith("/admin")) return "/admin";
-  if (candidate.startsWith("//") || candidate.startsWith("/\\")) return "/admin";
+  if (!candidate.startsWith(CONSOLE_PATH)) return CONSOLE_PATH;
+  if (candidate.startsWith("//") || candidate.startsWith("/\\")) return CONSOLE_PATH;
   return candidate;
 }
 
 export async function logoutAction(): Promise<void> {
   await destroySession();
-  redirect("/admin/login");
+  redirect(CONSOLE_LOGIN_PATH);
 }
 
 /* ── Publishing ─────────────────────────────────────────────────── */
@@ -80,7 +86,7 @@ export type PostFormState =
 
 const MAX = { title: 180, excerpt: 400, category: 60, author: 80, content: 120_000 };
 
-/** `/admin/posts/new` is a real route, so a post may not claim that slug. */
+/** `<console>/posts/new` is a real route, so a post may not claim that slug. */
 const RESERVED_SLUGS = new Set(["new"]);
 
 function field(formData: FormData, name: string): string {
@@ -127,7 +133,7 @@ export async function savePostAction(
   const slug = slugify(field(formData, "slug") || title);
   if (!slug) fieldErrors.slug = "The slug could not be derived — enter one manually.";
   else if (RESERVED_SLUGS.has(slug))
-    fieldErrors.slug = `"${slug}" is reserved by the admin panel. Choose another.`;
+    fieldErrors.slug = `"${slug}" is reserved by the console. Choose another.`;
   else if (await isSlugTaken(slug, previousSlug))
     fieldErrors.slug = "That URL is already in use. Choose another.";
 
@@ -152,12 +158,12 @@ export async function savePostAction(
   try {
     await upsertPost(record, previousSlug);
   } catch (error) {
-    console.error("[admin] Could not write the post.", error);
+    console.error("[console] Could not write the post.", error);
     return { error: "The post could not be saved. The article store is not writable." };
   }
 
   refreshPublicPages(slug, previousSlug);
-  redirect(`/admin?saved=${encodeURIComponent(slug)}&state=${publish ? "published" : "draft"}`);
+  redirect(`${CONSOLE_PATH}?saved=${encodeURIComponent(slug)}&state=${publish ? "published" : "draft"}`);
 }
 
 export async function togglePublishAction(formData: FormData): Promise<void> {
@@ -171,7 +177,7 @@ export async function togglePublishAction(formData: FormData): Promise<void> {
   if (!updated) return;
 
   refreshPublicPages(slug);
-  redirect(`/admin?saved=${encodeURIComponent(slug)}&state=${publish ? "published" : "unpublished"}`);
+  redirect(`${CONSOLE_PATH}?saved=${encodeURIComponent(slug)}&state=${publish ? "published" : "unpublished"}`);
 }
 
 export async function deletePostAction(formData: FormData): Promise<void> {
@@ -184,7 +190,7 @@ export async function deletePostAction(formData: FormData): Promise<void> {
   if (!removed) return;
 
   refreshPublicPages(slug);
-  redirect(`/admin?saved=${encodeURIComponent(slug)}&state=deleted`);
+  redirect(`${CONSOLE_PATH}?saved=${encodeURIComponent(slug)}&state=deleted`);
 }
 
 /**
@@ -196,5 +202,5 @@ function refreshPublicPages(slug: string, previousSlug?: string): void {
   revalidatePath("/articles");
   revalidatePath(`/articles/${slug}`);
   if (previousSlug && previousSlug !== slug) revalidatePath(`/articles/${previousSlug}`);
-  revalidatePath("/admin");
+  revalidatePath(CONSOLE_PATH);
 }

@@ -185,7 +185,7 @@ function CoachingExpertise() {
             ].join(" ")}
           >
             <div className="w-full aspect-[4/3] sm:aspect-[3/4] overflow-hidden shadow-[0_20px_50px_rgba(26,58,92,0.15)] border border-white">
-              <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=800&auto=format&fit=crop" alt="Executive Coach" className="h-full w-full object-cover" />
+              <img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?q=80&w=800&auto=format&fit=crop" alt="Executive Coach" className="h-full w-full object-cover" />
             </div>
             
             {/* Call Us Box — positioned inside image bottom-left on tablet+ */}

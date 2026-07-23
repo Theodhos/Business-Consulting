@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { CheckCircle2, Eye, FileEdit, PenLine, Trash2 } from "lucide-react";
 
-import AdminHeader from "@/components/admin/AdminHeader";
-import ConfirmSubmit from "@/components/admin/ConfirmSubmit";
+import ConsoleHeader from "@/components/console/ConsoleHeader";
+import ConfirmSubmit from "@/components/console/ConfirmSubmit";
 import { requireSession } from "@/lib/auth";
 import { getAllPosts } from "@/lib/posts";
 
@@ -15,7 +15,7 @@ const NOTICES: Record<string, string> = {
   deleted: "Deleted.",
 };
 
-export default async function AdminDashboard({
+export default async function ConsoleDashboard({
   searchParams,
 }: {
   searchParams: Promise<{ saved?: string; state?: string }>;
@@ -29,7 +29,7 @@ export default async function AdminDashboard({
 
   return (
     <>
-      <AdminHeader username={session.username} />
+      <ConsoleHeader username={session.username} />
 
       <main className="mx-auto w-full max-w-6xl px-6 py-14 md:px-8 md:py-20">
         {/* Heading */}
@@ -37,7 +37,7 @@ export default async function AdminDashboard({
           <div>
             <p className="eyebrow mb-3">Articles</p>
             <h1 className="font-display text-[2.2rem] font-bold leading-tight text-navy">
-              Your published work
+              All articles
             </h1>
             <p className="mt-3 font-sans text-[13.5px] text-slate/75">
               {posts.length === 0
@@ -73,8 +73,7 @@ export default async function AdminDashboard({
               No articles yet
             </h2>
             <p className="mx-auto mt-3 max-w-md font-sans text-[13.5px] leading-relaxed text-slate/75">
-              Anything you publish here is added to the top of the articles page, above the
-              existing editorial pieces.
+              Anything you publish here is added to the top of the articles page.
             </p>
             <Link
               href="/admin/posts/new"
@@ -116,6 +115,17 @@ export default async function AdminDashboard({
                         <span className="h-1 w-1 rounded-full bg-silver" aria-hidden />
                         <span className="font-sans text-[9.5px] font-bold uppercase tracking-[0.2em] text-navy/70">
                           Feature
+                        </span>
+                      </>
+                    )}
+                    {post.origin === "seed" && (
+                      <>
+                        <span className="h-1 w-1 rounded-full bg-silver" aria-hidden />
+                        <span
+                          className="font-sans text-[9.5px] font-bold uppercase tracking-[0.2em] text-slate/40"
+                          title="Shipped with the site. Editable and deletable like any other."
+                        >
+                          Original
                         </span>
                       </>
                     )}
@@ -181,9 +191,9 @@ export default async function AdminDashboard({
         )}
 
         <p className="mt-12 border-t border-silver/40 pt-8 font-sans text-[12px] leading-relaxed text-slate/60">
-          The six articles that shipped with the site are held in{" "}
-          <code className="text-navy">src/lib/content.ts</code> and are not editable here. They
-          continue to appear on /articles below anything published from this panel.
+          Every article is stored in <code className="text-navy">data/posts.json</code>, including
+          the six the site launched with. Deleting one here removes it for good — there is no
+          undo, and it will not come back from source.
         </p>
       </main>
     </>

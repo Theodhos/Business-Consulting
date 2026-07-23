@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import AdminHeader from "@/components/admin/AdminHeader";
-import PostEditor from "@/components/admin/PostEditor";
+import ConsoleHeader from "@/components/console/ConsoleHeader";
+import PostEditor from "@/components/console/PostEditor";
 import { requireSession } from "@/lib/auth";
 import { getKnownCategories, getPostBySlug } from "@/lib/posts";
 
@@ -25,7 +25,7 @@ export default async function EditPostPage({ params }: Props) {
 
   return (
     <>
-      <AdminHeader username={session.username} />
+      <ConsoleHeader username={session.username} />
       <main className="mx-auto w-full max-w-6xl px-6 py-14 md:px-8 md:py-16">
         <PostEditor post={post} categories={categories} defaultAuthor="Tide Global Advisory" />
       </main>

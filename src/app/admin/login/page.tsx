@@ -1,27 +1,51 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 
-import LoginForm from "@/components/admin/LoginForm";
-import { getSession, usingDevCredentials } from "@/lib/auth";
+import LoginForm from "@/components/console/LoginForm";
+import { countAdminUsers } from "@/lib/admin-users";
+import { authConfigError, getSession } from "@/lib/auth";
+import { CONSOLE_PATH } from "@/lib/console-path";
 import { site } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "Sign in",
-  robots: { index: false, follow: false },
+  robots: { index: false, follow: false, nocache: true },
 };
 
-export default async function AdminLoginPage({
+/**
+ * Reports a setup problem before the operator wastes an attempt on it — an
+ * unreachable database and an empty account collection both look like "wrong
+ * password" otherwise.
+ */
+async function setupNotice(): Promise<string | undefined> {
+  const configError = authConfigError();
+  if (configError === "missing-database") {
+    return "MONGODB_URI is not set, so there is nothing to check credentials against. Add it to .env.local.";
+  }
+  if (configError === "missing-secret") {
+    return "ADMIN_SESSION_SECRET is not set. Sign-in will be refused until it is.";
+  }
+
+  try {
+    if ((await countAdminUsers()) === 0) {
+      return "No administrator account exists yet. Run `npm run seed:admin` to create one.";
+    }
+  } catch {
+    return "MongoDB could not be reached. Start the server, then reload this page.";
+  }
+
+  return undefined;
+}
+
+export default async function ConsoleLoginPage({
   searchParams,
 }: {
   searchParams: Promise<{ from?: string }>;
 }) {
-  if (await getSession()) redirect("/admin");
+  if (await getSession()) redirect(CONSOLE_PATH);
 
   const { from } = await searchParams;
-
-  const hint = usingDevCredentials()
-    ? "Development credentials are active: admin / admin. Set ADMIN_USERNAME, ADMIN_PASSWORD and ADMIN_SESSION_SECRET before going live."
-    : undefined;
+  const notice = await setupNotice();
 
   return (
     <div className="flex min-h-[100dvh] w-full items-center justify-center bg-mist px-6 py-16">
@@ -42,7 +66,7 @@ export default async function AdminLoginPage({
             Sign in to publish
           </h2>
 
-          <LoginForm hint={hint} from={from} />
+          <LoginForm hint={notice} from={from} />
         </div>
 
         <p className="mt-8 text-center font-sans text-[11px] tracking-wide text-slate/60">

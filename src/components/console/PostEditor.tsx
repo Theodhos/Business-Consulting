@@ -367,14 +367,14 @@ export default function PostEditor({
                 <input
                   id="category"
                   name="category"
-                  list="admin-categories"
+                  list="console-categories"
                   required
                   maxLength={60}
                   defaultValue={post?.category ?? ""}
                   placeholder="Immigration Strategy"
                   className={controlClass}
                 />
-                <datalist id="admin-categories">
+                <datalist id="console-categories">
                   {categories.map((c) => (
                     <option key={c} value={c} />
                   ))}

@@ -27,7 +27,7 @@ export default function LoginForm({ hint, from }: { hint?: string; from?: string
           required
           autoComplete="username"
           autoFocus
-          placeholder="admin"
+          placeholder="Your username"
           className={controlClass}
         />
       </div>

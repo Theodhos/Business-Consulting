@@ -6,15 +6,18 @@ import { articles as seededArticles } from "./content";
 /**
  * Article store.
  *
- * The site shipped with a hand-written `articles` array in `content.ts`. Those
- * entries stay exactly where they are — they are the editorial baseline and are
- * never mutated. Anything published from /admin is written to `data/posts.json`
- * and merged in front of them, so the newest piece is always at the top of
- * /articles.
+ * Every article the site publishes lives in `data/posts.json`, and every one of
+ * them is editable and deletable from the console.
+ *
+ * The six pieces hand-written in `content.ts` are the seed: the first time the
+ * store is read they are copied in, once, and the store takes over from there.
+ * `content.ts` is never read again unless the store is deleted — so editing one
+ * of those six in the console sticks, and deleting one keeps it gone rather than
+ * having it reappear from source on the next request.
  *
  * The store is a JSON file rather than a database because the project has no
- * database and one admin publishes occasionally. It requires a writable
- * filesystem — see README for the deployment note.
+ * database for articles and one person publishes occasionally. It requires a
+ * writable filesystem — see README for the deployment note.
  */
 
 export type Article = {
@@ -31,18 +34,26 @@ export type Article = {
 };
 
 export type Post = Article & {
-  /** Drafts are stored but never leave /admin. */
+  /** Drafts are stored but never leave the console. */
   published: boolean;
+  /** "seed" for one of the six that shipped with the site, "console" for the rest. */
+  origin: "seed" | "console";
   createdAt: string;
   updatedAt: string;
+};
+
+type Store = {
+  /** Set once the seed articles have been copied in, so it never happens twice. */
+  seeded: boolean;
+  posts: Post[];
 };
 
 const DATA_DIR = path.join(process.cwd(), "data");
 const POSTS_FILE = path.join(DATA_DIR, "posts.json");
 
-/* ── The editorial baseline, normalised out of the readonly const ── */
+/* ── The seed, normalised out of the readonly const ─────────────── */
 
-const baseline: Article[] = seededArticles.map((a) => ({
+const seedArticles: Article[] = seededArticles.map((a) => ({
   slug: a.slug,
   title: a.title,
   excerpt: a.excerpt,
@@ -55,7 +66,18 @@ const baseline: Article[] = seededArticles.map((a) => ({
   featured: a.featured,
 }));
 
-export const baselineSlugs = new Set(baseline.map((a) => a.slug));
+/**
+ * Ordering timestamps for the seeded articles.
+ *
+ * Listing sorts newest-first on `createdAt`, but these six have always appeared
+ * in the order they are written in `content.ts` — not by their cover dates. They
+ * are given a descending run of synthetic timestamps far in the past, which
+ * preserves that order and keeps anything published later above them.
+ */
+function seedTimestamp(index: number): string {
+  const base = Date.UTC(2000, 0, 1);
+  return new Date(base + (seedArticles.length - index) * 1000).toISOString();
+}
 
 /* ── Storage ────────────────────────────────────────────────────── */
 
@@ -70,35 +92,78 @@ function isPost(value: unknown): value is Post {
   );
 }
 
-export async function readPosts(): Promise<Post[]> {
+async function readStore(): Promise<Store> {
   try {
     const raw = await fs.readFile(POSTS_FILE, "utf8");
     const parsed = JSON.parse(raw);
     const list = Array.isArray(parsed) ? parsed : parsed?.posts;
-    if (!Array.isArray(list)) return [];
-    return list.filter(isPost);
+    return {
+      seeded: parsed?.seeded === true,
+      posts: Array.isArray(list) ? list.filter(isPost) : [],
+    };
   } catch (error) {
     const code = (error as NodeJS.ErrnoException).code;
-    if (code === "ENOENT") return [];
-    console.error("[posts] Could not read the store.", error);
-    return [];
+    if (code !== "ENOENT") console.error("[posts] Could not read the store.", error);
+    return { seeded: false, posts: [] };
   }
 }
 
-async function writePosts(posts: Post[]): Promise<void> {
+async function writeStore(store: Store): Promise<void> {
   await fs.mkdir(DATA_DIR, { recursive: true });
-  await fs.writeFile(POSTS_FILE, `${JSON.stringify({ posts }, null, 2)}\n`, "utf8");
+  await fs.writeFile(POSTS_FILE, `${JSON.stringify(store, null, 2)}\n`, "utf8");
+}
+
+/**
+ * Reads the store, importing the seed articles on the first call.
+ *
+ * Concurrent requests share one import promise — two parallel page loads against
+ * an unseeded store would otherwise both write, duplicating all six.
+ */
+let seeding: Promise<Store> | null = null;
+
+async function loadStore(): Promise<Store> {
+  const store = await readStore();
+  if (store.seeded) return store;
+
+  seeding ??= (async () => {
+    // Re-read inside the lock: another request may have finished seeding while
+    // this one waited.
+    const current = await readStore();
+    if (current.seeded) return current;
+
+    const known = new Set(current.posts.map((p) => p.slug));
+    const imported: Post[] = seedArticles
+      .filter((a) => !known.has(a.slug))
+      .map((article, index) => ({
+        ...article,
+        published: true,
+        origin: "seed" as const,
+        createdAt: seedTimestamp(index),
+        updatedAt: seedTimestamp(index),
+      }));
+
+    const next: Store = { seeded: true, posts: [...current.posts, ...imported] };
+    await writeStore(next);
+    return next;
+  })().finally(() => {
+    seeding = null;
+  });
+
+  return seeding;
+}
+
+async function savePosts(posts: Post[]): Promise<void> {
+  await writeStore({ seeded: true, posts });
 }
 
 /* ── Reads used by the public site ──────────────────────────────── */
 
-/** Newest admin posts first, then the shipped articles in their original order. */
+/** Published articles, newest first. */
 export async function getPublishedArticles(): Promise<Article[]> {
-  const posts = await readPosts();
-  const live = posts
+  const { posts } = await loadStore();
+  return posts
     .filter((p) => p.published)
     .sort((a, b) => b.createdAt.localeCompare(a.createdAt));
-  return [...live, ...baseline];
 }
 
 export async function getArticleBySlug(slug: string): Promise<Article | null> {
@@ -106,61 +171,69 @@ export async function getArticleBySlug(slug: string): Promise<Article | null> {
   return all.find((a) => a.slug === slug) ?? null;
 }
 
-/* ── Reads used by /admin ───────────────────────────────────────── */
+/* ── Reads used by the console ──────────────────────────────────── */
 
-/** Every admin post, drafts included, newest first. */
+/** Every article, drafts included, most recently touched first. */
 export async function getAllPosts(): Promise<Post[]> {
-  const posts = await readPosts();
-  return posts.sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
+  const { posts } = await loadStore();
+  return [...posts].sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
 }
 
 export async function getPostBySlug(slug: string): Promise<Post | null> {
-  const posts = await readPosts();
+  const { posts } = await loadStore();
   return posts.find((p) => p.slug === slug) ?? null;
 }
 
 /* ── Writes ─────────────────────────────────────────────────────── */
 
-export type PostInput = Omit<Post, "createdAt" | "updatedAt">;
+export type PostInput = Omit<Post, "createdAt" | "updatedAt" | "origin">;
 
 /**
- * Creates the post, or replaces the one at `previousSlug` when the editor
+ * Creates the article, or replaces the one at `previousSlug` when the editor
  * renamed it. Returns the stored record.
  */
 export async function upsertPost(input: PostInput, previousSlug?: string): Promise<Post> {
-  const posts = await readPosts();
+  const { posts } = await loadStore();
   const now = new Date().toISOString();
   const targetSlug = previousSlug ?? input.slug;
   const index = posts.findIndex((p) => p.slug === targetSlug);
 
+  const existing = index >= 0 ? posts[index] : null;
+
   const record: Post = {
     ...input,
-    createdAt: index >= 0 ? posts[index].createdAt : now,
+    // Editing a seeded article keeps it marked as seeded, and keeps its place in
+    // the running order.
+    origin: existing?.origin ?? "console",
+    createdAt: existing?.createdAt ?? now,
     updatedAt: now,
   };
 
-  if (index >= 0) posts[index] = record;
-  else posts.unshift(record);
+  const next = [...posts];
+  if (index >= 0) next[index] = record;
+  else next.unshift(record);
 
-  await writePosts(posts);
+  await savePosts(next);
   return record;
 }
 
 export async function deletePost(slug: string): Promise<boolean> {
-  const posts = await readPosts();
+  const { posts } = await loadStore();
   const remaining = posts.filter((p) => p.slug !== slug);
   if (remaining.length === posts.length) return false;
-  await writePosts(remaining);
+  await savePosts(remaining);
   return true;
 }
 
 export async function setPublished(slug: string, published: boolean): Promise<Post | null> {
-  const posts = await readPosts();
+  const { posts } = await loadStore();
   const index = posts.findIndex((p) => p.slug === slug);
   if (index < 0) return null;
-  posts[index] = { ...posts[index], published, updatedAt: new Date().toISOString() };
-  await writePosts(posts);
-  return posts[index];
+
+  const next = [...posts];
+  next[index] = { ...next[index], published, updatedAt: new Date().toISOString() };
+  await savePosts(next);
+  return next[index];
 }
 
 /* ── Helpers shared with the editor ─────────────────────────────── */
@@ -180,7 +253,7 @@ const MONTHS = [
   "July", "August", "September", "October", "November", "December",
 ];
 
-/** Matches the "March 15, 2026" form the shipped articles already use. */
+/** Matches the "March 15, 2026" form the seeded articles use. */
 export function formatPublishDate(date = new Date()): string {
   return `${MONTHS[date.getMonth()]} ${String(date.getDate()).padStart(2, "0")}, ${date.getFullYear()}`;
 }
@@ -192,17 +265,13 @@ export function estimateReadTime(content: string): string {
 
 /** Every category already in use, offered as suggestions in the editor. */
 export async function getKnownCategories(): Promise<string[]> {
-  const posts = await readPosts();
-  const all = [...baseline, ...posts].map((a) => a.category).filter(Boolean);
+  const { posts } = await loadStore();
+  const all = posts.map((a) => a.category).filter(Boolean);
   return [...new Set(all)].sort((a, b) => a.localeCompare(b));
 }
 
-/**
- * A slug is taken if any published or draft post uses it, or if it belongs to
- * one of the shipped articles — those cannot be overwritten from /admin.
- */
+/** True when another article already holds this slug. */
 export async function isSlugTaken(slug: string, exceptSlug?: string): Promise<boolean> {
-  if (baselineSlugs.has(slug)) return true;
-  const posts = await readPosts();
+  const { posts } = await loadStore();
   return posts.some((p) => p.slug === slug && p.slug !== exceptSlug);
 }

@@ -3,13 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "node scripts/dev.mjs dev",
     "build": "next build",
-    "start": "next start",
-    "lint": "eslint"
+    "start": "node scripts/dev.mjs start",
+    "lint": "eslint",
+    "seed:admin": "node scripts/seed-admin.mjs"
   },
   "dependencies": {
     "lucide-react": "^1.24.0",
+    "mongodb": "^7.5.0",
     "next": "16.2.10",
     "nodemailer": "^9.0.3",
     "react": "19.2.4",

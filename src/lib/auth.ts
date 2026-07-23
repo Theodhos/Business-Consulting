@@ -2,93 +2,78 @@ import crypto from "node:crypto";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
+import { recordLogin, verifyAdminUser } from "./admin-users";
+import { isMongoConfigured } from "./mongodb";
+import { CONSOLE_LOGIN_PATH } from "./console-path";
 import { SESSION_COOKIE } from "./session-cookie";
 
 /**
- * Admin session.
+ * Console session.
  *
- * A single operator publishes articles, so there is no user table — the
- * credentials live in the environment and the session is a signed cookie. The
- * cookie carries only a username and an expiry; the signature (HMAC-SHA256 over
- * the payload) is what makes it unforgeable.
+ * Credentials live in MongoDB (`admin_users`), not in the environment — see
+ * `admin-users.ts`. This module owns only the session that follows a successful
+ * check: a cookie carrying a username and an expiry, signed with HMAC-SHA256 so
+ * it cannot be forged.
  *
- * Required in production:
- *   ADMIN_USERNAME, ADMIN_PASSWORD (or ADMIN_PASSWORD_HASH), ADMIN_SESSION_SECRET
- *
- * Without them login is refused outright in production rather than falling back
- * to a default — a guessable admin password on a live site is worse than an
- * inaccessible one. In development a default is used so the panel is usable
- * immediately.
+ * Required in production: MONGODB_URI and ADMIN_SESSION_SECRET.
  */
 
 export { SESSION_COOKIE };
 
 const SESSION_MAX_AGE = 60 * 60 * 8; // 8 hours
 
-const DEV_USERNAME = "admin";
-const DEV_PASSWORD = "admin";
 const DEV_SECRET = "tide-global-development-secret-not-for-production";
 
 const isProduction = process.env.NODE_ENV === "production";
 
 type Session = { username: string; exp: number };
 
-export type AuthConfigError = "missing-credentials" | "missing-secret" | null;
+export type AuthConfigError = "missing-database" | "missing-secret" | null;
 
 /* ── Configuration ──────────────────────────────────────────────── */
 
 function sessionSecret(): string | null {
   const configured = process.env.ADMIN_SESSION_SECRET?.trim();
   if (configured) return configured;
+  // A signing key is not a credential, so a development fallback is safe — the
+  // password still has to match the one in MongoDB.
   return isProduction ? null : DEV_SECRET;
-}
-
-function credentials(): { username: string; password?: string; passwordHash?: string } | null {
-  const username = process.env.ADMIN_USERNAME?.trim();
-  const password = process.env.ADMIN_PASSWORD;
-  const passwordHash = process.env.ADMIN_PASSWORD_HASH?.trim();
-
-  if (username && (password || passwordHash)) return { username, password, passwordHash };
-  if (isProduction) return null;
-  return { username: DEV_USERNAME, password: DEV_PASSWORD };
 }
 
 /** Surfaced on the login screen so a misconfigured deployment is obvious. */
 export function authConfigError(): AuthConfigError {
-  if (!credentials()) return "missing-credentials";
+  if (!isMongoConfigured()) return "missing-database";
   if (!sessionSecret()) return "missing-secret";
   return null;
 }
 
-/** True when the panel is running on the built-in development credentials. */
-export function usingDevCredentials(): boolean {
-  return !isProduction && !process.env.ADMIN_USERNAME;
-}
-
 /* ── Credential check ───────────────────────────────────────────── */
 
-function sha256(value: string): Buffer {
-  return crypto.createHash("sha256").update(value, "utf8").digest();
-}
+export type LoginOutcome =
+  | { ok: true; username: string }
+  | { ok: false; reason: "rejected" | "unavailable" };
 
-/** Constant-time comparison over digests, so inputs of any length are safe. */
-function matches(a: string, b: string): boolean {
-  return crypto.timingSafeEqual(sha256(a), sha256(b));
-}
+/**
+ * Checks the submitted credentials against MongoDB.
+ *
+ * A wrong username and a wrong password are reported identically — the response
+ * must not tell an attacker which half they got right.
+ */
+export async function checkCredentials(username: string, password: string): Promise<LoginOutcome> {
+  try {
+    const result = await verifyAdminUser(username, password);
+    if (!result.ok) return { ok: false, reason: "rejected" };
 
-export function verifyCredentials(username: string, password: string): boolean {
-  const expected = credentials();
-  if (!expected) return false;
+    // Best-effort; a failed timestamp write must not block a valid sign-in.
+    void recordLogin(result.username).catch((error) =>
+      console.error("[console] Could not record the login timestamp.", error),
+    );
 
-  const userOk = matches(username, expected.username);
-
-  const passwordOk = expected.passwordHash
-    ? matches(crypto.createHash("sha256").update(password, "utf8").digest("hex"), expected.passwordHash.toLowerCase())
-    : matches(password, expected.password ?? "");
-
-  // Both are evaluated before returning so a wrong username costs the same as a
-  // wrong password.
-  return userOk && passwordOk;
+    return { ok: true, username: result.username };
+  } catch (error) {
+    console.error("[console] The credential check could not reach MongoDB.", error);
+    return { ok: false, reason: "unavailable" };
+  }
 }
 
 /* ── Token ──────────────────────────────────────────────────────── */
@@ -161,11 +146,11 @@ export async function getSession(): Promise<Session | null> {
 }
 
 /**
- * Gate for every admin page and mutating action. The cookie is verified here,
+ * Gate for every console page and mutating action. The cookie is verified here,
  * on the server, on every request — `proxy.ts` only does the cheap check.
  */
 export async function requireSession(): Promise<Session> {
   const session = await getSession();
-  if (!session) redirect("/admin/login");
+  if (!session) redirect(CONSOLE_LOGIN_PATH);
   return session;
 }
