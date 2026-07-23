@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { Container } from "./ui/Section";
-import { Briefcase, FolderCheck, ShieldCheck, Users } from "lucide-react";
+import { Briefcase, FolderCheck, ShieldCheck } from "lucide-react";
 
 function AnimatedCounter({ end, suffix = "", duration = 2500 }: { end: number, suffix?: string, duration?: number }) {
   const [count, setCount] = useState(0);
@@ -56,14 +56,14 @@ function AnimatedCounter({ end, suffix = "", duration = 2500 }: { end: number, s
 const stats = [
   {
     icon: Briefcase,
-    num: 53,
+    num: 25,
     suffix: "+",
-    label: "Years of Experience",
+    label: "Years Combined Experience",
     highlight: false,
   },
   {
     icon: FolderCheck,
-    num: 975,
+    num: 300,
     suffix: "+",
     label: "Projects Completed",
     highlight: false,
@@ -75,13 +75,6 @@ const stats = [
     label: "Absolute Discretion",
     highlight: true, // The 3rd block is highlighted
   },
-  {
-    icon: Users,
-    num: 15,
-    suffix: "+",
-    label: "Specialist Advisors",
-    highlight: false,
-  }
 ];
 
 export default function StatsSection() {
@@ -94,7 +87,7 @@ export default function StatsSection() {
       />
       
       <Container className="relative z-10">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 shadow-[0px_10px_40px_rgba(26,58,92,0.06)] bg-white rounded-sm">
+        <div className="grid grid-cols-1 md:grid-cols-3 shadow-[0px_10px_40px_rgba(26,58,92,0.06)] bg-white rounded-sm">
           {stats.map((stat, idx) => (
             <div
               key={idx}

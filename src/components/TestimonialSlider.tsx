@@ -5,27 +5,31 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import { Container } from "./ui/Section";
 
+// One photo per person: the large slider image and the small round avatar are
+// generated from the same Unsplash id so they always show the same face.
+const photo = (id: string) => ({
+  image: `https://images.unsplash.com/${id}?q=80&w=900&auto=format&fit=crop`,
+  avatar: `https://images.unsplash.com/${id}?q=80&w=150&h=150&auto=format&fit=facearea&facepad=3`,
+});
+
 const testimonials = [
   {
     name: "Marcus Hartley",
     title: "International Investor",
     quote: "Tide Global transformed what we expected to be a frustrating, opaque process into something structured, transparent and ultimately successful. Our relationship manager kept us informed at every stage, and the strategic assessment alone saved us months. The level of discretion and professionalism was exactly what we needed.",
-    image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=900&auto=format&fit=crop",
-    avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=150&auto=format&fit=crop",
+    ...photo("photo-1560250097-0b93528c311a"),
   },
   {
-    name: "Elena Rostova",
+    name: "Naledi Mokoena",
     title: "Corporate Executive",
     quote: "The executive relocation process handled by Tide Global was flawless. Moving an entire family across continents is stressful, but having a dedicated relationship manager made all the difference. They anticipated issues before they arose and managed our case with absolute discretion.",
-    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=900&auto=format&fit=crop",
-    avatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=150&auto=format&fit=crop",
+    ...photo("photo-1531123897727-8f129e1688ce"),
   },
   {
     name: "David Chen",
     title: "Tech Entrepreneur",
     quote: "We needed to establish operations in South Africa quickly. Tide Global aligned our commercial strategy with our immigration needs perfectly. They didn't just fill out forms; they provided genuine advisory services that protected our time and capital.",
-    image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=900&auto=format&fit=crop",
-    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=150&auto=format&fit=crop",
+    ...photo("photo-1507003211169-0a1dd7228f2d"),
   }
 ];
 

@@ -4,6 +4,7 @@ import "./globals.css";
 
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import SiteChrome from "@/components/SiteChrome";
 import { site } from "@/lib/content";
 
 const inter = Inter({
@@ -26,7 +27,7 @@ export const metadata: Metadata = {
     template: `%s — ${site.name}`,
   },
   description:
-    "A boutique private client immigration advisory firm in Johannesburg, serving high-net-worth individuals, investors, executives and families seeking South African residence.",
+    "A boutique private client immigration advisory firm in Sandton, serving high-net-worth individuals, investors, executives and families seeking South African residence.",
   openGraph: {
     type: "website",
     siteName: `${site.name} ${site.division}`,
@@ -49,11 +50,15 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         >
           Skip to content
         </a>
-        <Navbar />
+        <SiteChrome>
+          <Navbar />
+        </SiteChrome>
         <main id="main" className="flex flex-grow flex-col">
           {children}
         </main>
-        <Footer />
+        <SiteChrome>
+          <Footer />
+        </SiteChrome>
       </body>
     </html>
   );

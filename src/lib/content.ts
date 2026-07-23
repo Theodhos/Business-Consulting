@@ -24,6 +24,16 @@ import {
  * nothing declares its own copy locally, so the brief can be updated in one place.
  */
 
+const address = {
+  line1: "96 Rivonia Road",
+  city: "Sandton",
+  postal: "2196",
+  country: "South Africa",
+} as const;
+
+/** The one address string the site prints, so no surface can spell it differently. */
+const addressFull = `${address.line1}, ${address.city} ${address.postal}, ${address.country}`;
+
 export const site = {
   name: "Tide Global",
   division: "Private Client Services",
@@ -31,23 +41,30 @@ export const site = {
   phone: "+27 82 502 2162",
   phoneHref: "tel:+27825022162",
   address: {
-    line1: "173 Oxford Road",
-    city: "Johannesburg",
-    postal: "2196 GP",
-    country: "South Africa",
+    ...address,
+    full: addressFull,
+    /** Every printed address links here — opens the device's default map app. */
+    mapsHref: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(addressFull)}`,
+    /** Source for the embedded map iframe on the contact page. */
+    mapsEmbedSrc: `https://maps.google.com/maps?q=${encodeURIComponent(addressFull)}&t=&z=15&ie=UTF8&iwloc=&output=embed`,
   },
   hours: "Monday – Friday · 08:00 – 17:00 SAST",
   emails: {
     privateClients: "privateclients@tide-global.com",
-    general: "info@tide-global.com",
-    ceo: "ceo@tide-global.com",
-    support: "support@tide-global.com",
-    accounts: "accounts@tide-global.com",
+    general: "privateclients@tide-global.com",
+    ceo: "privateclients@tide-global.com",
+    support: "privateclients@tide-global.com",
+    accounts: "privateclients@tide-global.com",
   },
+  /**
+   * The only three accounts Tide Global runs. Nothing else may appear on the
+   * site — render them through `SOCIAL_LINKS` in components/ui/social.tsx.
+   */
   social: {
-    linkedin: "https://www.linkedin.com/company/tideglobalhq",
-    instagram: "https://www.instagram.com/tideglobalhq",
-    facebook: "https://www.facebook.com/tideglobalhq",
+    handle: "@TideGlobalHQ",
+    linkedin: "https://www.linkedin.com/company/tide-global/",
+    instagram: "https://www.instagram.com/TideGlobalHQ",
+    facebook: "https://www.facebook.com/TideGlobalHQ",
   },
 } as const;
 

@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Link from "next/link";
 import { ArrowRight, MapPin, Phone, Clock, Mail, ShieldCheck } from "lucide-react";
 import { Container } from "@/components/ui/Section";
 import EnquiryForm from "@/components/EnquiryForm";
@@ -38,8 +37,8 @@ const contactDetails = [
   {
     icon: MapPin,
     label: "Office",
-    value: `${site.address.line1}, ${site.address.city} ${site.address.postal}, ${site.address.country}`,
-    href: null,
+    value: site.address.full,
+    href: site.address.mapsHref,
   },
   {
     icon: Clock,
@@ -107,7 +106,12 @@ export default function ContactPageClient() {
                       <dt className="mb-1 font-sans text-[10.5px] font-bold uppercase tracking-[0.2em] text-slate/60">{label}</dt>
                       <dd>
                         {href ? (
-                          <a href={href} className="group/a relative font-display text-[1.1rem] text-navy transition-colors hover:text-gold w-fit block">
+                          <a
+                            href={href}
+                            target={href.startsWith("http") ? "_blank" : undefined}
+                            rel={href.startsWith("http") ? "noreferrer" : undefined}
+                            className="group/a relative font-display text-[1.1rem] text-navy transition-colors hover:text-gold w-fit block"
+                          >
                             {value}
                             <span className="absolute -bottom-0.5 left-0 h-[1.5px] w-0 bg-gold transition-all duration-500 group-hover/a:w-full" />
                           </a>
@@ -204,16 +208,16 @@ export default function ContactPageClient() {
             </div>
             <div className="lg:text-right">
               <p className="font-sans text-[14.5px] leading-[1.85] text-slate max-w-sm lg:ml-auto">
-                Our offices are in Johannesburg. Most clients instruct us remotely, but you are welcome by appointment.
+                Our offices are in Sandton. Most clients instruct us remotely, but you are welcome by appointment.
               </p>
               <div className="mt-6">
-                <Link
-                  href={`tel:${site.phone}`}
+                <a
+                  href={site.phoneHref}
                   className="group inline-flex items-center gap-3 border border-navy px-6 py-3 font-sans text-[11px] font-semibold uppercase tracking-[0.22em] text-navy transition-all duration-300 hover:bg-navy hover:text-white"
                 >
                   Call us now
                   <ArrowRight size={13} strokeWidth={2} className="transition-transform duration-300 group-hover:translate-x-1.5" />
-                </Link>
+                </a>
               </div>
             </div>
           </div>
@@ -229,16 +233,21 @@ export default function ContactPageClient() {
             <span className="absolute left-0 top-0 z-10 h-[3px] w-0 bg-gold transition-all duration-700 group-hover:w-full" aria-hidden />
             <iframe
               title={`${site.name} — office location`}
-              src="https://maps.google.com/maps?q=173%20Oxford%20Road%2C%20Johannesburg%2C%20South%20Africa&t=&z=14&ie=UTF8&iwloc=&output=embed"
+              src={site.address.mapsEmbedSrc}
               className="block h-[420px] w-full md:h-[520px] grayscale contrast-125 opacity-80 transition-all duration-700 group-hover:grayscale-0 group-hover:opacity-100 group-hover:contrast-100"
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
             />
             {/* Address badge */}
-            <div className="absolute bottom-4 left-4 z-10 bg-navy/90 px-5 py-3 backdrop-blur-sm">
+            <a
+              href={site.address.mapsHref}
+              target="_blank"
+              rel="noreferrer"
+              className="absolute bottom-4 left-4 z-10 bg-navy/90 px-5 py-3 backdrop-blur-sm transition-colors hover:bg-navy"
+            >
               <p className="font-sans text-[11px] font-bold uppercase tracking-[0.2em] text-gold mb-0.5">Office Address</p>
               <p className="font-sans text-[12px] text-paper/80">{site.address.line1}, {site.address.city} {site.address.postal}</p>
-            </div>
+            </a>
           </div>
         </Container>
       </section>

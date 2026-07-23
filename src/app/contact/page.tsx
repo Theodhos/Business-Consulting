@@ -5,7 +5,7 @@ import ContactPageClient from "@/components/ContactPageClient";
 export const metadata: Metadata = {
   title: "Contact",
   description:
-    "Contact Tide Global Private Client Services in Johannesburg — direct lines, private client email and confidential enquiries.",
+    "Contact Tide Global Private Client Services in Sandton — direct lines, private client email and confidential enquiries.",
 };
 
 export default function ContactPage() {

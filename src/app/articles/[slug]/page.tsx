@@ -3,17 +3,21 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, Clock, Calendar, Tag } from "lucide-react";
 import { Container } from "@/components/ui/Section";
-import { articles, site } from "@/lib/content";
+import { site } from "@/lib/content";
+import { getPublishedArticles } from "@/lib/posts";
 
 type Props = { params: Promise<{ slug: string }> };
 
-export async function generateStaticParams() {
-  return articles.map((a) => ({ slug: a.slug }));
-}
+/**
+ * Articles now come from the store on disk, which admin publishing writes to at
+ * runtime — so the set of slugs is not known at build time and the page cannot
+ * be prerendered.
+ */
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const article = articles.find((a) => a.slug === slug);
+  const article = (await getPublishedArticles()).find((a) => a.slug === slug);
   if (!article) return {};
   return {
     title: `${article.title} | ${site.name}`,
@@ -22,6 +26,24 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 /* ── Minimal markdown → HTML renderer (headings, bold, lists) ── */
+
+/**
+ * Article bodies are now written in /admin rather than committed to source, so
+ * every line is escaped before any markup is added. Only the tags this renderer
+ * emits itself can reach the page.
+ */
+function escapeHtml(value: string): string {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+function inline(value: string): string {
+  return escapeHtml(value).replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+}
+
 function renderContent(raw: string): string {
   const lines = raw.split("\n");
   const output: string[] = [];
@@ -32,21 +54,16 @@ function renderContent(raw: string): string {
 
     if (trimmed.startsWith("## ")) {
       if (inList) { output.push("</ul>"); inList = false; }
-      output.push(`<h2>${trimmed.slice(3)}</h2>`);
+      output.push(`<h2>${escapeHtml(trimmed.slice(3))}</h2>`);
     } else if (trimmed.startsWith("- ")) {
       if (!inList) { output.push("<ul>"); inList = true; }
-      const inner = trimmed
-        .slice(2)
-        .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
-      output.push(`<li>${inner}</li>`);
+      output.push(`<li>${inline(trimmed.slice(2))}</li>`);
     } else if (trimmed === "") {
       if (inList) { output.push("</ul>"); inList = false; }
       output.push("");
     } else {
       if (inList) { output.push("</ul>"); inList = false; }
-      const paragraph = trimmed
-        .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
-      output.push(`<p>${paragraph}</p>`);
+      output.push(`<p>${inline(trimmed)}</p>`);
     }
   }
   if (inList) output.push("</ul>");
@@ -55,6 +72,7 @@ function renderContent(raw: string): string {
 
 export default async function ArticlePage({ params }: Props) {
   const { slug } = await params;
+  const articles = await getPublishedArticles();
   const article = articles.find((a) => a.slug === slug);
   if (!article) notFound();
 
@@ -70,7 +88,7 @@ export default async function ArticlePage({ params }: Props) {
       <header className="relative w-full overflow-hidden bg-navy pb-0 pt-32 md:pt-44">
         {/* Background image */}
         <img
-          src={(article as any).image}
+          src={article.image}
           alt=""
           aria-hidden
           className="absolute inset-0 h-full w-full object-cover object-center opacity-30"
@@ -103,7 +121,7 @@ export default async function ArticlePage({ params }: Props) {
             <div className="inline-flex items-center gap-2 border border-gold/30 bg-gold/10 px-3 py-1.5">
               <Tag size={10} strokeWidth={2.5} className="text-gold" />
               <span className="font-sans text-[10px] font-bold uppercase tracking-[0.22em] text-gold">
-                {(article as any).category}
+                {article.category}
               </span>
             </div>
           </div>
@@ -162,7 +180,7 @@ export default async function ArticlePage({ params }: Props) {
                 </h3>
                 <p className="mt-3 font-sans text-[13px] leading-[1.8] text-slate">
                   Tide Global is a boutique private client immigration advisory
-                  practice headquartered in Johannesburg. Every article reflects
+                  practice headquartered in Sandton. Every article reflects
                   actual advisory work and active regulatory analysis.
                 </p>
                 <span className="mt-5 block h-px w-10 bg-gold" />
@@ -209,14 +227,14 @@ export default async function ArticlePage({ params }: Props) {
                       >
                         <div className="h-16 w-16 shrink-0 overflow-hidden">
                           <img
-                            src={(a as any).image}
+                            src={a!.image}
                             alt={a!.title}
                             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                           />
                         </div>
                         <div>
                           <p className="font-sans text-[9.5px] font-bold uppercase tracking-[0.2em] text-gold">
-                            {(a as any).category}
+                            {a!.category}
                           </p>
                           <p className="mt-1 font-display text-[13px] font-semibold leading-[1.3] text-navy transition-colors group-hover:text-gold line-clamp-2">
                             {a!.title}

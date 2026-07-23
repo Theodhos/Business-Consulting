@@ -15,7 +15,7 @@ const clauses: LegalClause[] = [
   {
     heading: "Who we are",
     body: [
-      `${site.name} ${site.division} ("Tide Global", "we", "us") is a private client immigration advisory firm with its office at ${site.address.line1}, ${site.address.city} ${site.address.postal}, ${site.address.country}.`,
+      `${site.name} ${site.division} ("Tide Global", "we", "us") is a private client immigration advisory firm with its office at ${site.address.full}.`,
       `We are the responsible party for the personal information described in this policy. Questions about it, or about how your information is handled, should be directed to ${site.emails.privateClients}.`,
     ],
   },

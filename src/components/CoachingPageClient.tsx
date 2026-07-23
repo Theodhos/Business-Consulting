@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { ArrowRight, Compass, ShieldCheck, Users } from "lucide-react";
 import { Container } from "@/components/ui/Section";
+import { site } from "@/lib/content";
 
 /* ─── Shared hook: fire animation once in viewport ──────────── */
 function useInView(threshold = 0.1) {
@@ -102,7 +103,7 @@ function CoachingModules() {
     { title: "B-BBEE Compliance", body: "Strategic advisory on Broad-Based Black Economic Empowerment.", img: "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?q=80&w=600&auto=format&fit=crop" },
     { title: "Executive Presence", body: "Establishing authority and trust within a new corporate culture.", img: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=600&auto=format&fit=crop" },
     { title: "Market Entry Strategy", body: "Contextual knowledge required to lead effectively in South Africa.", img: "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=600&auto=format&fit=crop" },
-    { title: "Network Building", body: "Establishing critical commercial relationships and strategic partnerships.", img: "https://images.unsplash.com/photo-1556761175-5973dc0f32b7?q=80&w=600&auto=format&fit=crop" },
+    { title: "Network Building", body: "Establishing critical commercial relationships and strategic partnerships.", img: "/businesspeople-having-discussion-office.jpg" },
   ];
 
   return (
@@ -134,7 +135,14 @@ function CoachingModules() {
               style={{ transitionDelay: inView ? `${(i % 4) * 150}ms` : "0ms" }}
             >
               <div className="w-full aspect-[4/3] overflow-hidden">
-                <img src={mod.img} alt={mod.title} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105 grayscale-[30%] group-hover:grayscale-0" />
+                <img
+                  src={mod.img}
+                  alt={mod.title}
+                  className={[
+                    "h-full w-full object-cover transition-transform duration-700 group-hover:scale-105 grayscale-[30%] group-hover:grayscale-0",
+                    mod.title === "Network Building" ? "object-[center_82%]" : "object-center",
+                  ].join(" ")}
+                />
               </div>
               <div className="p-8 flex-1 flex flex-col">
                 <h3 className="font-sans text-[15px] font-bold text-navy mb-3">{mod.title}</h3>
@@ -184,7 +192,12 @@ function CoachingExpertise() {
             <div className="mt-4 sm:mt-0 sm:absolute sm:bottom-8 sm:-left-8 lg:-left-12 w-full sm:w-[260px] bg-white p-6 shadow-[0_20px_50px_rgba(26,58,92,0.15)] border-l-[4px] border-gold">
               <p className="font-sans text-[10px] font-bold uppercase tracking-[0.2em] text-gold mb-2">We build for your comfort</p>
               <p className="font-sans text-[14px] text-slate mb-1">Call Us :</p>
-              <p className="font-display text-[1.6rem] font-bold text-navy">+62-864-349-1</p>
+              <a
+                href={site.phoneHref}
+                className="block font-display text-[1.6rem] font-bold text-navy transition-colors hover:text-gold"
+              >
+                {site.phone}
+              </a>
             </div>
           </div>
 

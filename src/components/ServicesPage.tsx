@@ -30,8 +30,8 @@ const SERVICE_IMAGES = [
   "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=900&auto=format&fit=crop",
   "https://images.unsplash.com/photo-1577962917302-cd874c4e31d2?q=80&w=900&auto=format&fit=crop",
   "https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=900&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=900&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1450101499163-c8848c66cb85?q=80&w=900&auto=format&fit=crop",
+  "/visa%20rm.jpg",
+  "/Overstay%20services.gif",
   "https://images.unsplash.com/photo-1507537297725-24a1c029d3ca?q=80&w=900&auto=format&fit=crop",
   "https://images.unsplash.com/photo-1531403009284-440f080d1e12?q=80&w=900&auto=format&fit=crop",
 ];

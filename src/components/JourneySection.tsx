@@ -11,7 +11,7 @@ const STEP_IMAGES = [
   "https://images.unsplash.com/photo-1573164713988-8665fc963095?q=80&w=1400&auto=format&fit=crop", // Step 1: Initial Consultation
   "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1400&auto=format&fit=crop", // Step 2: Strategic Assessment
   "https://images.unsplash.com/photo-1531403009284-440f080d1e12?q=80&w=1400&auto=format&fit=crop", // Step 3: Tailored Strategy
-  "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=1400&auto=format&fit=crop", // Step 4: Preparation & Documentation
+  "/Preparation%20%26%20documentation.jpg", // Step 4: Preparation & Documentation
   "https://images.unsplash.com/photo-1507537297725-24a1c029d3ca?q=80&w=1400&auto=format&fit=crop", // Step 5: Submission & Case Management
   "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=1400&auto=format&fit=crop", // Step 6: Outcome & Beyond
 ];

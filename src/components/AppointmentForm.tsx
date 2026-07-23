@@ -68,8 +68,8 @@ export default function AppointmentForm() {
       {state === "error" && (
         <p className="border border-gold/50 px-4 py-3 text-sm text-gold">
           We could not send your request. Please try again, or email{" "}
-          <a href="mailto:info@tide-global.com" className="underline underline-offset-2">
-            info@tide-global.com
+          <a href="mailto:privateclients@tide-global.com" className="underline underline-offset-2">
+            privateclients@tide-global.com
           </a>
           .
         </p>

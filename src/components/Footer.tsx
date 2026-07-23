@@ -3,61 +3,7 @@ import { ArrowRight, ChevronRight, MapPin, Phone, Mail, Clock } from "lucide-rea
 
 import { site } from "@/lib/content";
 import { Container } from "./ui/Section";
-
-const Linkedin = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg
-    viewBox="0 0 24 24"
-    width="16"
-    height="16"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="1.5"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    aria-hidden
-    {...props}
-  >
-    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
-    <rect x="2" y="9" width="4" height="12" />
-    <circle cx="4" cy="4" r="2" />
-  </svg>
-);
-
-const Instagram = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg
-    viewBox="0 0 24 24"
-    width="16"
-    height="16"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="1.5"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    aria-hidden
-    {...props}
-  >
-    <rect x="2" y="2" width="20" height="20" rx="5" />
-    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
-  </svg>
-);
-
-const Facebook = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg
-    viewBox="0 0 24 24"
-    width="16"
-    height="16"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="1.5"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    aria-hidden
-    {...props}
-  >
-    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
-  </svg>
-);
+import { SOCIAL_LINKS } from "./ui/social";
 
 const GlobeLogo = (props: React.SVGProps<SVGSVGElement>) => (
   <svg
@@ -77,12 +23,6 @@ const GlobeLogo = (props: React.SVGProps<SVGSVGElement>) => (
     <path d="M2 12h20" />
   </svg>
 );
-
-const socials = [
-  { href: site.social.facebook, icon: Facebook, label: "Facebook" },
-  { href: site.social.instagram, icon: Instagram, label: "Instagram" },
-  { href: site.social.linkedin, icon: Linkedin, label: "LinkedIn" },
-];
 
 export default function Footer() {
   return (
@@ -105,7 +45,14 @@ export default function Footer() {
                 <span className="font-bold text-white">Private Client Advisory</span> Just Call Us
               </h2>
               <p className="mt-3 max-w-xl font-sans text-[13px] sm:text-[14px] font-medium leading-[1.8] tracking-wide text-paper/70">
-                Need A Consultation? Call us today {site.phone} or email us : {site.emails.general}
+                Need A Consultation? Call us today{" "}
+                <a href={site.phoneHref} className="font-semibold text-paper underline-offset-4 transition-colors hover:text-gold hover:underline">
+                  {site.phone}
+                </a>{" "}
+                or email us :{" "}
+                <a href={`mailto:${site.emails.general}`} className="font-semibold text-paper underline-offset-4 transition-colors hover:text-gold hover:underline">
+                  {site.emails.general}
+                </a>
               </p>
             </div>
 
@@ -137,7 +84,7 @@ export default function Footer() {
           </p>
 
           <div className="flex items-center gap-5">
-            {socials.map(({ href, icon: Icon, label }) => (
+            {SOCIAL_LINKS.map(({ href, icon: Icon, label }) => (
               <a
                 key={label}
                 href={href}
@@ -215,17 +162,26 @@ export default function Footer() {
             <ul className="space-y-5">
               <li className="flex items-start gap-3 font-sans text-[14px] font-medium text-paper/70">
                 <MapPin size={16} className="mt-0.5 shrink-0 text-gold" />
-                <span className="leading-snug">
-                  Location : {site.address.line1}, {site.address.city}
-                </span>
+                <a
+                  href={site.address.mapsHref}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="leading-snug transition-colors hover:text-gold"
+                >
+                  Location : {site.address.full}
+                </a>
               </li>
               <li className="flex items-center gap-3 font-sans text-[14px] font-medium text-paper/70">
                 <Phone size={16} className="shrink-0 text-gold" />
-                <span>Phone : {site.phone}</span>
+                <a href={site.phoneHref} className="transition-colors hover:text-gold">
+                  Phone : {site.phone}
+                </a>
               </li>
               <li className="flex items-center gap-3 font-sans text-[14px] font-medium text-paper/70">
                 <Mail size={16} className="shrink-0 text-gold" />
-                <span>Email : {site.emails.general}</span>
+                <a href={`mailto:${site.emails.general}`} className="transition-colors hover:text-gold">
+                  Email : {site.emails.general}
+                </a>
               </li>
               <li className="flex items-start gap-3 font-sans text-[14px] font-medium text-paper/70">
                 <Clock size={16} className="mt-0.5 shrink-0 text-gold" />

@@ -8,7 +8,8 @@ import TestimonialSlider from "@/components/TestimonialSlider";
 import StatsSection from "@/components/StatsSection";
 import WhyChooseUs from "@/components/WhyChooseUs";
 import HeroSlider from "@/components/HeroSlider";
-import { advantages, services, articles } from "@/lib/content";
+import { advantages, services } from "@/lib/content";
+import type { Article } from "@/lib/posts";
 import { Container } from "@/components/ui/Section";
 
 /* ─── Shared hook: fire animation once in viewport ──────────── */
@@ -54,7 +55,7 @@ function WhoWeAre() {
             <div className="relative overflow-hidden shadow-[0_20px_50px_rgba(26,58,92,0.15)]">
               <img
                 src="/ph9.png"
-                alt="Sandton Johannesburg skyline"
+                alt="Sandton skyline"
                 className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
                 style={{ minHeight: "100%", objectPosition: "center top" }}
               />
@@ -275,11 +276,11 @@ function WhoWeServe() {
               <span className="absolute left-0 top-0 block h-5 w-5 border-l-2 border-t-2 border-gold" />
               <span className="absolute bottom-0 right-0 block h-5 w-5 border-b-2 border-r-2 border-gold" />
               <div className="flex items-center gap-4">
-                <span className="font-display text-[4rem] font-bold leading-none text-navy">15+</span>
+                <span className="font-display text-[4rem] font-bold leading-none text-navy">25+</span>
                 <div className="flex flex-col">
-                  <span className="font-sans text-[11px] font-bold uppercase tracking-[0.18em] text-navy">Years</span>
-                  <span className="font-sans text-[11px] font-bold uppercase tracking-[0.18em] text-navy">Specialist</span>
-                  <span className="font-sans text-[11px] font-bold uppercase tracking-[0.18em] text-gold">Experience</span>
+                  <span className="font-sans text-[11px] font-bold uppercase tracking-[0.18em] text-navy">Years Combined</span>
+                  <span className="font-sans text-[11px] font-bold uppercase tracking-[0.18em] text-navy"> </span>
+                  <span className="font-sans text-[11px] font-bold uppercase tracking-[0.18em] text-gold">Specialist Experience</span>
                 </div>
               </div>
             </div>
@@ -440,7 +441,7 @@ function GlobalReach() {
             <p className="eyebrow mb-5">International markets</p>
             <div className="border-l-[3px] border-gold pl-6">
               <h2 className="font-display leading-[1.1]">
-                <span className="block text-[clamp(1.8rem,3.2vw,2.8rem)] font-light text-navy/70">Advised from Johannesburg.</span>
+                <span className="block text-[clamp(1.8rem,3.2vw,2.8rem)] font-light text-navy/70">Advised from Sandton.</span>
                 <span className="block text-[clamp(1.8rem,3.2vw,2.8rem)] font-bold text-navy">Instructed from Everywhere.</span>
               </h2>
             </div>
@@ -529,12 +530,12 @@ function PassportBanner() {
 /* ═══════════════════════════════════════════════════════════════
    SECTION 8 — NEWS & ARTICLES
 ═══════════════════════════════════════════════════════════════ */
-function NewsSection() {
+function NewsSection({ articles }: { articles: Article[] }) {
   const { ref, inView } = useInView();
   
-  // Use real articles from our content
-  const featuredArticle = articles.find((a: any) => a.featured) || articles[0];
-  const standardArticles = articles.filter((a: any) => a.slug !== featuredArticle.slug).slice(0, 2);
+  // Published posts first, then the articles that shipped with the site.
+  const featuredArticle = articles.find((a) => a.featured) ?? articles[0];
+  const standardArticles = articles.filter((a) => a.slug !== featuredArticle?.slug).slice(0, 2);
 
   return (
     <section ref={ref as React.RefObject<HTMLElement>} className="w-full bg-paper pt-20 lg:pt-28 pb-32 lg:pb-48 border-t border-silver/40">
@@ -549,7 +550,7 @@ function NewsSection() {
 
         <div className="grid grid-cols-1 gap-6 xl:grid-cols-12">
           <div className="flex flex-col gap-5 xl:col-span-8">
-            {standardArticles.map((post: any, i) => (
+            {standardArticles.map((post, i) => (
               <article
                 key={post.title}
                 className={[
@@ -579,13 +580,13 @@ function NewsSection() {
               inView ? "opacity-100 translate-x-0" : "opacity-0 translate-x-8",
             ].join(" ")}
           >
-            <img src={(featuredArticle as any).image} alt={(featuredArticle as any).title} className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+            <img src={featuredArticle.image} alt={featuredArticle.title} className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
             <div className="absolute inset-0 transition-all duration-700 group-hover:opacity-90" style={{ background: "linear-gradient(180deg, rgba(26,58,92,0.06) 0%, rgba(26,58,92,0.32) 42%, rgba(26,58,92,0.92) 100%)" }} />
             <div className="relative z-10 flex h-full flex-col justify-end p-7 md:p-8">
               <p className="eyebrow mb-4 text-paper/80">Feature story</p>
-              <h3 className="max-w-sm font-display text-[clamp(1.7rem,2.6vw,2.5rem)] font-bold leading-[1.04] text-white">{(featuredArticle as any).title}</h3>
-              <p className="mt-5 max-w-sm font-sans text-[14px] leading-[1.8] text-white/72 line-clamp-3">{(featuredArticle as any).excerpt}</p>
-              <Link href={`/articles/${(featuredArticle as any).slug}`} className="group/btn mt-8 inline-flex items-center gap-3 border border-white/30 px-6 py-3 font-sans text-[10.5px] font-semibold uppercase tracking-[0.22em] text-white transition-all duration-300 hover:border-gold hover:bg-gold hover:text-navy">
+              <h3 className="max-w-sm font-display text-[clamp(1.7rem,2.6vw,2.5rem)] font-bold leading-[1.04] text-white">{featuredArticle.title}</h3>
+              <p className="mt-5 max-w-sm font-sans text-[14px] leading-[1.8] text-white/72 line-clamp-3">{featuredArticle.excerpt}</p>
+              <Link href={`/articles/${featuredArticle.slug}`} className="group/btn mt-8 inline-flex items-center gap-3 border border-white/30 px-6 py-3 font-sans text-[10.5px] font-semibold uppercase tracking-[0.22em] text-white transition-all duration-300 hover:border-gold hover:bg-gold hover:text-navy">
                 Read More <ArrowRight size={13} strokeWidth={2} className="transition-transform duration-300 group-hover/btn:translate-x-1.5" />
               </Link>
             </div>
@@ -599,7 +600,7 @@ function NewsSection() {
 /* ═══════════════════════════════════════════════════════════════
    MAIN HOME PAGE EXPORT
 ═══════════════════════════════════════════════════════════════ */
-export default function HomePageClient() {
+export default function HomePageClient({ articles }: { articles: Article[] }) {
   return (
     <>
       <HeroSlider />
@@ -614,7 +615,7 @@ export default function HomePageClient() {
       <WhyChooseUs />
       <GlobalReach />
       <PassportBanner />
-      <NewsSection />
+      <NewsSection articles={articles} />
     </>
   );
 }

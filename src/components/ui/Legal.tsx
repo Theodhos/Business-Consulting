@@ -1,5 +1,6 @@
 import React from "react";
 import { Section } from "./Section";
+import { linkifyContacts } from "./linkify";
 
 export type LegalClause = { heading: string; body: string[] };
 
@@ -48,7 +49,7 @@ export function LegalArticle({
 
         {/* Document */}
         <div className="lg:col-span-8">
-          <p className="mb-10 text-[15px] sm:text-lg leading-relaxed text-navy/75">{intro}</p>
+          <p className="mb-10 text-[15px] sm:text-lg leading-relaxed text-navy/75">{linkifyContacts(intro)}</p>
 
           {clauses.map((c, i) => (
             <section
@@ -63,7 +64,7 @@ export function LegalArticle({
               <div className="space-y-3">
                 {c.body.map((p, j) => (
                   <p key={j} className="text-[13px] sm:text-sm leading-relaxed text-navy/65">
-                    {p}
+                    {linkifyContacts(p)}
                   </p>
                 ))}
               </div>

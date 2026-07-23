@@ -15,7 +15,7 @@ const clauses: LegalClause[] = [
   {
     heading: "These terms",
     body: [
-      `This website is operated by ${site.name} ${site.division}, of ${site.address.line1}, ${site.address.city} ${site.address.postal}, ${site.address.country}.`,
+      `This website is operated by ${site.name} ${site.division}, of ${site.address.full}.`,
       "By accessing or using this website you agree to these terms. If you do not agree to them, please do not use the site.",
     ],
   },
@@ -76,7 +76,7 @@ const clauses: LegalClause[] = [
   {
     heading: "Contact",
     body: [
-      `Questions about these terms may be sent to ${site.emails.general}, or to ${site.address.line1}, ${site.address.city} ${site.address.postal}, ${site.address.country}.`,
+      `Questions about these terms may be sent to ${site.emails.general}, or to ${site.address.full}.`,
     ],
   },
 ];

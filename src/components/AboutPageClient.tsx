@@ -118,7 +118,7 @@ function GlobalPractice() {
               <p className="eyebrow mb-4 text-gold/90">The Practice</p>
               <div className="border-l-[3px] border-gold pl-5 sm:pl-6">
                 <h2 className="font-display leading-[1.1]">
-                  <span className="block text-[clamp(1.5rem,3vw,2.4rem)] font-light text-paper/80">Johannesburg, and</span>
+                  <span className="block text-[clamp(1.5rem,3vw,2.4rem)] font-light text-paper/80">Sandton, and</span>
                   <span className="block text-[clamp(1.5rem,3vw,2.4rem)] font-bold text-white">wherever your affairs are.</span>
                 </h2>
               </div>

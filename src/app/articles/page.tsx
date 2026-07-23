@@ -3,7 +3,11 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Container } from "@/components/ui/Section";
 import PageHero from "@/components/PageHero";
-import { articles, site } from "@/lib/content";
+import { site } from "@/lib/content";
+import { getPublishedArticles } from "@/lib/posts";
+
+/** The article store is read from disk on each request, so nothing is prerendered. */
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: `Articles & Insights | ${site.name}`,
@@ -11,7 +15,9 @@ export const metadata: Metadata = {
     "In-depth articles on South African immigration strategy, permanent residence, executive relocation, and private client advisory from Tide Global.",
 };
 
-export default function ArticlesPage() {
+export default async function ArticlesPage() {
+  const articles = await getPublishedArticles();
+
   return (
     <>
       <PageHero
@@ -25,7 +31,7 @@ export default function ArticlesPage() {
         <section className="pt-20 lg:pt-28">
           <Container>
             <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:gap-16">
-              {articles.map((article, i) => (
+              {articles.map((article) => (
                 <Link
                   key={article.slug}
                   href={`/articles/${article.slug}`}
@@ -34,7 +40,7 @@ export default function ArticlesPage() {
                   {/* Image container */}
                   <div className="relative mb-8 aspect-[16/10] w-full overflow-hidden border border-silver/40">
                     <img
-                      src={(article as any).image}
+                      src={article.image}
                       alt={article.title}
                       className="h-full w-full object-cover transition-transform duration-1000 group-hover:scale-105"
                     />
@@ -43,7 +49,7 @@ export default function ArticlesPage() {
 
                   {/* Meta row */}
                   <div className="mb-4 flex items-center gap-4 font-sans text-[10px] font-bold uppercase tracking-[0.2em] text-slate/60">
-                    <span className="text-gold">{(article as any).category}</span>
+                    <span className="text-gold">{article.category}</span>
                     <span className="h-1 w-1 rounded-full bg-silver/60" />
                     <span>{article.readTime}</span>
                   </div>
