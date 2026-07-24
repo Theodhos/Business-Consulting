@@ -44,6 +44,9 @@ export default function JourneySection() {
      card stays fixed, only the photo and the step window change. */
   useEffect(() => {
     if (!isDesktop) {
+      /* The detection band sits in the strip directly beneath the pinned photo
+         (navbar 68px + photo 210px ≈ 38% of a phone viewport). Whatever the
+         photo is sitting on top of is what the photo shows. */
       const observer = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
@@ -53,7 +56,7 @@ export default function JourneySection() {
             }
           });
         },
-        { rootMargin: "-30% 0px -60% 0px" }
+        { rootMargin: "-40% 0px -52% 0px" }
       );
       const elements = document.querySelectorAll(".journey-step");
       elements.forEach((el) => observer.observe(el));
@@ -89,6 +92,23 @@ export default function JourneySection() {
     >
       <div className={isDesktop ? "sticky top-0 flex h-screen items-center" : "py-14 sm:py-16 md:py-20"}>
         <Container className="w-full">
+          {/* Phones read the section title before the stages, because the pinned
+              photo above each stage is given over to naming that stage. */}
+          {!isDesktop && (
+            <div className="mb-6">
+              <p className="eyebrow mb-3">The private client experience</p>
+              <div className="border-l-[3px] border-gold pl-5">
+                <h2 className="font-display text-[clamp(1.6rem,6.2vw,2.1rem)] font-bold leading-[1.12] text-navy">
+                  How an engagement runs
+                </h2>
+              </div>
+              <p className="mt-4 font-sans text-[14px] leading-[1.85] text-slate">
+                Six stages from first conversation to long after approval. You always know
+                which one you are in.
+              </p>
+            </div>
+          )}
+
           <div className="grid grid-cols-1 overflow-visible border border-line bg-paper lg:grid-cols-[42%_1fr] lg:overflow-hidden">
 
             {/* ── Left image — crossfades to the active step ─────────── */}
@@ -105,11 +125,13 @@ export default function JourneySection() {
                   style={{ opacity: idx === active ? 1 : 0 }}
                 >
                   <img src={src} alt="" aria-hidden loading="lazy" className="h-full w-full object-cover object-center" />
+                  {/* Deep enough at the foot to carry the stage name over any
+                      photo — some of these have very bright lower halves. */}
                   <div
                     className="absolute inset-0"
                     style={{
                       background:
-                        "linear-gradient(180deg, rgba(26,58,92,0.28) 0%, rgba(26,58,92,0.42) 48%, rgba(26,58,92,0.86) 100%)",
+                        "linear-gradient(180deg, rgba(26,58,92,0.25) 0%, rgba(26,58,92,0.45) 40%, rgba(18,40,64,0.94) 100%)",
                     }}
                   />
                 </div>
@@ -137,15 +159,34 @@ export default function JourneySection() {
                   </>
                 )}
                 {!isDesktop && (
+                  /* The photo carries the name of the stage it belongs to, so the
+                     image and the text scrolling beneath it always agree — the
+                     stage heading itself is hidden behind the pinned photo. */
                   <div>
-                    <p className="eyebrow mb-2 text-gold/90">The private client experience</p>
-                    <h2 className="font-display text-[1.6rem] font-bold leading-[1.1] text-white sm:text-[1.8rem]">
-                      How an engagement runs
-                    </h2>
-                    {/* Step counter — tells you where you are while the list scrolls */}
-                    <p className="mt-2 font-sans text-[11px] font-semibold uppercase tracking-[0.16em] text-white/70">
-                      Step {String(active + 1).padStart(2, "0")} of {String(journey.length).padStart(2, "0")}
+                    <p className="font-sans text-[10px] font-bold uppercase tracking-[0.22em] text-gold [text-shadow:0_1px_6px_rgba(12,24,42,0.9)]">
+                      Stage {String(active + 1).padStart(2, "0")} of {String(journey.length).padStart(2, "0")}
                     </p>
+                    <div className="mt-1.5 grid">
+                      {journey.map((step, i) => (
+                        <span
+                          key={step.title}
+                          aria-hidden={i !== active}
+                          className={[
+                            "col-start-1 row-start-1 font-display text-[1.5rem] font-bold leading-[1.15] text-white transition-opacity duration-500 [text-shadow:0_1px_10px_rgba(12,24,42,0.85)]",
+                            i === active ? "opacity-100" : "opacity-0",
+                          ].join(" ")}
+                        >
+                          {step.title}
+                        </span>
+                      ))}
+                    </div>
+                    {/* Progress through the six stages */}
+                    <span className="mt-3 block h-[2px] w-full bg-white/20" aria-hidden>
+                      <span
+                        className="block h-full bg-gold transition-[width] duration-500 ease-out"
+                        style={{ width: `${((active + 1) / journey.length) * 100}%` }}
+                      />
+                    </span>
                   </div>
                 )}
               </div>
@@ -162,7 +203,12 @@ export default function JourneySection() {
               >
                 {journey.map((step, i) => {
                   const activeStep = active === i;
-                  const lit = activeStep || !isDesktop;
+                  /* Phones dim only the number and the heading of the stages you
+                     are not on — enough to tie the row to the photo above it,
+                     not so much that the copy becomes hard to read ahead. */
+                  const numClass = activeStep ? "text-gold" : isDesktop ? "text-silver/70" : "text-navy/25";
+                  const titleClass = activeStep ? "text-navy" : isDesktop ? "text-navy/40" : "text-navy/60";
+                  const bodyClass = activeStep || !isDesktop ? "text-slate" : "text-slate/40";
                   return (
                     <li
                       key={step.title}
@@ -178,7 +224,7 @@ export default function JourneySection() {
                         <span
                           className={[
                             "mt-0.5 shrink-0 font-sans text-[13px] font-bold tracking-[0.12em] transition-colors duration-300 sm:mt-1",
-                            lit ? "text-gold" : "text-silver/70",
+                            numClass,
                           ].join(" ")}
                         >
                           {String(i + 1).padStart(2, "0")}
@@ -187,7 +233,7 @@ export default function JourneySection() {
                           <h3
                             className={[
                               "font-display text-[1.2rem] font-semibold leading-snug transition-colors duration-300 sm:text-[1.3rem]",
-                              lit ? "text-navy" : "text-navy/40",
+                              titleClass,
                             ].join(" ")}
                           >
                             {step.title}
@@ -195,7 +241,7 @@ export default function JourneySection() {
                           <p
                             className={[
                               "mt-2 font-sans text-[13.5px] leading-relaxed transition-colors duration-300",
-                              lit ? "text-slate" : "text-slate/40",
+                              bodyClass,
                             ].join(" ")}
                           >
                             {step.body}

@@ -27,7 +27,11 @@ export default async function ArticlesPage() {
         image="/ph7.png"
       />
 
-      <main className="w-full bg-paper pb-20 sm:pb-24 lg:pb-32">
+      {/* A plain <div>, not a second <main>: the layout already renders one, and
+          nesting a second made the footer-clearance rule in globals.css match
+          both it and the section inside, stacking the gap above the footer twice.
+          Bottom spacing comes from that rule alone. */}
+      <div className="w-full bg-paper">
         <section className="pt-14 sm:pt-20 lg:pt-28">
           <Container>
             <div className="grid grid-cols-1 gap-10 sm:gap-12 md:grid-cols-2 lg:gap-16">
@@ -79,7 +83,7 @@ export default async function ArticlesPage() {
             </div>
           </Container>
         </section>
-      </main>
+      </div>
     </>
   );
 }

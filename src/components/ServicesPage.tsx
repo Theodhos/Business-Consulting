@@ -248,7 +248,7 @@ function EngagementSection() {
   return (
     <section
       ref={ref as React.RefObject<HTMLElement>}
-      className="relative w-full overflow-hidden bg-navy pt-14 pb-28 sm:pt-20 sm:pb-32 lg:pt-28 lg:pb-48"
+      className="relative w-full overflow-hidden bg-navy pt-14 sm:pt-20 lg:pt-28"
     >
       {/* Subtle noise/texture overlay */}
       <div

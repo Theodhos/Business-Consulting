@@ -542,7 +542,7 @@ function NewsSection({ articles }: { articles: Article[] }) {
   const standardArticles = articles.filter((a) => a.slug !== featuredArticle?.slug).slice(0, 2);
 
   return (
-    <section ref={ref as React.RefObject<HTMLElement>} className="w-full bg-paper pt-14 sm:pt-20 lg:pt-28 pb-28 sm:pb-32 lg:pb-48 border-t border-silver/40">
+    <section ref={ref as React.RefObject<HTMLElement>} className="w-full border-t border-silver/40 bg-paper pt-14 sm:pt-20 lg:pt-28">
       <Container>
         <div className={["mb-10 flex flex-col items-center text-center transition-all duration-1000 ease-out sm:mb-14", inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"].join(" ")}>
           <p className="eyebrow mb-4 text-navy/80">The news</p>

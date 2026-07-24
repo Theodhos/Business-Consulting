@@ -174,7 +174,7 @@ function FaqSplitSection() {
 function FaqBanner() {
   const { ref, inView } = useInView();
   return (
-    <section ref={ref as React.RefObject<HTMLElement>} className="w-full bg-mist pt-12 sm:pt-14 lg:pt-20 pb-28 sm:pb-32 lg:pb-40 border-t border-silver/40">
+    <section ref={ref as React.RefObject<HTMLElement>} className="w-full border-t border-silver/40 bg-mist py-12 sm:py-14 lg:py-20">
       <Container>
         <div
           className={[
@@ -217,7 +217,7 @@ function NewsSection() {
     { title: "Make Student Visa Over Years With Other Country", body: "How to structure a long-term study pathway with fewer surprises at the border.", img: "/ph6.png" },
   ];
   return (
-    <section ref={ref as React.RefObject<HTMLElement>} className="w-full bg-paper pt-14 sm:pt-20 lg:pt-28 pb-28 sm:pb-32 lg:pb-48 border-t border-silver/40">
+    <section ref={ref as React.RefObject<HTMLElement>} className="w-full border-t border-silver/40 bg-paper pt-14 sm:pt-20 lg:pt-28">
       <Container>
         <div className={["mb-10 flex flex-col items-center text-center transition-all duration-1000 ease-out sm:mb-14", inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"].join(" ")}>
           <p className="eyebrow mb-4 text-navy/80">The news</p>

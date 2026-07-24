@@ -154,7 +154,11 @@ export default async function ArticlePage({ params }: Props) {
       </header>
 
       {/* ── ARTICLE BODY ─────────────────────────────────────── */}
-      <main className="w-full bg-paper pb-20 sm:pb-24 lg:pb-32">
+      {/* A plain <div>, not a second <main>: the layout already renders one, and
+          nesting a second made the footer-clearance rule in globals.css match
+          both it and its own last child, stacking the gap above the footer twice.
+          Bottom spacing comes from that rule alone. */}
+      <div className="w-full bg-paper">
         <Container>
           <div className="grid grid-cols-1 gap-12 py-12 sm:gap-16 sm:py-16 lg:grid-cols-[1fr_340px] lg:py-24">
 
@@ -293,7 +297,7 @@ export default async function ArticlePage({ params }: Props) {
             </Container>
           </div>
         )}
-      </main>
+      </div>
     </>
   );
 }

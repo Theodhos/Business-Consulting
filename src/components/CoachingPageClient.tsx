@@ -185,14 +185,30 @@ function CoachingExpertise() {
               inView ? "opacity-100 translate-x-0" : "opacity-0 translate-y-6 md:translate-y-0 md:-translate-x-12"
             ].join(" ")}
           >
-            <div className="aspect-[4/3] w-full overflow-hidden border border-white shadow-[0_20px_50px_rgba(26,58,92,0.15)] sm:aspect-[3/4]">
-              <img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?q=80&w=800&auto=format&fit=crop" alt="Executive Coach" loading="lazy" className="h-full w-full object-cover" />
+            {/* 4:5 on phones, matching the file requested below, so the portrait
+                lands in the frame uncropped instead of being sliced through the
+                head to fill a landscape box. */}
+            <div className="relative aspect-[4/5] w-full overflow-hidden border border-white shadow-[0_20px_50px_rgba(26,58,92,0.15)] sm:aspect-[3/4]">
+              <img
+                src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?q=80&w=900&h=1125&auto=format&fit=crop&crop=faces,center"
+                alt="Executive Coach"
+                loading="lazy"
+                className="h-full w-full object-cover object-center"
+              />
+              {/* Carries the photo into the card below it rather than ending on a
+                  hard edge the card then clips. Phones only — from md the card
+                  hangs outside the photo entirely. */}
+              <div
+                className="pointer-events-none absolute inset-x-0 bottom-0 h-28 md:hidden"
+                style={{ background: "linear-gradient(180deg, rgba(26,58,92,0) 0%, rgba(26,58,92,0.4) 100%)" }}
+                aria-hidden
+              />
             </div>
 
-            {/* Call Us Box — sits under the photo on phones, then overlaps its
+            {/* Call Us Box — centred under the photo on phones, then overlaps its
                 bottom-left corner from md, where there is room to hang outside
                 the column without reaching past the viewport. */}
-            <div className="-mt-6 w-[92%] border-l-[4px] border-gold bg-white p-5 shadow-[0_20px_50px_rgba(26,58,92,0.15)] sm:p-6 md:absolute md:bottom-8 md:-left-6 md:mt-0 md:w-[260px] lg:-left-12">
+            <div className="relative z-10 mx-auto -mt-12 w-[88%] border-l-[4px] border-gold bg-white p-5 shadow-[0_20px_50px_rgba(26,58,92,0.15)] sm:p-6 md:absolute md:bottom-8 md:-left-6 md:mx-0 md:mt-0 md:w-[260px] lg:-left-12">
               <p className="mb-2 font-sans text-[10px] font-bold uppercase tracking-[0.16em] text-gold sm:tracking-[0.2em]">We build for your comfort</p>
               <p className="mb-1 font-sans text-[14px] text-slate">Call Us :</p>
               <a
@@ -361,7 +377,7 @@ function CoachingDifference() {
 function CoachingCommitment() {
   const { ref, inView } = useInView();
   return (
-    <section ref={ref as React.RefObject<HTMLElement>} className="w-full overflow-hidden bg-paper pt-14 pb-28 sm:pt-20 sm:pb-32 lg:pt-28 lg:pb-48">
+    <section ref={ref as React.RefObject<HTMLElement>} className="w-full overflow-hidden bg-paper pt-14 sm:pt-20 lg:pt-28">
       <Container>
         <div className="mx-auto max-w-4xl text-center">
           <div

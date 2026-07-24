@@ -129,36 +129,57 @@ function GlobalPractice() {
                 Tide Global was established exclusively for discerning clients. A separate practice, serving through a highly personalised, concierge-driven approach where every matter is overseen by seasoned professionals.
               </p>
             </div>
+
+            {/* The map is atmosphere; these are the facts it only implies.
+                Phones keep both — the map sits below, where its full width
+                leaves the pin and its label readable. */}
+            <dl className="grid grid-cols-2 gap-px border border-white/12 bg-white/12 lg:hidden">
+              {[
+                { k: "Head office", v: "Sandton, Johannesburg" },
+                { k: "Clients advised from", v: "UK · US · UAE · AU · CA" },
+                { k: "Engagement", v: "Remote or in person" },
+                { k: "Response", v: "One business day" },
+              ].map(({ k, v }) => (
+                <div key={k} className="bg-navy px-4 py-4">
+                  <dt className="font-sans text-[9.5px] font-bold uppercase tracking-[0.16em] text-gold">{k}</dt>
+                  <dd className="mt-1.5 font-sans text-[13px] leading-snug text-paper/85">{v}</dd>
+                </div>
+              ))}
+            </dl>
           </div>
 
-          {/* Right side: Map */}
-          <div 
+          {/* Right side: Map. Everything on it is positioned in percentages of
+              the image box, so it scales down to a phone intact — only the pin
+              label and the dots are stepped down so they stay in proportion. */}
+          <div
             className={[
-              "relative flex h-[240px] w-full items-center justify-center transition-all duration-1000 delay-300 ease-out sm:h-[400px] lg:h-[600px]",
+              "relative flex w-full items-center justify-center transition-all duration-1000 delay-300 ease-out lg:h-[600px]",
               inView ? "opacity-100 translate-x-0" : "opacity-0 translate-y-6 md:translate-y-0 md:translate-x-12"
             ].join(" ")}
           >
             <div className="relative w-full max-w-[800px]">
-              <img 
-                src="/maps-overlay-scaled.webp" 
-                alt="World Map" 
-                className="w-full h-auto object-contain opacity-40 mix-blend-screen drop-shadow-2xl"
+              <img
+                src="/maps-overlay-scaled.webp"
+                alt=""
+                aria-hidden
+                loading="lazy"
+                className="h-auto w-full object-contain opacity-55 mix-blend-screen drop-shadow-2xl lg:opacity-40"
               />
-              
+
               {/* South Africa Pin */}
-              <div 
+              <div
                 className={[
-                  "absolute flex flex-col items-center gap-1.5 transition-all duration-1000 ease-out",
+                  "absolute flex flex-col items-center gap-1 transition-all duration-1000 ease-out sm:gap-1.5",
                   inView ? "scale-100 opacity-100" : "scale-0 opacity-0"
                 ].join(" ")}
                 style={{ top: "72%", left: "54.5%", transitionDelay: "800ms" }}
               >
-                <span className="font-sans text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-gold bg-navy/80 px-2 py-0.5 rounded backdrop-blur-sm -ml-4 whitespace-nowrap shadow-[0_4px_12px_rgba(0,0,0,0.5)]">
+                <span className="-ml-3 whitespace-nowrap rounded bg-navy/80 px-1.5 py-0.5 font-sans text-[9px] font-bold uppercase tracking-wider text-gold shadow-[0_4px_12px_rgba(0,0,0,0.5)] backdrop-blur-sm sm:-ml-4 sm:px-2 sm:text-[11px]">
                   South Africa
                 </span>
-                <div className="relative flex h-3.5 w-3.5 sm:h-4 sm:w-4 items-center justify-center -ml-4">
+                <div className="relative -ml-3 flex h-3 w-3 items-center justify-center sm:-ml-4 sm:h-4 sm:w-4">
                   <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-gold opacity-75"></span>
-                  <span className="relative inline-flex h-2 w-2 sm:h-2.5 sm:w-2.5 rounded-full bg-gold shadow-[0_0_15px_3px_rgba(182,143,82,0.8)]"></span>
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-gold shadow-[0_0_15px_3px_rgba(182,143,82,0.8)] sm:h-2.5 sm:w-2.5"></span>
                 </div>
               </div>
 
@@ -170,10 +191,10 @@ function GlobalPractice() {
                 { top: "75%", left: "85%" }, // Aus
                 { top: "40%", left: "60%" }, // ME
               ].map((dot, i) => (
-                <div 
+                <div
                   key={i}
                   className={[
-                    "absolute h-1.5 w-1.5 rounded-full bg-white/30 transition-all duration-1000 ease-out",
+                    "absolute h-1 w-1 rounded-full bg-white/40 transition-all duration-1000 ease-out sm:h-1.5 sm:w-1.5 sm:bg-white/30",
                     inView ? "scale-100 opacity-100" : "scale-0 opacity-0"
                   ].join(" ")}
                   style={{ top: dot.top, left: dot.left, transitionDelay: `${1000 + i * 150}ms` }}
@@ -360,7 +381,7 @@ function ValuesSection() {
 function AboutLeadership() {
   const { ref, inView } = useInView();
   return (
-    <section ref={ref as React.RefObject<HTMLElement>} className="w-full overflow-hidden bg-paper pt-14 pb-28 sm:pt-20 sm:pb-32 lg:pt-28 lg:pb-48">
+    <section ref={ref as React.RefObject<HTMLElement>} className="w-full overflow-hidden bg-paper pt-14 sm:pt-20 lg:pt-28">
       <Container>
         <div className="mx-auto max-w-4xl text-center">
           <div

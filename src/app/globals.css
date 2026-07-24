@@ -208,6 +208,28 @@
   }
 }
 
+/* ── Footer clearance ──────────────────────────────────────────────
+   The footer lifts its "Just call us" card 5rem up into whatever section
+   ends the page, so that section has to reserve the height back or the
+   card lands on top of the last paragraph. Doing it here — unlayered, so
+   it wins over any `pb-*` utility — means every page clears the footer by
+   the same amount, and a new page gets it without remembering to.
+
+   It has to be the section's own padding rather than a gap on <main>:
+   the last section's background must keep running down to the footer.
+
+   Scoped with :has() so the admin console, which renders no footer, is
+   left alone. */
+body:has(> footer) main > :last-child {
+  padding-bottom: 9rem;
+}
+
+@media (min-width: 1024px) {
+  body:has(> footer) main > :last-child {
+    padding-bottom: 12rem;
+  }
+}
+
 /* ── Article body typography ───────────────────────────────────── */
 .article-body {
   font-family: var(--font-sans);
