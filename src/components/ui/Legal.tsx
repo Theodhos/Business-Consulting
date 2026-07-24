@@ -24,17 +24,17 @@ export function LegalArticle({
       <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-16">
         {/* Contents — sticky sidebar on desktop, scrollable on mobile */}
         <nav aria-label="Contents" className="lg:col-span-4">
-          <div className="lg:sticky lg:top-32">
+          <div className="border border-line p-5 lg:sticky lg:top-32 lg:border-0 lg:p-0">
             <p className="eyebrow mb-4">Contents</p>
-            <ol className="space-y-2.5">
+            <ol className="space-y-1 lg:space-y-2.5">
               {clauses.map((c, i) => (
                 <li key={c.heading} className="flex gap-3 text-sm">
-                  <span className="shrink-0 tabular-nums text-gold">
+                  <span className="shrink-0 py-1.5 tabular-nums text-gold lg:py-0">
                     {String(i + 1).padStart(2, "0")}
                   </span>
                   <a
                     href={`#${slug(c.heading)}`}
-                    className="text-navy/60 transition-colors hover:text-gold"
+                    className="py-1.5 text-navy/60 transition-colors hover:text-gold lg:py-0"
                   >
                     {c.heading}
                   </a>
@@ -55,7 +55,7 @@ export function LegalArticle({
             <section
               key={c.heading}
               id={slug(c.heading)}
-              className="scroll-mt-32 border-t border-line py-8 sm:py-10 first:border-t-0 first:pt-0"
+              className="scroll-mt-[88px] border-t border-line py-8 first:border-t-0 first:pt-0 sm:py-10 lg:scroll-mt-32"
             >
               <div className="mb-4 flex items-baseline gap-3 sm:gap-4">
                 <span className="eyebrow shrink-0">{String(i + 1).padStart(2, "0")}</span>

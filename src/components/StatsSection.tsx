@@ -48,7 +48,7 @@ function AnimatedCounter({ end, suffix = "", duration = 2500 }: { end: number, s
     <span ref={ref}>
       {count}
       {/* Suffix is smaller and top-aligned */}
-      <span className="font-sans font-medium text-[2.2rem] align-top relative top-1.5 ml-0.5">{suffix}</span>
+      <span className="relative top-1 ml-0.5 align-top font-sans text-[1.8rem] font-medium sm:top-1.5 sm:text-[2.2rem]">{suffix}</span>
     </span>
   );
 }
@@ -79,7 +79,7 @@ const stats = [
 
 export default function StatsSection() {
   return (
-    <section className="w-full bg-paper py-20 lg:py-24 border-t border-silver/50 relative overflow-hidden">
+    <section className="w-full bg-paper py-14 sm:py-20 lg:py-24 border-t border-silver/50 relative overflow-hidden">
       {/* Optional faint background element for texture */}
       <div 
         className="pointer-events-none absolute inset-0 opacity-[0.03] bg-[radial-gradient(circle_at_center,rgba(0,0,0,1),transparent_70%)]" 
@@ -92,26 +92,28 @@ export default function StatsSection() {
             <div
               key={idx}
               className={[
-                "group flex flex-col items-center text-center p-10 xl:p-14 transition-all duration-700 ease-out",
-                stat.highlight 
-                  ? "bg-navy scale-105 shadow-[0_20px_50px_rgba(26,58,92,0.4)] z-20 py-12 xl:py-16" // The highlighted block pops out
-                  : "bg-white hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(26,58,92,0.08)] z-10 border-b lg:border-b-0 lg:border-r border-silver/30 last:border-0",
+                "group flex flex-col items-center p-8 text-center transition-all duration-700 ease-out sm:p-10 xl:p-14",
+                stat.highlight
+                  // Pops forward from md up. On a single-column phone stack the
+                  // scale-up would simply overhang the other two cards.
+                  ? "z-20 bg-navy py-10 shadow-[0_20px_50px_rgba(26,58,92,0.4)] sm:py-12 md:scale-105 xl:py-16"
+                  : "z-10 border-b border-silver/30 bg-white last:border-0 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(26,58,92,0.08)] md:border-b-0 md:border-r",
               ].join(" ")}
             >
               {/* Icon */}
-              <stat.icon 
-                size={42} 
-                strokeWidth={1.25} 
-                className={["mb-5 transition-transform duration-700 group-hover:scale-110 group-hover:rotate-3", stat.highlight ? "text-gold" : "text-gold"].join(" ")} 
+              <stat.icon
+                size={38}
+                strokeWidth={1.25}
+                className="mb-4 text-gold transition-transform duration-700 group-hover:scale-110 group-hover:rotate-3 sm:mb-5 sm:size-[42px]"
               />
-              
+
               {/* Number */}
-              <p className={["font-display text-[3.2rem] xl:text-[3.8rem] font-bold leading-none mb-3", stat.highlight ? "text-white" : "text-navy"].join(" ")}>
+              <p className={["mb-3 font-display text-[2.7rem] font-bold leading-none sm:text-[3.2rem] xl:text-[3.8rem]", stat.highlight ? "text-white" : "text-navy"].join(" ")}>
                 <AnimatedCounter end={stat.num} suffix={stat.suffix} />
               </p>
-              
+
               {/* Label */}
-              <p className={["font-sans text-[13.5px] font-semibold tracking-wide uppercase mt-1", stat.highlight ? "text-white/80" : "text-slate"].join(" ")}>
+              <p className={["mt-1 font-sans text-[12.5px] font-semibold uppercase tracking-wide sm:text-[13.5px]", stat.highlight ? "text-white/80" : "text-slate"].join(" ")}>
                 {stat.label}
               </p>
             </div>

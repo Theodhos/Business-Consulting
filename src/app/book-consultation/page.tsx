@@ -42,23 +42,35 @@ export default function BookConsultationPage() {
 
       {/* ── Request ───────────────────────────────────────────────────── */}
       <Section tone="paper" divide={false}>
-        <div className="grid grid-cols-1 gap-16 lg:grid-cols-12">
-          <div className="lg:col-span-5">
+        <div className="grid grid-cols-1 gap-10 sm:gap-16 lg:grid-cols-12">
+          {/* The form leads on phones — the reassurance list is supporting copy
+              and reads better after the thing it is reassuring you about. */}
+          <div className="lg:order-2 lg:col-span-7">
+            <div className="border border-line p-6 sm:p-8 md:p-10">
+              <p className="eyebrow mb-4">Consultation request</p>
+              <h2 className="display-md mb-6 text-navy sm:mb-8">
+                A few details, and we will take it from there.
+              </h2>
+              <EnquiryForm variant="consultation" />
+            </div>
+          </div>
+
+          <div className="lg:order-1 lg:col-span-5">
             <SectionHeading
               eyebrow="What to expect"
               title="Four things you can count on."
             />
 
-            <dl className="mt-12">
+            <dl className="mt-9 sm:mt-12">
               {expectations.map(({ t, d }) => (
-                <div key={t} className="border-t border-line py-6 first:border-t-0 first:pt-0">
+                <div key={t} className="border-t border-line py-5 first:border-t-0 first:pt-0 sm:py-6">
                   <dt className="display-sm mb-2 text-navy">{t}</dt>
-                  <dd className="text-sm leading-relaxed text-navy/65">{d}</dd>
+                  <dd className="text-[13.5px] leading-relaxed text-navy/65 sm:text-sm">{d}</dd>
                 </div>
               ))}
             </dl>
 
-            <div className="mt-12 border border-line p-8">
+            <div className="mt-9 border border-line p-6 sm:mt-12 sm:p-8">
               <p className="eyebrow mb-4">Prefer to call</p>
               <a
                 href={site.phoneHref}
@@ -66,17 +78,7 @@ export default function BookConsultationPage() {
               >
                 {site.phone}
               </a>
-              <p className="mt-3 text-xs text-navy/55">{site.hours}</p>
-            </div>
-          </div>
-
-          <div className="lg:col-span-7">
-            <div className="border border-line p-8 md:p-10">
-              <p className="eyebrow mb-4">Consultation request</p>
-              <h2 className="display-md mb-8 text-navy">
-                A few details, and we will take it from there.
-              </h2>
-              <EnquiryForm variant="consultation" />
+              <p className="mt-3 text-xs leading-relaxed text-navy/55">{site.hours}</p>
             </div>
           </div>
         </div>

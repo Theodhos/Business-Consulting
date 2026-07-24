@@ -14,7 +14,7 @@ function Wordmark() {
     <img
       src="/logo final.png"
       alt="Tide Global — Private Client Immigration Advisory"
-      className="block h-12 w-auto object-contain md:h-14"
+      className="block h-10 w-auto object-contain sm:h-12 md:h-14"
     />
   );
 }
@@ -41,6 +41,7 @@ export default function Navbar() {
     document.body.style.overflow = open ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
   }, [open]);
+
 
   return (
     <header className="fixed inset-x-0 top-0 z-50">
@@ -110,11 +111,16 @@ export default function Navbar() {
             : "bg-transparent",
         ].join(" ")}
       >
-        <Container className="px-4 lg:px-8">
-          <div className="flex h-[88px] items-center justify-between">
+        <Container>
+          <div className="flex h-[68px] items-center justify-between sm:h-[76px] lg:h-[88px]">
 
-            {/* Logo */}
-            <Link href="/" aria-label="Tide Global — home" className="shrink-0 transition-opacity hover:opacity-85">
+            {/* Logo — also dismisses the drawer, which sits directly below it */}
+            <Link
+              href="/"
+              aria-label="Tide Global — home"
+              onClick={() => setOpen(false)}
+              className="min-w-0 shrink transition-opacity hover:opacity-85"
+            >
               <Wordmark />
             </Link>
 
@@ -172,30 +178,46 @@ export default function Navbar() {
               </a>
             </div>
 
-            {/* Hamburger (mobile) */}
-            <button
-              type="button"
-              onClick={() => setOpen((v) => !v)}
-              aria-expanded={open}
-              aria-label={open ? "Close menu" : "Open menu"}
-              className="flex items-center justify-center text-white lg:hidden"
-            >
-              {open ? <X size={26} strokeWidth={1.5} /> : <Menu size={26} strokeWidth={1.5} />}
-            </button>
+            {/* Mobile actions — call shortcut + hamburger, both 44px targets */}
+            <div className="flex items-center gap-1 lg:hidden">
+              <a
+                href={site.phoneHref}
+                aria-label={`Call ${site.phone}`}
+                className="flex h-11 w-11 items-center justify-center bg-gold text-navy transition-colors active:bg-[#b8913f]"
+              >
+                <PhoneCall size={19} strokeWidth={1.75} />
+              </a>
+              <button
+                type="button"
+                onClick={() => setOpen((v) => !v)}
+                aria-expanded={open}
+                aria-controls="mobile-menu"
+                aria-label={open ? "Close menu" : "Open menu"}
+                className="flex h-11 w-11 items-center justify-center text-white"
+              >
+                {open ? <X size={26} strokeWidth={1.5} /> : <Menu size={26} strokeWidth={1.5} />}
+              </button>
+            </div>
           </div>
         </Container>
       </div>
 
       {/* ── Mobile drawer ─────────────────────────────────────────── */}
       <div
+        id="mobile-menu"
         className={[
-          "fixed inset-x-0 bottom-0 overflow-y-auto lg:hidden",
-          "bg-navy transition-[top] duration-300",      /* PCS Navy background */
-          open ? "top-[88px]" : "top-full",
+          "fixed inset-x-0 bottom-0 overflow-y-auto overscroll-contain lg:hidden",
+          "top-[68px] sm:top-[76px]",
+          "bg-navy transition-[transform,opacity] duration-300 ease-out",
+          /* Off-canvas rather than parked at top-full: nothing below the fold
+             stretches the document, and closed links stay unfocusable. */
+          open
+            ? "translate-y-0 opacity-100"
+            : "pointer-events-none invisible -translate-y-3 opacity-0",
         ].join(" ")}
         aria-hidden={!open}
       >
-        <Container className="py-8">
+        <Container className="py-6">
           <nav className="flex flex-col" aria-label="Mobile primary">
             {NAV_LINKS.map((label) => {
               const href = label === "Home" ? "/" : `/${label.toLowerCase()}`;
@@ -205,37 +227,70 @@ export default function Navbar() {
                   key={label}
                   href={href}
                   onClick={() => setOpen(false)}
+                  aria-current={active ? "page" : undefined}
                   className={[
-                    "border-b border-white/10 py-5",
-                    "font-display text-2xl font-medium",   /* Cormorant Garamond Medium */
+                    "flex items-center justify-between border-b border-white/10 py-4",
+                    "font-display text-[1.6rem] font-medium leading-none",
                     active ? "text-gold" : "text-white",
                   ].join(" ")}
                 >
                   {label}
+                  {active && <span className="h-1.5 w-1.5 shrink-0 bg-gold" aria-hidden />}
                 </Link>
               );
             })}
           </nav>
 
-          {/* CTA in mobile */}
-          <a
-            href={site.phoneHref}
-            className="mt-8 flex items-center justify-center gap-3 bg-gold px-6 py-4 font-sans text-[14px] font-semibold text-navy"
-          >
-            <PhoneCall size={20} strokeWidth={1.5} />
-            {site.phone}
-          </a>
+          {/* CTAs in mobile */}
+          <div className="mt-7 grid grid-cols-1 gap-3">
+            <Link
+              href="/book-consultation"
+              onClick={() => setOpen(false)}
+              className="flex items-center justify-center gap-3 bg-gold px-6 py-4 font-sans text-[11px] font-bold uppercase tracking-[0.18em] text-navy"
+            >
+              Book a consultation
+            </Link>
+            <a
+              href={site.phoneHref}
+              className="flex items-center justify-center gap-3 border border-white/25 px-6 py-4 font-sans text-[14px] font-semibold text-white"
+            >
+              <PhoneCall size={18} strokeWidth={1.5} className="text-gold" />
+              {site.phone}
+            </a>
+          </div>
 
           {/* Contact info mobile */}
-          <div className="mt-8 space-y-3 pb-8 font-sans text-[13px] text-white/55">
-            <p className="flex items-center gap-2">
-              <Mail size={13} className="text-gold" />
-              <a href={`mailto:${site.emails.general}`} className="hover:text-white">{site.emails.general}</a>
+          <div className="mt-7 space-y-3 font-sans text-[13px] leading-relaxed text-white/55">
+            <p className="flex items-start gap-2.5">
+              <MapPin size={14} className="mt-1 shrink-0 text-gold" />
+              <a href={site.address.mapsHref} target="_blank" rel="noreferrer" className="break-words hover:text-white">
+                {site.address.full}
+              </a>
             </p>
-            <p className="flex items-center gap-2">
-              <Clock size={13} className="text-gold" />
+            <p className="flex items-start gap-2.5">
+              <Mail size={14} className="mt-1 shrink-0 text-gold" />
+              <a href={`mailto:${site.emails.general}`} className="break-all hover:text-white">{site.emails.general}</a>
+            </p>
+            <p className="flex items-start gap-2.5">
+              <Clock size={14} className="mt-1 shrink-0 text-gold" />
               <span>{site.hours}</span>
             </p>
+          </div>
+
+          {/* Social row */}
+          <div className="mt-7 flex items-center gap-5 border-t border-white/10 pb-[max(2rem,env(safe-area-inset-bottom))] pt-6">
+            {SOCIAL_LINKS.map(({ href, icon: Icon, label }) => (
+              <a
+                key={label}
+                href={href}
+                aria-label={label}
+                target="_blank"
+                rel="noreferrer"
+                className="text-white/60 transition-colors hover:text-gold"
+              >
+                <Icon className="h-[17px] w-[17px]" />
+              </a>
+            ))}
           </div>
         </Container>
       </div>

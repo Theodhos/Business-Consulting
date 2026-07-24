@@ -85,7 +85,7 @@ export default async function ArticlePage({ params }: Props) {
   return (
     <>
       {/* ── HERO ─────────────────────────────────────────────── */}
-      <header className="relative w-full overflow-hidden bg-navy pb-0 pt-32 md:pt-44">
+      <header className="relative w-full overflow-hidden bg-navy pb-0 pt-28 sm:pt-32 md:pt-44">
         {/* Background image */}
         <img
           src={article.image}
@@ -102,12 +102,12 @@ export default async function ArticlePage({ params }: Props) {
           aria-hidden
         />
 
-        <Container className="relative z-10 pb-16 md:pb-20">
-          <div className="mb-8 flex flex-wrap items-center gap-6">
+        <Container className="relative z-10 pb-12 sm:pb-16 md:pb-20">
+          <div className="mb-6 flex flex-wrap items-center gap-4 sm:mb-8 sm:gap-6">
             {/* Back link */}
             <Link
               href="/articles"
-              className="group inline-flex items-center gap-2 font-sans text-[11px] font-semibold uppercase tracking-[0.22em] text-white/50 transition-colors hover:text-gold"
+              className="group inline-flex items-center gap-2 font-sans text-[11px] font-semibold uppercase tracking-[0.16em] text-white/50 transition-colors hover:text-gold sm:tracking-[0.22em]"
             >
               <ArrowLeft
                 size={13}
@@ -127,17 +127,17 @@ export default async function ArticlePage({ params }: Props) {
           </div>
 
           {/* Headline */}
-          <h1 className="max-w-4xl font-display text-[clamp(1.8rem,4.5vw,3.5rem)] font-bold leading-[1.08] text-white">
+          <h1 className="max-w-4xl font-display text-[clamp(1.7rem,6.5vw,3.5rem)] font-bold leading-[1.1] text-white">
             {article.title}
           </h1>
 
           {/* Excerpt */}
-          <p className="mt-6 max-w-2xl font-sans text-[15px] leading-[1.85] text-white/70">
+          <p className="mt-5 max-w-2xl font-sans text-[14.5px] leading-[1.85] text-white/70 sm:mt-6 sm:text-[15px]">
             {article.excerpt}
           </p>
 
           {/* Meta row */}
-          <div className="mt-8 flex flex-wrap items-center gap-6 border-t border-white/10 pt-6">
+          <div className="mt-7 flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-white/10 pt-5 sm:mt-8 sm:gap-6 sm:pt-6">
             <div className="flex items-center gap-2.5 font-sans text-[12px] text-white/50">
               <Calendar size={13} strokeWidth={1.8} className="text-gold/70" />
               {article.date}
@@ -154,13 +154,13 @@ export default async function ArticlePage({ params }: Props) {
       </header>
 
       {/* ── ARTICLE BODY ─────────────────────────────────────── */}
-      <main className="w-full bg-paper pb-24 lg:pb-32">
+      <main className="w-full bg-paper pb-20 sm:pb-24 lg:pb-32">
         <Container>
-          <div className="grid grid-cols-1 gap-16 py-16 lg:grid-cols-[1fr_340px] lg:py-24">
+          <div className="grid grid-cols-1 gap-12 py-12 sm:gap-16 sm:py-16 lg:grid-cols-[1fr_340px] lg:py-24">
 
             {/* Main content column */}
-            <article>
-              <span className="mb-12 block h-[3px] w-14 bg-gold" />
+            <article className="min-w-0">
+              <span className="mb-8 block h-[3px] w-14 bg-gold sm:mb-12" />
               <div
                 className="article-body"
                 dangerouslySetInnerHTML={{ __html: htmlContent }}
@@ -168,10 +168,10 @@ export default async function ArticlePage({ params }: Props) {
             </article>
 
             {/* Sidebar */}
-            <aside className="flex flex-col gap-10">
+            <aside className="flex flex-col gap-8 sm:gap-10">
 
               {/* About the author */}
-              <div className="border border-silver/40 bg-mist p-8">
+              <div className="border border-silver/40 bg-mist p-6 sm:p-8">
                 <p className="mb-4 font-sans text-[10px] font-bold uppercase tracking-[0.22em] text-navy/50">
                   About the author
                 </p>
@@ -187,7 +187,7 @@ export default async function ArticlePage({ params }: Props) {
               </div>
 
               {/* Book consultation CTA */}
-              <div className="border-l-[3px] border-gold bg-navy p-8">
+              <div className="border-l-[3px] border-gold bg-navy p-6 sm:p-8">
                 <p className="mb-3 font-sans text-[10px] font-bold uppercase tracking-[0.22em] text-gold/80">
                   Private Advisory
                 </p>
@@ -201,7 +201,7 @@ export default async function ArticlePage({ params }: Props) {
                 </p>
                 <Link
                   href="/contact"
-                  className="group mt-7 inline-flex items-center gap-3 border border-gold px-5 py-3 font-sans text-[10.5px] font-semibold uppercase tracking-[0.22em] text-gold transition-all duration-300 hover:bg-gold hover:text-navy"
+                  className="group mt-6 inline-flex w-full items-center justify-center gap-3 border border-gold px-5 py-3.5 font-sans text-[10.5px] font-semibold uppercase tracking-[0.16em] text-gold transition-all duration-300 hover:bg-gold hover:text-navy sm:mt-7 sm:w-auto sm:py-3 sm:tracking-[0.22em]"
                 >
                   Book a consultation
                   <ArrowRight
@@ -232,8 +232,8 @@ export default async function ArticlePage({ params }: Props) {
                             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                           />
                         </div>
-                        <div>
-                          <p className="font-sans text-[9.5px] font-bold uppercase tracking-[0.2em] text-gold">
+                        <div className="min-w-0">
+                          <p className="font-sans text-[9.5px] font-bold uppercase tracking-[0.16em] text-gold sm:tracking-[0.2em]">
                             {a!.category}
                           </p>
                           <p className="mt-1 font-display text-[13px] font-semibold leading-[1.3] text-navy transition-colors group-hover:text-gold line-clamp-2">
@@ -251,9 +251,9 @@ export default async function ArticlePage({ params }: Props) {
 
         {/* ── Prev / Next Minimal Navigation ─────────────── */}
         {(prev || next) && (
-          <div className="border-t border-silver/40 py-16 md:py-24">
+          <div className="border-t border-silver/40 py-12 sm:py-16 md:py-24">
             <Container>
-              <div className="grid grid-cols-1 gap-12 md:grid-cols-2 md:gap-8">
+              <div className="grid grid-cols-1 gap-9 sm:gap-12 md:grid-cols-2 md:gap-8">
                 {/* Previous (Left) */}
                 {prev ? (
                   <Link
@@ -264,7 +264,7 @@ export default async function ArticlePage({ params }: Props) {
                       <ArrowLeft size={11} strokeWidth={2.5} className="transition-transform duration-300 group-hover:-translate-x-1" />
                       Previous Article
                     </span>
-                    <p className="max-w-md font-display text-[1.6rem] font-semibold leading-[1.2] text-navy transition-colors group-hover:text-gold">
+                    <p className="max-w-md font-display text-[1.35rem] font-semibold leading-[1.25] text-navy transition-colors group-hover:text-gold sm:text-[1.6rem]">
                       {prev.title}
                     </p>
                   </Link>
@@ -282,7 +282,7 @@ export default async function ArticlePage({ params }: Props) {
                       Next Article
                       <ArrowRight size={11} strokeWidth={2.5} className="transition-transform duration-300 group-hover:translate-x-1" />
                     </span>
-                    <p className="max-w-md font-display text-[1.6rem] font-semibold leading-[1.2] text-navy transition-colors group-hover:text-gold">
+                    <p className="max-w-md font-display text-[1.35rem] font-semibold leading-[1.25] text-navy transition-colors group-hover:text-gold sm:text-[1.6rem]">
                       {next.title}
                     </p>
                   </Link>

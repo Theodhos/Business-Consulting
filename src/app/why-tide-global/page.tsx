@@ -57,13 +57,13 @@ export default function WhyTideGlobalPage() {
 
       {/* ── The honest framing ────────────────────────────────────────── */}
       <Section tone="paper" divide={false}>
-        <div className="grid grid-cols-1 gap-16 lg:grid-cols-12">
+        <div className="grid grid-cols-1 gap-10 sm:gap-16 lg:grid-cols-12">
           <div className="lg:col-span-5">
             <SectionHeading eyebrow="Plainly" title="You may not need us." />
           </div>
 
-          <div className="space-y-6 lg:col-span-7">
-            <p className="text-lg leading-relaxed text-navy/75">
+          <div className="space-y-5 sm:space-y-6 lg:col-span-7">
+            <p className="text-[16px] leading-relaxed text-navy/75 sm:text-lg">
               If your circumstances are straightforward, your timeline is comfortable and price is
               the deciding factor, a volume consultancy will serve you perfectly well. We will tell
               you so rather than take the engagement.
@@ -87,15 +87,15 @@ export default function WhyTideGlobalPage() {
           lead="Each of these is a consequence of the model, not a promise layered on top of it. That is precisely why a volume practice cannot simply match them."
         />
 
-        <div className="mt-14 grid grid-cols-1 gap-px border border-line bg-line md:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-10 grid grid-cols-1 gap-px border border-line bg-line sm:mt-14 md:grid-cols-2 lg:grid-cols-3">
           {advantages.map((a, i) => (
-            <div key={a.title} className="bg-mist p-8">
-              <div className="mb-6 flex items-center justify-between">
+            <div key={a.title} className="bg-mist p-6 sm:p-8">
+              <div className="mb-5 flex items-center justify-between sm:mb-6">
                 <a.icon size={22} strokeWidth={1.25} className="text-gold" aria-hidden />
                 <span className="eyebrow">{String(i + 1).padStart(2, "0")}</span>
               </div>
-              <h3 className="display-sm mb-3 text-navy">{a.title}</h3>
-              <p className="text-sm leading-relaxed text-navy/65">{a.body}</p>
+              <h3 className="display-sm mb-2.5 text-navy sm:mb-3">{a.title}</h3>
+              <p className="text-[13.5px] leading-relaxed text-navy/65 sm:text-sm">{a.body}</p>
             </div>
           ))}
         </div>
@@ -109,7 +109,28 @@ export default function WhyTideGlobalPage() {
           lead="Both are legitimate. They are simply built for different clients."
         />
 
-        <div className="mt-14 overflow-x-auto">
+        {/* Phones: one stacked card per dimension. A three-column table only
+            fits here by scrolling sideways, which hides the comparison that is
+            the entire point of the section. */}
+        <div className="mt-10 flex flex-col gap-3 md:hidden">
+          {comparison.map((row) => (
+            <div key={row.dimension} className="border border-line">
+              <p className="border-b border-line bg-mist px-5 py-3 font-sans text-[12px] font-semibold uppercase tracking-[0.14em] text-navy">
+                {row.dimension}
+              </p>
+              <div className="px-5 py-4">
+                <p className="eyebrow mb-1.5 text-navy/35">Volume consultancy</p>
+                <p className="text-[13.5px] leading-relaxed text-navy/45">{row.volume}</p>
+              </div>
+              <div className="border-t border-line border-l-[3px] border-l-gold px-5 py-4">
+                <p className="eyebrow mb-1.5">Tide Global</p>
+                <p className="text-[13.5px] leading-relaxed text-navy/80">{row.boutique}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-14 hidden overflow-x-auto md:block">
           <table className="w-full min-w-[46rem] border-collapse text-left">
             <thead>
               <tr className="border-b border-line-strong">
@@ -137,14 +158,14 @@ export default function WhyTideGlobalPage() {
 
       {/* ── Decide ────────────────────────────────────────────────────── */}
       <Section tone="navy">
-        <div className="flex flex-col gap-10 md:flex-row md:items-end md:justify-between">
+        <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between md:gap-10">
           <SectionHeading
             eyebrow="Find out"
             title="The quickest way to know which you need is to ask us."
             lead="A confidential consultation, no obligation, and a candid answer — including if that answer is that your matter does not warrant a boutique practice."
             invert
           />
-          <Button href="/book-consultation" variant="invert" className="shrink-0">
+          <Button href="/book-consultation" variant="invert" className="w-full shrink-0 md:w-auto">
             Book a consultation
             <ArrowRight size={14} strokeWidth={1.5} />
           </Button>

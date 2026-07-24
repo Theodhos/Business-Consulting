@@ -3,8 +3,10 @@ import React from "react";
 
 type Variant = "solid" | "outline" | "invert";
 
+/* py-4 keeps the hit area at 52px, comfortably past the 44px touch minimum;
+   tracking eases off on phones so long labels stay on one line. */
 const base =
-  "inline-flex items-center justify-center gap-3 px-8 py-4 font-sans text-[11px] font-semibold uppercase tracking-[0.18em] transition-colors duration-300";
+  "inline-flex items-center justify-center gap-3 px-6 py-4 text-center font-sans text-[11px] font-semibold uppercase tracking-[0.14em] transition-colors duration-300 sm:px-8 sm:tracking-[0.18em]";
 
 const variants: Record<Variant, string> = {
   // Primary action on light ground.

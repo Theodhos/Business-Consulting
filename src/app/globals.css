@@ -53,6 +53,13 @@
 
 /* ── Base ──────────────────────────────────────────────────────── */
 @layer base {
+  html {
+    /* Stop iOS inflating body copy in landscape. */
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
   body {
     background-color: var(--color-paper);
     color: var(--color-slate);
@@ -60,7 +67,19 @@
     font-size: 15px;
     line-height: 1.75;
     -webkit-font-smoothing: antialiased;
+    /* Long unbroken strings (emails, URLs) must never widen the page. */
+    overflow-wrap: break-word;
   }
+
+  /* No asset may push the document wider than the screen. */
+  img,
+  svg,
+  video,
+  canvas,
+  iframe {
+    max-width: 100%;
+  }
+
 
   /* Cormorant Garamond for all headings */
   h1, h2, h3, h4 {
@@ -93,21 +112,32 @@
 @layer utilities {
 
   /* ── Eyebrow label — used on every section ── */
+  /* Tracking eases off on phones so the label still fits one line. */
   .eyebrow {
     font-family: var(--font-sans);
     font-size: 10px;
     font-weight: 600;             /* Inter SemiBold */
-    letter-spacing: 0.28em;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--color-gold);
   }
 
+  @media (min-width: 640px) {
+    .eyebrow { letter-spacing: 0.28em; }
+  }
+
   /* ── Display / heading scale ── */
-  /* Cormorant Garamond — size gives weight, not bold */
-  .display-xl  { font-size: clamp(2.6rem,  5.5vw, 4.5rem);  font-weight: 700; }
-  .display-lg  { font-size: clamp(2rem,    4vw,   3.25rem); font-weight: 600; }
-  .display-md  { font-size: clamp(1.5rem,  2.5vw, 2.25rem); font-weight: 500; }
-  .display-sm  { font-size: 1.25rem;                         font-weight: 500; }
+  /* Cormorant Garamond — size gives weight, not bold.
+     The lower bound of each clamp is a phone size, and the vw term is steep
+     enough that the type actually scales between 360px and the desktop cap. */
+  .display-xl  { font-size: clamp(2.1rem,  8vw,   4.5rem);  font-weight: 700; }
+  .display-lg  { font-size: clamp(1.7rem,  6.5vw, 3.25rem); font-weight: 600; }
+  .display-md  { font-size: clamp(1.25rem, 5vw,   2.25rem); font-weight: 500; }
+  .display-sm  { font-size: 1.15rem;                         font-weight: 500; }
+
+  @media (min-width: 640px) {
+    .display-sm { font-size: 1.25rem; }
+  }
 
   /* ── Body copy ── */
   .lead {
@@ -139,6 +169,35 @@
     height: 2px;
     background: var(--color-gold);
   }
+
+  /* ── Mobile helpers ── */
+
+  /* Swipeable card rails on phones keep their scrollbar out of the design.
+     Compose with Tailwind's own flex/overflow/snap utilities so the rail can
+     revert to a plain grid at md and up. */
+  .hide-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Guarantees a 44px touch target without changing the visual box. */
+  .tap {
+    position: relative;
+  }
+  .tap::after {
+    content: "";
+    position: absolute;
+    inset: 50% 0 0 50%;
+    width: 100%;
+    height: 100%;
+    min-width: 44px;
+    min-height: 44px;
+    transform: translate(-50%, -50%);
+  }
 }
 
 /* ── Reduced motion ────────────────────────────────────────────── */
@@ -152,22 +211,37 @@
 /* ── Article body typography ───────────────────────────────────── */
 .article-body {
   font-family: var(--font-sans);
-  font-size: 15.5px;
-  line-height: 1.9;
+  font-size: 15px;
+  line-height: 1.85;
   color: var(--color-slate);
   max-width: 72ch;
 }
 
+@media (min-width: 768px) {
+  .article-body {
+    font-size: 15.5px;
+    line-height: 1.9;
+  }
+}
+
 .article-body h2 {
   font-family: var(--font-display);
-  font-size: clamp(1.4rem, 2.5vw, 1.9rem);
+  font-size: clamp(1.35rem, 4.5vw, 1.9rem);
   font-weight: 700;
   color: var(--color-navy);
   line-height: 1.15;
-  margin-top: 3rem;
-  margin-bottom: 1.1rem;
-  padding-left: 1.25rem;
+  margin-top: 2.25rem;
+  margin-bottom: 1rem;
+  padding-left: 1rem;
   border-left: 3px solid var(--color-gold);
+}
+
+@media (min-width: 768px) {
+  .article-body h2 {
+    margin-top: 3rem;
+    margin-bottom: 1.1rem;
+    padding-left: 1.25rem;
+  }
 }
 
 .article-body p {

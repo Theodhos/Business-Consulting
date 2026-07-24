@@ -47,18 +47,29 @@ export default function TestimonialSlider() {
     return () => clearInterval(t);
   }, [current]);
 
+  /* Swipe the whole card on touch devices. */
+  const touchX = useRef<number | null>(null);
+  const onTouchStart = (e: React.TouchEvent) => { touchX.current = e.touches[0].clientX; };
+  const onTouchEnd = (e: React.TouchEvent) => {
+    if (touchX.current === null) return;
+    const dx = e.changedTouches[0].clientX - touchX.current;
+    if (Math.abs(dx) > 45) goTo(dx < 0 ? current + 1 : current - 1);
+    touchX.current = null;
+  };
+
   return (
-    <section className="w-full bg-paper py-20 lg:py-28 overflow-hidden">
+    <section className="w-full overflow-hidden bg-paper py-14 sm:py-20 lg:py-28">
       <Container>
-        <div className="relative flex flex-col lg:flex-row items-center lg:items-start justify-between">
-          
+        <div className="relative flex flex-col items-center justify-between lg:flex-row lg:items-start">
+
           {/* Left Side: Image Slider */}
-          <div className="w-full lg:w-[48%] h-[400px] md:h-[500px] lg:h-[600px] relative shrink-0 overflow-hidden">
+          <div className="relative h-[240px] w-full shrink-0 overflow-hidden sm:h-[360px] md:h-[500px] lg:h-[600px] lg:w-[48%]">
             {testimonials.map((t, idx) => (
               <img
                 key={idx}
                 src={t.image}
                 alt={t.name}
+                loading="lazy"
                 className={[
                   "absolute inset-0 h-full w-full object-cover transition-all duration-[10000ms] ease-out",
                   idx === current ? "opacity-100 z-10 scale-110" : "opacity-0 z-0 scale-100",
@@ -67,49 +78,58 @@ export default function TestimonialSlider() {
             ))}
           </div>
 
-          {/* Right Side: Overlapping Content Box & Stats */}
-          <div className="w-full lg:w-[58%] relative lg:absolute lg:right-0 lg:top-12 z-20 mt-[-60px] lg:mt-0 px-4 lg:px-0">
-            
+          {/* Right Side: Overlapping Content Box */}
+          <div className="relative z-20 -mt-10 w-full px-0 sm:-mt-14 lg:absolute lg:right-0 lg:top-12 lg:mt-0 lg:w-[58%] lg:px-0">
+
             {/* White Testimonial Box */}
-            <div className="bg-white shadow-[0px_30px_80px_rgba(10,22,40,0.1)] p-8 md:p-14 lg:p-16 relative border border-silver/20 backdrop-blur-sm">
-              
+            <div
+              onTouchStart={onTouchStart}
+              onTouchEnd={onTouchEnd}
+              className="relative border border-silver/20 bg-white p-6 shadow-[0px_30px_80px_rgba(10,22,40,0.1)] backdrop-blur-sm sm:p-10 md:p-14 lg:p-16"
+            >
+
               {/* Header */}
-              <p className="font-sans text-[11px] font-bold uppercase tracking-[0.2em] text-navy mb-5">
+              <p className="mb-4 font-sans text-[11px] font-bold uppercase tracking-[0.16em] text-navy sm:mb-5 sm:tracking-[0.2em]">
                 Testimonial
               </p>
-              <div className="border-l-[3px] border-gold pl-5 mb-10">
-                <h2 className="font-display text-[2.2rem] md:text-[2.8rem] leading-[1.1]">
+              <div className="mb-7 border-l-[3px] border-gold pl-4 sm:mb-10 sm:pl-5">
+                <h2 className="font-display text-[1.75rem] leading-[1.1] sm:text-[2.2rem] md:text-[2.8rem]">
                   <span className="font-light text-slate">Satisfied</span> <span className="font-bold text-navy">Customers</span>
                 </h2>
               </div>
 
-              {/* Slider Content */}
-              <div className="relative min-h-[180px]">
+              {/* Slider content — stacked in one grid cell so the box always grows
+                  to the tallest quote instead of clipping it against a fixed height.
+                  overflow-hidden keeps the off-stage slide's 2rem slide-in offset
+                  from widening the card on narrow screens. */}
+              <div className="grid overflow-hidden">
                 {testimonials.map((t, idx) => (
                   <div
                     key={idx}
+                    aria-hidden={idx !== current}
                     className={[
-                      "absolute inset-0 transition-all duration-700 w-full",
-                      idx === current 
-                        ? "opacity-100 translate-x-0 pointer-events-auto" 
-                        : "opacity-0 translate-x-8 pointer-events-none",
+                      "col-start-1 row-start-1 w-full transition-all duration-700",
+                      idx === current
+                        ? "pointer-events-auto translate-x-0 opacity-100"
+                        : "pointer-events-none translate-x-8 opacity-0",
                     ].join(" ")}
                   >
-                    <div className="flex items-center gap-4 mb-6">
-                      <div className="h-14 w-14 overflow-hidden rounded-full shrink-0">
+                    <div className="mb-5 flex items-center gap-4 sm:mb-6">
+                      <div className="h-12 w-12 shrink-0 overflow-hidden rounded-full sm:h-14 sm:w-14">
                         <img
                           src={t.avatar}
                           alt={t.name}
+                          loading="lazy"
                           className="h-full w-full object-cover"
                         />
                       </div>
-                      <div>
+                      <div className="min-w-0">
                         <p className="font-sans text-[15px] font-bold text-navy">{t.name}</p>
                         <p className="font-sans text-[12px] font-medium text-slate/70">{t.title}</p>
                       </div>
                     </div>
 
-                    <p className="font-sans text-[14.5px] leading-[1.8] text-slate/80 pr-4">
+                    <p className="font-sans text-[14px] leading-[1.8] text-slate/80 sm:text-[14.5px] sm:pr-4">
                       {t.quote}
                     </p>
                   </div>
@@ -117,15 +137,15 @@ export default function TestimonialSlider() {
               </div>
 
               {/* Controls (Dots + Arrows) */}
-              <div className="mt-8 flex items-center justify-between border-t border-silver/50 pt-8">
+              <div className="mt-7 flex items-center justify-between border-t border-silver/50 pt-6 sm:mt-8 sm:pt-8">
                 {/* Progress Bars */}
-                <div className="flex gap-3">
+                <div className="flex gap-2.5 sm:gap-3">
                   {testimonials.map((_, idx) => (
                     <button
                       key={idx}
                       onClick={() => goTo(idx)}
                       aria-label={`Slide ${idx + 1}`}
-                      className="relative h-1 w-10 overflow-hidden bg-silver transition-all hover:bg-navy/20"
+                      className="tap relative h-1 w-9 overflow-hidden bg-silver transition-all hover:bg-navy/20 sm:w-10"
                     >
                       <div
                         className={[
@@ -144,22 +164,20 @@ export default function TestimonialSlider() {
                   <button
                     onClick={() => goTo(current - 1)}
                     aria-label="Previous slide"
-                    className="flex h-10 w-10 items-center justify-center border border-silver/60 text-navy transition-all duration-300 hover:border-gold hover:bg-gold hover:text-white"
+                    className="flex h-11 w-11 items-center justify-center border border-silver/60 text-navy transition-all duration-300 hover:border-gold hover:bg-gold hover:text-white"
                   >
                     <ChevronLeft size={18} strokeWidth={1.5} />
                   </button>
                   <button
                     onClick={() => goTo(current + 1)}
                     aria-label="Next slide"
-                    className="flex h-10 w-10 items-center justify-center border border-silver/60 text-navy transition-all duration-300 hover:border-gold hover:bg-gold hover:text-white"
+                    className="flex h-11 w-11 items-center justify-center border border-silver/60 text-navy transition-all duration-300 hover:border-gold hover:bg-gold hover:text-white"
                   >
                     <ChevronRight size={18} strokeWidth={1.5} />
                   </button>
                 </div>
               </div>
             </div>
-
-
 
           </div>
 

@@ -52,12 +52,12 @@ export default function EnquiryForm({
 
   if (state === "done") {
     return (
-      <div className={`border p-10 ${invert ? "border-gold/40" : "border-gold/50"}`}>
+      <div className={`border p-6 sm:p-10 ${invert ? "border-gold/40" : "border-gold/50"}`}>
         <p className="eyebrow mb-4">Enquiry received</p>
         <h3 className={`display-md mb-4 ${invert ? "text-paper" : "text-navy"}`}>
           Thank you. Your enquiry is with us.
         </h3>
-        <p className={`text-sm leading-relaxed ${invert ? "text-paper/60" : "text-navy/65"}`}>
+        <p className={`text-[13.5px] leading-relaxed sm:text-sm ${invert ? "text-paper/60" : "text-navy/65"}`}>
           A relationship manager will contact you within one business day to arrange your
           confidential consultation. Everything you have shared is held in confidence.
         </p>
@@ -67,19 +67,19 @@ export default function EnquiryForm({
 
   return (
     <form onSubmit={onSubmit} className="space-y-6">
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+      <div className="grid grid-cols-1 gap-5 sm:gap-6 md:grid-cols-2">
         <Field label="Full name" name="name" required invert={invert} autoComplete="name" placeholder="Your full name" />
         <Field label="Email address" name="email" type="email" required invert={invert} autoComplete="email" placeholder="you@example.com" />
       </div>
 
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+      <div className="grid grid-cols-1 gap-5 sm:gap-6 md:grid-cols-2">
         <Field label="Telephone" name="phone" type="tel" required invert={invert} autoComplete="tel" placeholder="Include country code" />
         <Field label="Country of residence" name="country" required invert={invert} autoComplete="country-name" placeholder="Where you are based" />
       </div>
 
       {booking ? (
         <>
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+          <div className="grid grid-cols-1 gap-5 sm:gap-6 md:grid-cols-2">
             <SelectField label="Area of interest" name="interest" options={interests} required invert={invert} />
             <SelectField label="Intended timeline" name="timeline" options={timelines} required invert={invert} />
           </div>
@@ -120,7 +120,7 @@ export default function EnquiryForm({
         </p>
       )}
 
-      <SubmitButton variant={invert ? "invert" : "solid"} disabled={state === "sending"}>
+      <SubmitButton variant={invert ? "invert" : "solid"} disabled={state === "sending"} className="w-full sm:w-auto">
         {state === "sending" ? "Sending…" : booking ? "Request consultation" : "Send enquiry"}
       </SubmitButton>
     </form>

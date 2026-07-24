@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
 
@@ -34,6 +34,17 @@ export const metadata: Metadata = {
     locale: "en_ZA",
   },
   robots: { index: true, follow: true },
+};
+
+/**
+ * Phones get the real layout, never a zoomed-out desktop one. `maximumScale` is
+ * left alone deliberately — pinch-zoom stays available.
+ */
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: "#1A3A5C",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

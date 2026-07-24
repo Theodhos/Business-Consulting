@@ -6,8 +6,12 @@ import React from "react";
  */
 
 const labelClass = "mb-2 block font-sans text-[10px] font-semibold uppercase tracking-[0.16em]";
+/**
+ * 16px on phones is deliberate: iOS Safari zooms the whole page whenever a
+ * focused control renders below that, and the zoom is never undone.
+ */
 const controlClass =
-  "w-full border bg-transparent px-4 py-3.5 font-sans text-sm transition-colors focus:outline-none";
+  "w-full min-w-0 border bg-transparent px-4 py-3.5 font-sans text-[16px] sm:text-sm transition-colors focus:outline-none";
 
 function tone(invert: boolean) {
   return {

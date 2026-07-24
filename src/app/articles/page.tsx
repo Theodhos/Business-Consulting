@@ -27,10 +27,10 @@ export default async function ArticlesPage() {
         image="/ph7.png"
       />
 
-      <main className="w-full bg-paper pb-24 lg:pb-32">
-        <section className="pt-20 lg:pt-28">
+      <main className="w-full bg-paper pb-20 sm:pb-24 lg:pb-32">
+        <section className="pt-14 sm:pt-20 lg:pt-28">
           <Container>
-            <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:gap-16">
+            <div className="grid grid-cols-1 gap-10 sm:gap-12 md:grid-cols-2 lg:gap-16">
               {articles.map((article) => (
                 <Link
                   key={article.slug}
@@ -38,29 +38,30 @@ export default async function ArticlesPage() {
                   className="group flex flex-col bg-paper transition-all duration-500 hover:-translate-y-2"
                 >
                   {/* Image container */}
-                  <div className="relative mb-8 aspect-[16/10] w-full overflow-hidden border border-silver/40">
+                  <div className="relative mb-6 aspect-[16/10] w-full overflow-hidden border border-silver/40 sm:mb-8">
                     <img
                       src={article.image}
                       alt={article.title}
+                      loading="lazy"
                       className="h-full w-full object-cover transition-transform duration-1000 group-hover:scale-105"
                     />
                     <div className="absolute inset-0 bg-navy/0 transition-colors duration-500 group-hover:bg-navy/5" />
                   </div>
 
                   {/* Meta row */}
-                  <div className="mb-4 flex items-center gap-4 font-sans text-[10px] font-bold uppercase tracking-[0.2em] text-slate/60">
+                  <div className="mb-3 flex flex-wrap items-center gap-x-3 gap-y-1 font-sans text-[10px] font-bold uppercase tracking-[0.16em] text-slate/60 sm:mb-4 sm:gap-4 sm:tracking-[0.2em]">
                     <span className="text-gold">{article.category}</span>
                     <span className="h-1 w-1 rounded-full bg-silver/60" />
                     <span>{article.readTime}</span>
                   </div>
 
                   {/* Title */}
-                  <h2 className="mb-4 font-display text-[1.6rem] font-semibold leading-[1.25] text-navy transition-colors duration-300 group-hover:text-gold">
+                  <h2 className="mb-3 font-display text-[1.4rem] font-semibold leading-[1.25] text-navy transition-colors duration-300 group-hover:text-gold sm:mb-4 sm:text-[1.6rem]">
                     {article.title}
                   </h2>
 
                   {/* Excerpt */}
-                  <p className="mb-6 font-sans text-[14px] leading-[1.8] text-slate/80 line-clamp-3">
+                  <p className="mb-5 font-sans text-[14px] leading-[1.8] text-slate/80 line-clamp-3 sm:mb-6">
                     {article.excerpt}
                   </p>
 

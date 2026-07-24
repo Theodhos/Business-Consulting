@@ -23,7 +23,12 @@ const CARD_H = STEP_H * VISIBLE; // 632px
 export default function JourneySection() {
   const wrapRef = useRef<HTMLElement>(null);
   const [active, setActive] = useState(0);
-  const [isDesktop, setIsDesktop] = useState(true);
+  /**
+   * Mobile is the server-rendered default. Assuming desktop instead made phones
+   * paint a ~330vh empty block (the pinned-scroll height) for the frame before
+   * hydration; the reverse costs desktop one frame of the stacked layout.
+   */
+  const [isDesktop, setIsDesktop] = useState(false);
 
   /* Only pin + drive on desktop; mobile shows a simple stacked list */
   useEffect(() => {
@@ -82,14 +87,16 @@ export default function JourneySection() {
       className="relative w-full border-t border-line bg-mist"
       style={isDesktop ? { height: `${journey.length * 55}vh` } : undefined}
     >
-      <div className={isDesktop ? "sticky top-0 flex h-screen items-center" : "py-10 md:py-20"}>
+      <div className={isDesktop ? "sticky top-0 flex h-screen items-center" : "py-14 sm:py-16 md:py-20"}>
         <Container className="w-full">
           <div className="grid grid-cols-1 overflow-visible border border-line bg-paper lg:grid-cols-[42%_1fr] lg:overflow-hidden">
 
             {/* ── Left image — crossfades to the active step ─────────── */}
+            {/* On phones it pins just under the fixed navbar, so the photo keeps
+                pace with whichever step is being read. */}
             <div
-              className={isDesktop ? "relative overflow-hidden" : "relative overflow-hidden sticky top-[60px] z-20 shadow-md"}
-              style={isDesktop ? { height: CARD_H } : { height: "300px" }}
+              className={isDesktop ? "relative overflow-hidden" : "sticky top-[68px] z-20 h-[210px] overflow-hidden shadow-md sm:top-[76px] sm:h-[250px]"}
+              style={isDesktop ? { height: CARD_H } : undefined}
             >
               {STEP_IMAGES.map((src, idx) => (
                 <div
@@ -97,7 +104,7 @@ export default function JourneySection() {
                   className="absolute inset-0 transition-opacity duration-700 ease-out"
                   style={{ opacity: idx === active ? 1 : 0 }}
                 >
-                  <img src={src} alt="" aria-hidden className="h-full w-full object-cover object-center" />
+                  <img src={src} alt="" aria-hidden loading="lazy" className="h-full w-full object-cover object-center" />
                   <div
                     className="absolute inset-0"
                     style={{
@@ -108,7 +115,7 @@ export default function JourneySection() {
                 </div>
               ))}
 
-              <div className="relative z-10 flex h-full flex-col justify-end p-8 lg:p-12">
+              <div className="relative z-10 flex h-full flex-col justify-end p-5 sm:p-8 lg:p-12">
                 {isDesktop && (
                   <>
                     <p className="eyebrow mb-5 text-gold/90">The private client experience</p>
@@ -132,9 +139,13 @@ export default function JourneySection() {
                 {!isDesktop && (
                   <div>
                     <p className="eyebrow mb-2 text-gold/90">The private client experience</p>
-                    <h2 className="font-display text-[1.8rem] font-bold leading-[1.1] text-white">
+                    <h2 className="font-display text-[1.6rem] font-bold leading-[1.1] text-white sm:text-[1.8rem]">
                       How an engagement runs
                     </h2>
+                    {/* Step counter — tells you where you are while the list scrolls */}
+                    <p className="mt-2 font-sans text-[11px] font-semibold uppercase tracking-[0.16em] text-white/70">
+                      Step {String(active + 1).padStart(2, "0")} of {String(journey.length).padStart(2, "0")}
+                    </p>
                   </div>
                 )}
               </div>
@@ -157,25 +168,25 @@ export default function JourneySection() {
                       key={step.title}
                       data-index={i}
                       className={[
-                        "journey-step flex flex-col justify-center border-l-2 px-8 transition-all duration-500 lg:px-12",
+                        "journey-step flex flex-col justify-center border-l-2 px-5 py-6 transition-all duration-500 sm:px-8 sm:py-7 lg:px-12 lg:py-0",
                         i < journey.length - 1 ? "border-b border-b-silver" : "",
                         activeStep ? "border-l-gold bg-paper shadow-[-4px_0_15px_-3px_rgba(201,160,80,0.4)]" : "border-l-transparent bg-mist",
                       ].join(" ")}
-                      style={isDesktop ? { height: STEP_H } : { minHeight: STEP_H, paddingTop: 28, paddingBottom: 28 }}
+                      style={isDesktop ? { height: STEP_H } : undefined}
                     >
-                      <div className="flex items-start gap-5">
+                      <div className="flex items-start gap-4 sm:gap-5">
                         <span
                           className={[
-                            "mt-1 shrink-0 font-sans text-[13px] font-bold tracking-[0.12em] transition-colors duration-300",
+                            "mt-0.5 shrink-0 font-sans text-[13px] font-bold tracking-[0.12em] transition-colors duration-300 sm:mt-1",
                             lit ? "text-gold" : "text-silver/70",
                           ].join(" ")}
                         >
                           {String(i + 1).padStart(2, "0")}
                         </span>
-                        <div>
+                        <div className="min-w-0">
                           <h3
                             className={[
-                              "font-display text-[1.3rem] font-semibold leading-snug transition-colors duration-300",
+                              "font-display text-[1.2rem] font-semibold leading-snug transition-colors duration-300 sm:text-[1.3rem]",
                               lit ? "text-navy" : "text-navy/40",
                             ].join(" ")}
                           >
@@ -198,6 +209,17 @@ export default function JourneySection() {
             </div>
 
           </div>
+
+          {/* Phones lose the CTA that lives inside the desktop photo panel */}
+          {!isDesktop && (
+            <Link
+              href="/experience"
+              className="group mt-4 inline-flex w-full items-center justify-center gap-3 border border-navy px-6 py-4 font-sans text-[11px] font-semibold uppercase tracking-[0.18em] text-navy transition-all duration-300 hover:bg-navy hover:text-white"
+            >
+              The full journey
+              <ArrowRight size={14} strokeWidth={2} className="transition-transform duration-300 group-hover:translate-x-1.5" />
+            </Link>
+          )}
         </Container>
       </div>
     </section>

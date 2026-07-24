@@ -29,7 +29,7 @@ export function Section({
   return (
     <section
       id={id}
-      className={`w-full py-20 md:py-28 ${toneClass[tone]} ${
+      className={`w-full py-14 sm:py-20 md:py-28 ${toneClass[tone]} ${
         divide ? (tone === "navy" ? "border-t border-line-invert" : "border-t border-line") : ""
       } ${className}`}
     >
@@ -46,5 +46,7 @@ export function Container({
   className?: string;
   children: React.ReactNode;
 }) {
-  return <div className={`mx-auto w-full max-w-6xl px-6 md:px-8 ${className}`}>{children}</div>;
+  return (
+    <div className={`mx-auto w-full max-w-6xl px-5 sm:px-6 md:px-8 ${className}`}>{children}</div>
+  );
 }

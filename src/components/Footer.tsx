@@ -38,9 +38,9 @@ export default function Footer() {
             aria-hidden
           />
 
-          <div className="relative z-10 flex flex-col items-center justify-between gap-6 px-6 py-12 sm:px-8 sm:py-16 md:flex-row md:px-14 lg:px-20">
+          <div className="relative z-10 flex flex-col items-center justify-between gap-6 px-5 py-10 sm:px-8 sm:py-16 md:flex-row md:px-14 lg:px-20">
             <div className="max-w-2xl text-center md:text-left">
-              <h2 className="font-display text-[clamp(1.5rem,2.8vw,2.6rem)] font-light leading-snug text-paper">
+              <h2 className="font-display text-[clamp(1.4rem,5.5vw,2.6rem)] font-light leading-snug text-paper">
                 Are You Looking For{" "}
                 <span className="font-bold text-white">Private Client Advisory</span> Just Call Us
               </h2>
@@ -50,7 +50,7 @@ export default function Footer() {
                   {site.phone}
                 </a>{" "}
                 or email us :{" "}
-                <a href={`mailto:${site.emails.general}`} className="font-semibold text-paper underline-offset-4 transition-colors hover:text-gold hover:underline">
+                <a href={`mailto:${site.emails.general}`} className="font-semibold text-paper break-all underline-offset-4 transition-colors hover:text-gold hover:underline">
                   {site.emails.general}
                 </a>
               </p>
@@ -58,7 +58,7 @@ export default function Footer() {
 
             <Link
               href="/book-consultation"
-              className="group inline-flex shrink-0 items-center gap-3 border border-gold px-8 py-4 font-sans text-[11px] font-bold uppercase tracking-[0.2em] text-paper transition-all duration-300 hover:bg-gold hover:text-navy"
+              className="group inline-flex w-full shrink-0 items-center justify-center gap-3 border border-gold px-8 py-4 font-sans text-[11px] font-bold uppercase tracking-[0.16em] text-paper transition-all duration-300 hover:bg-gold hover:text-navy sm:w-auto sm:tracking-[0.2em]"
             >
               Contact Us
               <ArrowRight
@@ -72,12 +72,12 @@ export default function Footer() {
       </Container>
 
       <Container>
-        <div className="flex flex-col items-center border-b border-white/10 py-14 sm:py-20 text-center">
+        <div className="flex flex-col items-center border-b border-white/10 py-12 sm:py-20 text-center">
           <div className="mb-5 flex items-center justify-center">
-            <img src="/logo final.png" alt={site.name} className="h-12 sm:h-16 w-auto object-contain" />
+            <img src="/logo final.png" alt={site.name} className="h-11 sm:h-16 w-auto object-contain" />
           </div>
 
-          <p className="mb-6 max-w-xl px-4 font-sans text-[13px] sm:text-[14px] font-medium leading-[1.8] text-paper/65">
+          <p className="mb-6 max-w-xl font-sans text-[13px] sm:text-[14px] font-medium leading-[1.8] text-paper/65">
             Boutique South African immigration advisory for high-net-worth individuals, investors and
             executives. Our specialists advise on strategy before a single form is filed, ensuring
             your time and capital are protected.
@@ -101,9 +101,9 @@ export default function Footer() {
       </Container>
 
       <Container>
-        <div className="grid grid-cols-1 gap-12 py-20 sm:grid-cols-2 lg:grid-cols-4 lg:gap-10">
+        <div className="grid grid-cols-1 gap-10 py-12 sm:grid-cols-2 sm:gap-12 sm:py-20 lg:grid-cols-4 lg:gap-10">
           <div>
-            <h3 className="mb-8 font-display text-[1.35rem] font-semibold text-white">
+            <h3 className="mb-5 font-display text-[1.35rem] font-semibold text-white sm:mb-8">
               Important Links
             </h3>
             <ul className="space-y-4">
@@ -132,7 +132,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <h3 className="mb-8 font-display text-[1.35rem] font-semibold text-white">Support</h3>
+            <h3 className="mb-5 font-display text-[1.35rem] font-semibold text-white sm:mb-8">Support</h3>
             <ul className="space-y-4">
               {[
                 { label: "Articles", href: "/articles" },
@@ -158,7 +158,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <h3 className="mb-8 font-display text-[1.35rem] font-semibold text-white">Contact</h3>
+            <h3 className="mb-5 font-display text-[1.35rem] font-semibold text-white sm:mb-8">Contact</h3>
             <ul className="space-y-5">
               <li className="flex items-start gap-3 font-sans text-[14px] font-medium text-paper/70">
                 <MapPin size={16} className="mt-0.5 shrink-0 text-gold" />
@@ -166,7 +166,7 @@ export default function Footer() {
                   href={site.address.mapsHref}
                   target="_blank"
                   rel="noreferrer"
-                  className="leading-snug transition-colors hover:text-gold"
+                  className="min-w-0 leading-snug transition-colors hover:text-gold"
                 >
                   Location : {site.address.full}
                 </a>
@@ -177,9 +177,9 @@ export default function Footer() {
                   Phone : {site.phone}
                 </a>
               </li>
-              <li className="flex items-center gap-3 font-sans text-[14px] font-medium text-paper/70">
-                <Mail size={16} className="shrink-0 text-gold" />
-                <a href={`mailto:${site.emails.general}`} className="transition-colors hover:text-gold">
+              <li className="flex items-start gap-3 font-sans text-[14px] font-medium text-paper/70">
+                <Mail size={16} className="mt-0.5 shrink-0 text-gold" />
+                <a href={`mailto:${site.emails.general}`} className="min-w-0 break-all leading-snug transition-colors hover:text-gold">
                   Email : {site.emails.general}
                 </a>
               </li>
@@ -191,10 +191,10 @@ export default function Footer() {
           </div>
 
           <div>
-            <h3 className="mb-8 font-display text-[1.35rem] font-semibold text-white">
+            <h3 className="mb-5 font-display text-[1.35rem] font-semibold text-white sm:mb-8">
               Subscribe Our Newsletter
             </h3>
-            <p className="mb-6 pr-4 font-sans text-[14px] font-medium leading-[1.7] text-paper/70">
+            <p className="mb-6 font-sans text-[14px] font-medium leading-[1.7] text-paper/70 sm:pr-4">
               Receive occasional briefings on South African immigration policy and private client
               planning. We respect your inbox.
             </p>
@@ -203,12 +203,14 @@ export default function Footer() {
               <input
                 type="email"
                 placeholder="Your Email"
-                className="w-full px-4 py-3.5 font-sans text-[13.5px] font-medium text-navy outline-none placeholder:text-slate/40"
+                aria-label="Your email"
+                className="w-full min-w-0 px-4 py-3.5 font-sans text-[16px] font-medium text-navy outline-none placeholder:text-slate/40 sm:text-[13.5px]"
                 required
               />
               <button
                 type="submit"
-                className="flex items-center justify-center bg-gold px-5 text-navy transition-colors hover:bg-paper"
+                aria-label="Subscribe"
+                className="flex shrink-0 items-center justify-center bg-gold px-5 text-navy transition-colors hover:bg-paper"
               >
                 <ChevronRight size={18} strokeWidth={3} />
               </button>
