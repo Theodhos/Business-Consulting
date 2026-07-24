@@ -15,6 +15,7 @@ import {
   deletePost as removePost,
   estimateReadTime,
   formatPublishDate,
+  getPostBySlug,
   isSlugTaken,
   setPublished,
   slugify,
@@ -155,6 +156,10 @@ export async function savePostAction(
     published: publish,
   };
 
+  // Whether this replaces an existing article decides the wording of the
+  // confirmation — "Published" for a new one, "Updated" for an edit.
+  const edited = Boolean(previousSlug) && Boolean(await getPostBySlug(previousSlug!));
+
   try {
     await upsertPost(record, previousSlug);
   } catch (error) {
@@ -163,41 +168,118 @@ export async function savePostAction(
   }
 
   refreshPublicPages(slug, previousSlug);
-  redirect(`${CONSOLE_PATH}?saved=${encodeURIComponent(slug)}&state=${publish ? "published" : "draft"}`);
+
+  const state = publish ? (edited ? "updated" : "published") : edited ? "draft-updated" : "draft";
+  redirect(`${CONSOLE_PATH}?saved=${encodeURIComponent(slug)}&state=${state}`);
 }
 
-export async function togglePublishAction(formData: FormData): Promise<void> {
+/* ── Publish state and deletion ─────────────────────────────────── */
+
+/**
+ * What a console mutation reports back, so the dashboard can confirm in a dialog
+ * whether the work landed. Every outcome is described — including the ones that
+ * did nothing, which previously returned in silence.
+ */
+export type ActionResult = {
+  ok: boolean;
+  title: string;
+  message: string;
+  /** The public article, when the outcome leaves one worth opening. */
+  href?: string;
+  /** Distinct per call, so repeating an action reopens the dialog. */
+  at: number;
+};
+
+function done(title: string, message: string, href?: string): ActionResult {
+  return { ok: true, title, message, href, at: Date.now() };
+}
+
+function failed(title: string, message: string): ActionResult {
+  return { ok: false, title, message, at: Date.now() };
+}
+
+export async function togglePublishAction(formData: FormData): Promise<ActionResult> {
   await requireSession();
 
   const slug = field(formData, "slug");
   const publish = field(formData, "publish") === "true";
-  if (!slug) return;
+  if (!slug) {
+    return failed("Nothing changed", "The article reference was missing. Reload the page and try again.");
+  }
 
-  const updated = await setPublished(slug, publish);
-  if (!updated) return;
+  let updated;
+  try {
+    updated = await setPublished(slug, publish);
+  } catch (error) {
+    console.error("[console] Could not change the publish state.", error);
+    return failed(
+      publish ? "Not published" : "Not unpublished",
+      "The article store could not be written to, so nothing was changed.",
+    );
+  }
+
+  if (!updated) {
+    refreshPublicPages(slug);
+    return failed(
+      "Nothing changed",
+      "That article is no longer in the store — it may have been deleted in another tab. The list has been refreshed.",
+    );
+  }
 
   refreshPublicPages(slug);
-  redirect(`${CONSOLE_PATH}?saved=${encodeURIComponent(slug)}&state=${publish ? "published" : "unpublished"}`);
+
+  return publish
+    ? done("Published", `“${updated.title}” is now live on the articles page.`, `/articles/${slug}`)
+    : done("Unpublished", `“${updated.title}” has been taken off the articles page. It is kept here as a draft.`);
 }
 
-export async function deletePostAction(formData: FormData): Promise<void> {
+export async function deletePostAction(formData: FormData): Promise<ActionResult> {
   await requireSession();
 
   const slug = field(formData, "slug");
-  if (!slug) return;
+  if (!slug) {
+    return failed("Nothing deleted", "The article reference was missing. Reload the page and try again.");
+  }
 
-  const removed = await removePost(slug);
-  if (!removed) return;
+  // Read the record first: once it is gone the title is gone with it, and the
+  // confirmation should name the article rather than its slug.
+  const existing = await getPostBySlug(slug);
+  const name = existing?.title ?? slug;
+
+  let removed: boolean;
+  try {
+    removed = await removePost(slug);
+  } catch (error) {
+    console.error("[console] Could not delete the post.", error);
+    return failed(
+      "Not deleted",
+      `“${name}” is still there — the article store could not be written to.`,
+    );
+  }
+
+  if (!removed) {
+    refreshPublicPages(slug);
+    return failed(
+      "Already gone",
+      `“${name}” was no longer in the store — it may have been deleted in another tab. The list has been refreshed.`,
+    );
+  }
 
   refreshPublicPages(slug);
-  redirect(`${CONSOLE_PATH}?saved=${encodeURIComponent(slug)}&state=deleted`);
+  return done("Deleted", `“${name}” has been removed from the articles page for good.`);
 }
 
 /**
  * The public article pages read the store on every request, but their route
- * caches still need clearing so a fresh publish is visible immediately.
+ * caches still need clearing so a publish, an edit or a deletion is visible
+ * immediately — including in the tab the editor already has open.
+ *
+ * `revalidatePath("/", "layout")` sweeps every route under the root layout in
+ * one call; the specific paths after it are the ones that must be right the
+ * instant the dialog says so, and are cheap to name twice.
  */
 function refreshPublicPages(slug: string, previousSlug?: string): void {
+  revalidatePath("/", "layout");
   revalidatePath("/");
   revalidatePath("/articles");
   revalidatePath(`/articles/${slug}`);

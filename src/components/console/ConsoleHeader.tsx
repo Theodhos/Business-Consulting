@@ -25,7 +25,7 @@ export default function ConsoleHeader({ username }: { username: string }) {
             className="inline-flex items-center gap-2 font-sans text-[10px] font-semibold uppercase tracking-[0.18em] text-paper/55 transition-colors hover:text-gold"
           >
             <ExternalLink size={12} strokeWidth={2} />
-            View site
+            View articles
           </Link>
 
           <Link

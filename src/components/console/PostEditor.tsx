@@ -17,6 +17,8 @@ import {
 import { savePostAction, type PostFormState } from "@/app/admin/actions";
 import type { Post } from "@/lib/posts";
 
+import ActionDialog from "./ActionDialog";
+
 /* ── Field chrome, matching the site's form treatment ────────────── */
 
 const labelClass =
@@ -101,6 +103,19 @@ export default function PostEditor({
     () => content.trim().split(/\s+/).filter(Boolean).length,
     [content],
   );
+
+  /**
+   * A save that works redirects to the dashboard, which announces it there. The
+   * only outcome this page has to report is a failure — and it has to be hard to
+   * miss, because otherwise pressing Publish simply appears to do nothing.
+   *
+   * Dismissing remembers the attempt it dismissed rather than closing a flag:
+   * every submission returns a fresh state object, so the next failure — even an
+   * identical one — opens the dialog again.
+   */
+  const [dismissed, setDismissed] = useState<PostFormState>(undefined);
+  const failure = state !== dismissed ? state : undefined;
+  const failureDetail = Object.values(failure?.fieldErrors ?? {});
 
   async function handleUpload(file: File) {
     setUploadError(null);
@@ -446,6 +461,19 @@ export default function PostEditor({
           </div>
         </aside>
       </div>
+
+      <ActionDialog
+        open={Boolean(failure?.error)}
+        tone="error"
+        title={failureDetail.length > 0 ? "Some fields need attention" : "Not saved"}
+        message={
+          failureDetail.length > 0
+            ? `Nothing has been saved yet. ${failureDetail.join(" ")}`
+            : (failure?.error ?? "")
+        }
+        confirmLabel="Back to the form"
+        onConfirm={() => setDismissed(state)}
+      />
     </form>
   );
 }

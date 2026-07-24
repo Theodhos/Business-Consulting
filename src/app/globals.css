@@ -304,3 +304,25 @@ body:has(> footer) main > :last-child {
   font-weight: 700;
   color: var(--color-navy);
 }
+
+/* ── Console dialog ────────────────────────────────────────────────
+   The editorial console confirms every publish, edit and deletion in a
+   modal. Both halves fade in — the reduced-motion rule above cuts the
+   duration for anyone who asks for that. */
+@keyframes console-dialog-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes console-dialog-panel-in {
+  from { opacity: 0; transform: translateY(12px) scale(0.985); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.console-dialog-backdrop {
+  animation: console-dialog-in 180ms ease-out both;
+}
+
+.console-dialog-panel {
+  animation: console-dialog-panel-in 220ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
